@@ -11,27 +11,14 @@ const providers = [
   {
     key: 1,
     name: "Alice Allen",
-    title: "Aesthetician",
   },
   {
     key: 2,
     name: "Austin Arnord",
-    title: "Nutritionist",
   },
   {
     key: 3,
     name: "Amelia Adams",
-    title: "Aesthetician",
-  },
-  {
-    key: 4,
-    name: "Alice Abbott",
-    title: "Nutritionist",
-  },
-  {
-    key: 5,
-    name: "Abigail Armstrong",
-    title: "Aesthetician",
   },
 ];
 
@@ -44,7 +31,7 @@ export default function SmallProviders() {
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
-          <ListItemText primary={provider.name} secondary={provider.title} />
+          <ListItemText primary={provider.name}/>
         </ListItem>
       ))}
       <Button variant="contained">See Others</Button>

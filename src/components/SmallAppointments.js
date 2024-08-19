@@ -11,40 +11,40 @@ const providers = [
   {
     key: 1,
     name: "Alice Allen",
-    title: "Aesthetician",
+    time: "Today 11.00",
   },
   {
     key: 2,
     name: "Austin Arnord",
-    title: "Nutritionist",
+    time: "Today 13.00",
   },
   {
     key: 3,
     name: "Amelia Adams",
-    title: "Aesthetician",
+    time: "Today 14.00",
   },
   {
     key: 4,
     name: "Alice Abbott",
-    title: "Nutritionist",
+    time: "Today 15.00",
   },
   {
     key: 5,
     name: "Abigail Armstrong",
-    title: "Aesthetician",
+    time: "Today 16.00",
   },
 ];
 
-export default function SmallProviders() {
+export default function SmallAppointments() {
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      <h3>Service Providers</h3>
+      <h3>Appointments</h3>
       {providers.map((provider) => (
         <ListItem key={provider.key}>
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
-          <ListItemText primary={provider.name} secondary={provider.title} />
+          <ListItemText primary={provider.name} secondary={provider.time} />
         </ListItem>
       ))}
       <Button variant="contained">See Others</Button>

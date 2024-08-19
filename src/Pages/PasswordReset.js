@@ -4,7 +4,7 @@ import { Button, TextField } from '@mui/material'
 
 function PasswordReset(params) {
     return(
-        <div>
+        <div style={{marginLeft:"30%"}}>
             <h1 style={{marginTop: "15%"}}>Reset Pasword</h1>
             <br></br>
             <br></br>

@@ -1,8 +1,20 @@
 import * as React from "react";
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 import '../App.css'
 
 function Homepage() {
+
+    const navigate = useNavigate();
+    const loginButtonClick = () => {
+        navigate('/login')
+    }
+    const registeButtonClick = () => {
+        navigate('/register')
+    }
+    const appointmentButtonClick = () => {
+        navigate('/appointment')
+    }
 
     return(
         <div className="greets">
@@ -13,23 +25,25 @@ function Homepage() {
             <br></br>
             <br></br>
             <br></br>
-            <Button variant="contained" color="secondary" style={{width :"30%"}}>
+            <div style={{paddingLeft:"15%"}}>
+            <Button onClick={loginButtonClick} variant="contained" color="secondary" style={{width :"30%"}} >
                 Login
             </Button>
             <br></br>
             <br></br>
             <br></br>
             <br></br>
-            <Button variant="contained" color="secondary"style={{width :"30%"}}>
+            <Button onClick={registeButtonClick} variant="contained" color="secondary"style={{width :"30%"}} >
                 Register
             </Button>
             <br></br>
             <br></br>
             <br></br>
             <br></br>
-            <Button variant="contained" color="secondary" style={{width :"30%"}}>
+            <Button onClick={appointmentButtonClick} variant="contained" color="secondary" style={{width :"30%"}}>
                 Make Appointment
             </Button>
+            </div>
         </div>
     )
     

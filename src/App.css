@@ -39,6 +39,7 @@
 
 .greets {
   margin-top: 15%;
+  padding-left: 30%;
 }
 
 .providers{
@@ -50,4 +51,17 @@
 
 .MuiGrid-root css-vj1n65-MuiGrid-root{
   width: 3%;
+}
+
+.dashboardNotMobile {
+  margin-left: 20%;
+  margin-top: 7%;
+}
+
+@media (max-width:768px){
+  .dashboardNotMobile{
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 15%;
+  }
 }

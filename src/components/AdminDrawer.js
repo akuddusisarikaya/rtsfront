@@ -9,73 +9,106 @@ import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import SmallProviders from "./SmallProviders";
-import DateChoise from "./DateChoise";
-import { Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
 function AdminDrawer(props) {
-  const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [selectedPage, setSelectedPage] = React.useState("Dashboard");
+  const [isClosing, setIsClosing] = React.useState(false);
 
   const handleDrawerClose = () => {
+    setIsClosing(true);
     setMobileOpen(false);
   };
 
+  const handleDrawerTransitionEnd = () => {
+    setIsClosing(false);
+  };
+
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    if (!isClosing) {
+      setMobileOpen(!mobileOpen);
+    }
+  };
+  const navigate = useNavigate();
+
+  const dashboardClick = () => {
+    navigate("/admin");
+  };
+  const adminusermanageClick = () => {
+    navigate("/adminusermanage");
+  };
+  const adminservicesClick = () => {
+    navigate("/adminservicesandprice");
+  };
+  const adminappointmentsClick = () => {
+    navigate("/adminappointments");
+  };
+  const adminpaymentsClick = () => {
+    navigate("/adminpayments");
+  };
+  const adminreportsClick = () => {
+    navigate("/adminreports");
+  };
+  const adminsettingsClick = () => {
+    navigate("/adminsettings");
+  };
+  const adminprofileClick = () => {
+    navigate("/adminprofile");
   };
 
   const drawer = (
     <div>
-      <p>Carme RTS</p>
-      <Toolbar />
-      <List>
-        {[
-          "Dashboard",
-          "User Managment",
-          "Service & Pricing",
-          "Appointments",
-          "Payments",
-          "Reports & Analitics",
-        ].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton
-              selected={selectedPage === text}
-              onClick={() => setSelectedPage(text)}
-            >
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <br></br>
+      <Toolbar>
+        <h3>CARMESOFT S.A.M.</h3>
+      </Toolbar>
       <Divider />
-      <br></br>
       <List>
-        {["Profile", "Settings", "Log Out"].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton
-              selected={selectedPage === text}
-              onClick={() => setSelectedPage(text)}
-            >
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem>
+          <ListItemButton onClick={dashboardClick}>DashBoard</ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton onClick={adminusermanageClick}>
+            User Management
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton onClick={adminservicesClick}>
+            Services & Pricing
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton onClick={adminappointmentsClick}>
+            Appointments
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton onClick={adminpaymentsClick}>Payments</ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton onClick={adminreportsClick}>
+            Reports & Analitics
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem>
+          <ListItemButton onClick={adminsettingsClick}>Settings</ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton onClick={adminprofileClick}>Profile</ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton>Log Out</ListItemButton>
+        </ListItem>
       </List>
     </div>
   );
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -97,7 +130,7 @@ function AdminDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Admin Dashboard
+            CARMESOFT S.A.M.
           </Typography>
         </Toolbar>
       </AppBar>
@@ -107,12 +140,12 @@ function AdminDrawer(props) {
         aria-label="mailbox folders"
       >
         <Drawer
-          container={container}
           variant="temporary"
           open={mobileOpen}
+          onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true,
+            keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
             display: { xs: "block", sm: "none" },
@@ -137,22 +170,6 @@ function AdminDrawer(props) {
         >
           {drawer}
         </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        <Grid style={{ margin: "3%", width: "35%", float: "left" }}>
-          <SmallProviders />
-        </Grid>
-        <Grid style={{ margin: "3%", width: "35%", float: "left" }}>
-          <DateChoise />
-        </Grid>
-        <Toolbar />
       </Box>
     </Box>
   );

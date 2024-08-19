@@ -7,13 +7,14 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 
 export default function DateChoise() {
   return (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={["DateCalendar"]}>
-          <DateCalendar
-            referenceDate={dayjs("2022-04-17")}
-            views={["year", "month", "day"]}
-          />
-        </DemoContainer>
-      </LocalizationProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <h3>Calendar</h3>
+      <DemoContainer components={["DateCalendar"]}>
+        <DateCalendar
+          referenceDate={dayjs("2022-04-17")}
+          views={["year", "month", "day"]}
+        />
+      </DemoContainer>
+    </LocalizationProvider>
   );
 }
