@@ -6,6 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const providers = [
   {
@@ -36,6 +37,13 @@ const providers = [
 ];
 
 export default function SmallAppointments() {
+
+  const navigate = useNavigate()
+
+  const detailClick = () => {
+    navigate('/adminmanappointments')
+  }
+
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       <h3>Appointments</h3>
@@ -47,7 +55,7 @@ export default function SmallAppointments() {
           <ListItemText primary={provider.name} secondary={provider.time} />
         </ListItem>
       ))}
-      <Button variant="contained">See Others</Button>
+      <Button variant="contained" onClick={detailClick}>See Others</Button>
     </List>
   );
 }
