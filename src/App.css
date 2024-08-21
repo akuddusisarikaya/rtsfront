@@ -41,7 +41,12 @@
   margin-top: 15%;
   padding-left: 30%;
 }
-
+@media(max-width:768px){
+  .greets{
+    margin-top: 25%;
+    padding-left: 5%;
+  }
+}
 .providers{
   margin-left: 2%;
   border: 1px solid; 
@@ -63,5 +68,78 @@
     margin-left: 2%;
     margin-right: 2%;
     margin-top: 15%;
+  }
+}
+.homepageButtons{
+  padding-left: 15%;
+}
+@media(max-width: 768px){
+  .homepageButtons{
+    padding-left: 30px;
+  }
+}
+.buttonHP{
+  width: 30%;
+}
+@media(max-width :768px){
+  .buttonHP{
+    width: 75%;
+  }
+}
+
+.loginBox{
+  margin-left: 30%;
+}
+
+@media (max-width : 768px){
+  .loginBox{
+    margin-left: 15%;
+  }
+}
+
+.loginTextField{
+  width: 30%;
+}
+@media (max-width:768px) {
+  .loginTextField{
+    width: 75%;
+  }
+}
+
+.loginButton{
+  width: 30%;
+}
+@media (max-width:768px){
+  .loginButton{
+    width: 75%;
+  }
+}
+
+.registerBox{
+  margin-left: 30%;
+}
+@media (max-width:768px){
+  .registerBox{
+    margin-left: 15%;
+  }
+}
+
+.registerTextField{
+  width: 30%;
+}
+@media (max-width:768px){
+  .registerTextField{
+    width: 75%;
+  }
+}
+
+.registerButton{
+  width: 30%;
+}
+
+@media (max-width: 768px){
+  .registerButton{
+    margin-left: 10%;
+    width: 75%;
   }
 }

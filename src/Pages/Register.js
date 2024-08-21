@@ -12,7 +12,7 @@ function Register() {
   return (
     <div>
         <Button onClick={backClick}>BACK</Button>
-      <div style={{ marginLeft: "30%" }}>
+      <div className="registerBox">
         <h1 style={{ marginTop: "5%" }}>Register</h1>
         <br></br>
         <br></br>
@@ -28,14 +28,14 @@ function Register() {
           <div>
             <TextField
               required
-              style={{ width: "30%" }}
+              className="registerTextField"
               id="name-required"
               label="Name"
             />
             <br></br>
             <br></br>
             <TextField
-              style={{ width: "30%" }}
+              className="registerTextField"
               required
               id="surname-required"
               label="Surname"
@@ -43,7 +43,7 @@ function Register() {
             <br></br>
             <br></br>
             <TextField
-              style={{ width: "30%" }}
+              className="registerTextField"
               required
               id="email-required-input"
               label="e-Mail"
@@ -53,14 +53,14 @@ function Register() {
             <br></br>
             <TextField
               required
-              style={{ width: "30%" }}
+              className="registerTextField"
               id="outlined-number"
               label="Number"
             />
             <br></br>
             <br></br>
             <TextField
-              style={{ width: "30%" }}
+              className="registerTextField"
               required
               id="password-required"
               label="Password"
@@ -69,7 +69,7 @@ function Register() {
             <br></br>
             <br></br>
             <TextField
-              style={{ width: "30%" }}
+              className="registerTextField"
               required
               id="password-again-required"
               label="Password Again"
@@ -82,7 +82,7 @@ function Register() {
           <Button
             variant="contained"
             color="secondary"
-            style={{ width: "30%" }}
+            className="registerButton"
           >
             Register
           </Button>

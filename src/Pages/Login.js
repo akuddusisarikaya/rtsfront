@@ -15,7 +15,7 @@ function Login() {
   return (
     <div>
       <Button onClick={backClick} > BACK </Button>
-      <div style={{ marginLeft: "30%" }}>
+      <div className="loginBox">
         <h1 style={{ marginTop: "15%" }}> Login </h1>
         <br></br>
         <br></br>
@@ -24,7 +24,7 @@ function Login() {
           id="email-phone"
           label="Email or Phone Number"
           variant="outlined"
-          style={{ width: "30%" }}
+          className="loginTextField"
         />
         <br></br>
         <br></br>
@@ -34,17 +34,17 @@ function Login() {
           label="Password"
           type="password"
           variant="outlined"
-          style={{ width: "30%" }}
+          className="loginTextField"
         />
         <br></br>
         <br></br>
-        <Button color="secondary" onClick={passwordReset}>
+        <Button color="secondary" onClick={passwordReset} className="loginButton">
           Forget Pasword?
         </Button>
         <br></br>
         <br></br>
         <br></br>
-        <Button variant="contained" color="secondary" style={{ width: "30%" }}>
+        <Button variant="contained" color="secondary" className="loginButton">
           {" "}
           Login
         </Button>

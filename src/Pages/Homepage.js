@@ -25,22 +25,22 @@ function Homepage() {
             <br></br>
             <br></br>
             <br></br>
-            <div style={{paddingLeft:"15%"}}>
-            <Button onClick={loginButtonClick} variant="contained" color="secondary" style={{width :"30%"}} >
+            <div className="homepageButtons">
+            <Button onClick={loginButtonClick} variant="contained" color="secondary"  className="buttonHP">
                 Login
             </Button>
             <br></br>
             <br></br>
             <br></br>
             <br></br>
-            <Button onClick={registeButtonClick} variant="contained" color="secondary"style={{width :"30%"}} >
+            <Button onClick={registeButtonClick} variant="contained" color="secondary" className="buttonHP">
                 Register
             </Button>
             <br></br>
             <br></br>
             <br></br>
             <br></br>
-            <Button onClick={appointmentButtonClick} variant="contained" color="secondary" style={{width :"30%"}}>
+            <Button onClick={appointmentButtonClick} variant="contained" color="secondary" className="buttonHP">
                 Make Appointment
             </Button>
             </div>
