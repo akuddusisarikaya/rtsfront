@@ -6,6 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
+import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
 const providers = [
@@ -34,28 +35,59 @@ const providers = [
     name: "Abigail Armstrong",
     title: "Aesthetician",
   },
+  {
+    key: 6,
+    name: "Alice Allen",
+    title: "Aesthetician",
+  },
+  {
+    key: 7,
+    name: "Austin Arnord",
+    title: "Nutritionist",
+  },
+  {
+    key: 8,
+    name: "Amelia Adams",
+    title: "Aesthetician",
+  },
+  {
+    key: 9,
+    name: "Alice Abbott",
+    title: "Nutritionist",
+  },
+  {
+    key: 10,
+    name: "Abigail Armstrong",
+    title: "Aesthetician",
+  },
 ];
 
-export default function SmallProviders() {
-
+export default function ProviderList() {
+  
   const navigate = useNavigate()
 
-  const detailClick = () =>{
-    navigate('/adminproviderslist')
-  }
+  const goBack = () => {
+    navigate(-1);
+  };
 
+  
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      <h3>Service Providers</h3>
+    <Box>
+      <br></br>
+      <Button onClick={goBack} >Back</Button>
+      <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
+      <h3 style={{marginLeft:"35%"}}>Service Providers</h3>
       {providers.map((provider) => (
-        <ListItem key={provider.key}>
+        <ListItem key={provider.key} style={{border : "solid 0.25px", marginTop: "1px", borderRadius:"1cap"}}>
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
           <ListItemText primary={provider.name} secondary={provider.title} />
+          <Button variant="contained">See Details</Button>
         </ListItem>
       ))}
-      <Button variant="contained" onClick={detailClick}>See Others</Button>
     </List>
+    </Box>
+    
   );
 }

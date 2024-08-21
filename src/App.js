@@ -15,6 +15,10 @@ import AdminPayments from './Pages/AdminPayments';
 import AdminReports from './Pages/AdminReports';
 import AdminSettings from './Pages/AdminSettings';
 import AdminProfile from './Pages/AdminProfile';
+import AdminUserManProviders from './Pages/AdminUserManProviders'
+import AdminUserManManagers from './Pages/AdminUserManManagers'
+import AdminManageAppointments from './Pages/AdminManageAppointments'
+import AdminManCustomers from './Pages/AdminManCustomers'
 
 function App() {
   return (
@@ -33,6 +37,10 @@ function App() {
       <Route exact path='/adminreports' element={<AdminReports/>} />
       <Route exact path='/adminsettings' element={<AdminSettings/>}/>
       <Route exact path='/adminprofile' element={<AdminProfile/>}/>
+      <Route exact path='/adminproviderslist' element={<AdminUserManProviders/>}/>
+      <Route exact path='/adminmanagerslist' element={<AdminUserManManagers/>}/>
+      <Route exact path='/adminmanappointments' element={<AdminManageAppointments/>}/>
+      <Route exact path='/adminmancustomers' element={<AdminManCustomers/>}/>
     </Routes>
   </Router>
   );

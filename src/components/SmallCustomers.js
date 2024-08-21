@@ -6,6 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const providers = [
   {
@@ -31,6 +32,13 @@ const providers = [
 ];
 
 export default function SmallCostumers() {
+
+  const navigate = useNavigate()
+
+  const detailClick = () => {
+    navigate('/adminmancustomers')
+  }
+
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       <h3>Customers</h3>
@@ -42,7 +50,7 @@ export default function SmallCostumers() {
           <ListItemText primary={provider.name} />
         </ListItem>
       ))}
-      <Button variant="contained">See Others</Button>
+      <Button variant="contained" onClick={detailClick}>See Others</Button>
     </List>
   );
 }

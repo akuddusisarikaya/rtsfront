@@ -6,6 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const providers = [
   {
@@ -23,9 +24,16 @@ const providers = [
 ];
 
 export default function SmallProviders() {
+
+  const navigate = useNavigate()
+
+  const detailClick = () => {
+    navigate('/adminmanagerslist')
+  }
+
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      <h3>Service Providers</h3>
+      <h3>Managers</h3>
       {providers.map((provider) => (
         <ListItem key={provider.key}>
           <ListItemAvatar>
@@ -34,7 +42,7 @@ export default function SmallProviders() {
           <ListItemText primary={provider.name}/>
         </ListItem>
       ))}
-      <Button variant="contained">See Others</Button>
+      <Button variant="contained" onClick={detailClick}>See Others</Button>
     </List>
   );
 }
