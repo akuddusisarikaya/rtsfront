@@ -1,5 +1,6 @@
 import * as React from "react";
 import "../App.css";
+import { useNavigate } from "react-router-dom";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -32,6 +33,11 @@ const services = [
 ];
 
 export default function ServiceList() {
+  const navigate = useNavigate()
+
+  const goDetails = () => {
+    navigate('/adminservicedetails')
+  }
 
   return (
     <Box>
@@ -51,7 +57,7 @@ export default function ServiceList() {
               <Avatar />
             </ListItemAvatar>
             <ListItemText primary={service.name} secondary={service.price}/>
-            <Button variant="contained">See Details</Button>
+            <Button onClick={goDetails} variant="contained">See Details</Button>
           </ListItem>
         ))}
       </List>

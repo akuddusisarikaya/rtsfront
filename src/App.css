@@ -242,3 +242,36 @@
     width: 85%;
   }
 }
+.serviceDetailBox{
+  width: 80%;
+  margin-left: 5%;
+}
+@media (max-width : 768px){
+  .serviceDetailBox{
+    width: auto;
+    margin: 0px;
+  }
+}
+
+.serviceDetailCard{
+  padding-left: 5%;
+  padding-bottom: 5%;
+}
+@media (max-width : 768px){
+  .serviceDetailCard{
+    padding-left: 5%;
+    padding-bottom: 10%;
+  }
+}
+
+.serviceEditSaveButton{
+  width: 25%;
+  margin-left: 60%;
+}
+
+@media (max-width : 768px){
+  .serviceEditSaveButton{
+    width: 80%;
+    margin: 30%;
+  }
+}
