@@ -1,20 +1,18 @@
 import * as React from "react";
 import "../App.css";
+import AdminDrawer from "../components/AdminDrawer";
 import Box from "@mui/material/Box";
 import Footer from "../components/Footer";
-import AdminDrawer from "../components/AdminDrawer";
-import ServiceList from "../components/ServiceList";
+import UserDetail from "../components/UserDetail";
 
-function AdminServicesAndPrices(params) {
+export default function AdminUserDetail() {
   return (
     <Box>
       <AdminDrawer />
       <Box className="dashboardNotMobile">
-        <ServiceList/>
+        <UserDetail />
       </Box>
       <Footer />
     </Box>
   );
 }
-
-export default AdminServicesAndPrices;

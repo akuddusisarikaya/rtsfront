@@ -26,21 +26,21 @@ function Homepage() {
             <br></br>
             <br></br>
             <div className="homepageButtons">
-            <Button onClick={loginButtonClick} variant="contained" color="secondary"  className="buttonHP">
+            <Button onClick={loginButtonClick} variant="contained"  className="buttonHP">
                 Login
             </Button>
             <br></br>
             <br></br>
             <br></br>
             <br></br>
-            <Button onClick={registeButtonClick} variant="contained" color="secondary" className="buttonHP">
+            <Button onClick={registeButtonClick} variant="contained" className="buttonHP">
                 Register
             </Button>
             <br></br>
             <br></br>
             <br></br>
             <br></br>
-            <Button onClick={appointmentButtonClick} variant="contained" color="secondary" className="buttonHP">
+            <Button onClick={appointmentButtonClick} variant="contained" className="buttonHP">
                 Make Appointment
             </Button>
             </div>

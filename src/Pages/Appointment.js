@@ -38,17 +38,18 @@ function Appointment() {
 
   return (
     <div>
+      <br></br>
       <Button onClick={backClick}>BACK</Button>
-      <div style={{ paddingLeft: "30%" }}>
+      <div className="appointmentBox">
         <h1 style={{ marginleft: "20%", marginTop: "5%" }}>Appointment</h1>
         <br></br>
-        <Box style={{ marginLeft: "5%" }} component="form" autoComplate="off">
+        <Box component="form" autoComplate="off">
           <div>
             <TextField
               required
               id="name"
               label="Name"
-              style={{ width: "25%" }}
+              className="appointmentTextField"
             />
             <br></br>
             <br></br>
@@ -56,7 +57,7 @@ function Appointment() {
               required
               id="surname"
               label="Surname"
-              style={{ width: "25%" }}
+              className="appointmentTextField"
             />
             <br></br>
             <br></br>
@@ -65,7 +66,7 @@ function Appointment() {
               id="email"
               type="email"
               label="E-mail"
-              style={{ width: "25%" }}
+              className="appointmentTextField"
             />
             <br></br>
             <br></br>
@@ -73,14 +74,14 @@ function Appointment() {
               required
               id="phone"
               label="Phone Number"
-              style={{ width: "25%" }}
+              className="appointmentTextField"
             />
             <br></br>
             <br></br>
             <TextField
               required
               select
-              style={{ width: "25%" }}
+              className="appointmentTextField"
               id="provider"
               label="Select Service Provider"
               SelectProps={{
@@ -113,13 +114,15 @@ function Appointment() {
             <br></br>
             <Button
               variant="contained"
-              color="secondary"
-              style={{ marginLeft: "5%", width: "30%", marginBottom: "10%" }}
+              className="appointmentButton"
             >
               {" "}
               Done
             </Button>
           </div>
+          <br></br>
+          <br></br>
+          <br></br>
         </Box>
       </div>
     </div>

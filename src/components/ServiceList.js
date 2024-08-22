@@ -7,42 +7,40 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
 
-const providers = [
+const services = [
   {
     key: 1,
-    name: "Alice Allen",
+    name: "Service#1",
+    price: "$100"
   },
   {
     key: 2,
-    name: "Austin Arnord",
+    name: "Service#2",
+    price: "$50"
   },
   {
     key: 3,
-    name: "Amelia Adams",
+    name: "Service#3",
+    price: "$200"
+  },
+  {
+    key: 4,
+    name: "Service#4",
+    price: "$350"
   },
 ];
 
-export default function ManagersList() {
-  const navigate = useNavigate();
+export default function ServiceList() {
 
-  const goBack = () => {
-    navigate(-1);
-  };
-
-  const editPerson = () => {
-    navigate("/adminuserdetail");
-  };
   return (
     <Box>
       <br></br>
-      <Button onClick={goBack}>Back</Button>
       <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
-        <h3 style={{ marginLeft: "35%" }}>Managers</h3>
-        {providers.map((provider) => (
+        <h3 style={{ marginLeft: "35%" }}>Services</h3>
+        {services.map((service) => (
           <ListItem
-            key={provider.key}
+            key={service.key}
             style={{
               border: "solid 0.25px",
               marginTop: "1px",
@@ -52,10 +50,8 @@ export default function ManagersList() {
             <ListItemAvatar>
               <Avatar />
             </ListItemAvatar>
-            <ListItemText primary={provider.name} />
-            <Button onClick={editPerson} variant="contained">
-              See Details
-            </Button>
+            <ListItemText primary={service.name} secondary={service.price}/>
+            <Button variant="contained">See Details</Button>
           </ListItem>
         ))}
       </List>

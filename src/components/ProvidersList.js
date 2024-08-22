@@ -69,6 +69,9 @@ export default function ProviderList() {
   const goBack = () => {
     navigate(-1);
   };
+  const goDetails = () =>{
+    navigate('/adminuserdetail')
+  }
 
   
   return (
@@ -83,7 +86,7 @@ export default function ProviderList() {
             <Avatar />
           </ListItemAvatar>
           <ListItemText primary={provider.name} secondary={provider.title} />
-          <Button variant="contained">See Details</Button>
+          <Button variant="contained" onClick={goDetails}>See Details</Button>
         </ListItem>
       ))}
     </List>

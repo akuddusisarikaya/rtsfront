@@ -19,6 +19,9 @@ import AdminUserManProviders from './Pages/AdminUserManProviders'
 import AdminUserManManagers from './Pages/AdminUserManManagers'
 import AdminManageAppointments from './Pages/AdminManageAppointments'
 import AdminManCustomers from './Pages/AdminManCustomers'
+import AdminUserDetail from './Pages/AdminUserDetail';
+import AdminUserDetailEdit from './Pages/AdminUserDetailEdit';
+import AdminAddNewUser from './Pages/AdminAddNewUser'
 
 function App() {
   return (
@@ -41,6 +44,9 @@ function App() {
       <Route exact path='/adminmanagerslist' element={<AdminUserManManagers/>}/>
       <Route exact path='/adminmanappointments' element={<AdminManageAppointments/>}/>
       <Route exact path='/adminmancustomers' element={<AdminManCustomers/>}/>
+      <Route exact path='/adminuserdetail' element={<AdminUserDetail/>}/>
+      <Route exact path='/adminuserdetailedit' element={<AdminUserDetailEdit/>}/>
+      <Route exact path='/adminaddnewuser' element={<AdminAddNewUser/>} />
     </Routes>
   </Router>
   );

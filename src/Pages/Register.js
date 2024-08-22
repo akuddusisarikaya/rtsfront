@@ -11,7 +11,8 @@ function Register() {
   };
   return (
     <div>
-        <Button onClick={backClick}>BACK</Button>
+      <br></br>
+      <Button onClick={backClick}>BACK</Button>
       <div className="registerBox">
         <h1 style={{ marginTop: "5%" }}>Register</h1>
         <br></br>
@@ -25,7 +26,7 @@ function Register() {
           noValidate
           autoComplete="off"
         >
-          <div>
+          <div className="registerDiv">
             <TextField
               required
               className="registerTextField"
@@ -79,15 +80,14 @@ function Register() {
             <br></br>
           </div>
           <br></br>
-          <Button
-            variant="contained"
-            color="secondary"
-            className="registerButton"
-          >
+          <Button variant="contained" className="registerButton">
             Register
           </Button>
         </Box>
       </div>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
   );
 }

@@ -129,7 +129,7 @@
 }
 @media (max-width:768px){
   .registerTextField{
-    width: 75%;
+    width: 60%;
   }
 }
 
@@ -139,7 +139,106 @@
 
 @media (max-width: 768px){
   .registerButton{
-    margin-left: 10%;
     width: 75%;
+  }
+}
+
+.resetpassBox{
+  margin-left: 30%;
+}
+@media ( max-width: 768px){
+  .resetpassBox{
+    margin-top: 50%;
+    margin-left: 15%;
+  }
+}
+
+.resetpassTextField{
+  width: 30%;
+}
+
+@media (max-width:768px){
+  .resetpassTextField{
+    width: 75%;
+  }
+}
+.resetButton{
+  width: 30%;
+}
+
+@media (max-width:768px){
+  .resetButton{
+    width: 75%;
+  }
+}
+
+.appointmentBox{
+  margin-left: 30%;
+}
+
+@media (max-width:768px){
+  .appointmentBox{
+    margin-left: 15%;
+  }
+}
+
+.appointmentTextField{
+  width: 25%;
+}
+@media (max-width:768px){
+  .appointmentTextField{
+    width: 75%;
+  }
+}
+
+.appointmentButton{
+  width: 25%;
+}
+@media (max-width:768px){
+  .appointmentButton{
+    width: 75%;
+  }
+}
+
+.userDetailCard {
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-bottom: 15%;
+  margin-left: 5%;
+  width: 90%;
+}
+
+.userDetailAvatar{
+  margin: 5%;
+  margin-left: 85%;
+}
+
+.editSelectField{
+  width: 30%;
+  margin: 25%;
+}
+
+@media (max-width : 768px){
+  .editSelectField{
+    width: 100%;
+  }
+}
+
+.serviceGrid{
+  margin-bottom: 2%;
+}
+
+.addServiceButtonBox {
+  margin: 5%;
+}
+
+.addServiceButton{
+  margin: 5%;
+  width: 30%;
+}
+@media (max-width : 768px){
+  .addServiceButton{
+    margin: 5%;
+    width: 85%;
   }
 }

@@ -38,13 +38,13 @@ function Login() {
         />
         <br></br>
         <br></br>
-        <Button color="secondary" onClick={passwordReset} className="loginButton">
+        <Button onClick={passwordReset} className="loginButton">
           Forget Pasword?
         </Button>
         <br></br>
         <br></br>
         <br></br>
-        <Button variant="contained" color="secondary" className="loginButton">
+        <Button variant="contained" className="loginButton">
           {" "}
           Login
         </Button>
