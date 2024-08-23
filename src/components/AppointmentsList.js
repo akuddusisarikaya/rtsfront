@@ -42,6 +42,9 @@ export default function AppointmentsList() {
     const goBack = () => {
         navigate(-1)
     }
+    const goDetail = () => {
+      navigate('/adminappointmentdetail')
+    }
   return (
     <Box>
         <br></br>
@@ -54,7 +57,7 @@ export default function AppointmentsList() {
             <Avatar />
           </ListItemAvatar>
           <ListItemText primary={provider.name} secondary={provider.time} />
-          <Button variant="contained">See Details</Button>
+          <Button onClick={goDetail} variant="contained">See Details</Button>
         </ListItem>
       ))}
     </List>

@@ -24,6 +24,8 @@ import AdminUserDetailEdit from './Pages/AdminUserDetailEdit';
 import AdminAddNewUser from './Pages/AdminAddNewUser'
 import AdminServiceDetail from './Pages/AdminServiceDetail';
 import AdminServiceEdit from './Pages/AdminServiceEdit';
+import AdminAppointmentDetail from './Pages/AdminAppointmetDetail';
+import AdminAppointmentEdit from './Pages/AdminAppointmentEdit';
 
 function App() {
   return (
@@ -51,6 +53,8 @@ function App() {
       <Route exact path='/adminaddnewuser' element={<AdminAddNewUser/>} />
       <Route exact path='/adminservicedetails' element={<AdminServiceDetail/>}/>
       <Route exact path='/adminserviceedit' element={<AdminServiceEdit/>}/>
+      <Route exact path='/adminappointmentdetail' element={<AdminAppointmentDetail/>}/>
+      <Route exact path="/adminappointmentedit" element={<AdminAppointmentEdit/>}/>
     </Routes>
   </Router>
   );

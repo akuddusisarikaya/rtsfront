@@ -275,3 +275,31 @@
     margin: 30%;
   }
 }
+.date{
+  font-size: 28px;
+  color: black;
+}
+.clock{
+  font-size: 20px;
+  color: black;
+}
+
+.adminAppointmentDetailCard{
+  padding-top: 5%;
+  padding-left: 25%;
+  padding-right: 15%;
+  padding-bottom: 15%;
+  margin-left: 5%;
+  width: 90%;
+}
+
+@media (max-width : 768px){
+  .adminAppointmentDetailCard{
+    padding-top: 5%;
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-bottom: 15%;
+    margin-left: 5%;
+    width: 90%;
+  }
+}

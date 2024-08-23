@@ -1,16 +1,16 @@
 import * as React from 'react'
-import Box  from '@mui/material/Box'
+import '../App.css'
+import Box from '@mui/material/Box'
 import AdminDrawer from '../components/AdminDrawer'
-import AdminApointmentsContent from'../components/AdminApointmentsContent'
-function AdminAppointments(){
+import AppointmentDetail from '../components/AppointmentDetail'
+
+export default function AdminAppointmentDetail(){
     return(
         <Box>
             <AdminDrawer/>
             <Box className="dashboardNotMobile">
-                <AdminApointmentsContent/>
+                <AppointmentDetail/>
             </Box>
         </Box>
     )
 }
-
-export default AdminAppointments
