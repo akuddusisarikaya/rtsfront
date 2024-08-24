@@ -15,6 +15,9 @@ function Homepage() {
     const appointmentButtonClick = () => {
         navigate('/appointment')
     }
+    const goAdmin = () => {
+        navigate('/admin')
+    }
 
     return(
         <div className="greets">
@@ -26,23 +29,28 @@ function Homepage() {
             <br></br>
             <br></br>
             <div className="homepageButtons">
-            <Button onClick={loginButtonClick} variant="contained"  className="buttonHP">
+            <Button color="secondary" onClick={loginButtonClick} variant="contained"  className="buttonHP">
                 Login
             </Button>
             <br></br>
             <br></br>
             <br></br>
             <br></br>
-            <Button onClick={registeButtonClick} variant="contained" className="buttonHP">
+            <Button color="secondary" onClick={registeButtonClick} variant="contained" className="buttonHP">
                 Register
             </Button>
             <br></br>
             <br></br>
             <br></br>
             <br></br>
-            <Button onClick={appointmentButtonClick} variant="contained" className="buttonHP">
+            <Button color="secondary" onClick={appointmentButtonClick} variant="contained" className="buttonHP">
                 Make Appointment
             </Button>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <Button variant="contained" color="secondary" className="buttonHP" onClick={goAdmin}> Admin</Button>
             </div>
         </div>
     )

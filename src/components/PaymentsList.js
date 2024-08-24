@@ -1,60 +1,65 @@
 import * as React from "react";
 import "../App.css";
+import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
-import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
 
-const managers = [
+const payments = [
   {
     key: 1,
-    name: "Alice Allen",
-    title: "Manager"
+    name: "Adam Smith",
+    price: "$100",
+    isDone: "Done"
   },
   {
     key: 2,
-    name: "Austin Arnord",
-    title: "Manager"
+    name: "Harper Reed",
+    price: "$50",
+    isDone: "Undone"
   },
   {
     key: 3,
-    name: "Amelia Adams",
-    title: "Manager"
+    name: "Salvador Dali",
+    price: "$200",
+    isDone: "Done"
+  },
+  {
+    key: 4,
+    name: "Al Pachino",
+    price: "$350",
+    isDone: "Undone"
   },
 ];
 
-export default function ManagersList() {
-  const navigate = useNavigate();
+export default function PaymentsList() {
+  const nav = useNavigate();
 
   const goBack = () => {
-    navigate(-1);
-  };
-
-  const editPerson = () => {
-    navigate("/adminuserdetail");
+    nav(-1);
   };
   return (
     <Box>
       <br></br>
       <Button color="secondary" onClick={goBack}>Back</Button>
       <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
-        <h3 style={{ marginLeft: "35%" }}>Managers</h3>
-        {managers.map((manager) => (
+        <h3 style={{ marginLeft: "35%" }}>Payments</h3>
+        {payments.map((payment) => (
           <ListItem
-            key={manager.key}
+            key={payment.key}
             style={{
-              marginTop: "10px",
+              marginTop: "5px",
             }}
           >
             <ListItemAvatar>
               <Avatar />
             </ListItemAvatar>
-            <ListItemText primary={manager.name} secondary={manager.title} />
-            <Button color="secondary" onClick={editPerson} variant="contained">
+            <ListItemText primary={payment.name} secondary={`${payment.price} - ${payment.isDone}`} />
+            <Button color="secondary" variant="contained">
               See Details
             </Button>
           </ListItem>

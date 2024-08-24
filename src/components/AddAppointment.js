@@ -65,7 +65,7 @@ function Appointment() {
   const navigate = useNavigate();
 
   const backClick = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   const handleServiceChange = (event) => {

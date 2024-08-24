@@ -13,10 +13,29 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const drawerWidth = 240;
 
-function AdminDrawer(props) {
+const first = [
+  { key: 1, name: "Dashboard", link: "/admin" },
+  { key: 2, name: "User Management", link: "/adminusermanage" },
+  { key: 3, name: "Services & Pricing", link: "/adminservicesandprice" },
+  { key: 4, name: "Appointments", link: "/adminappointments" },
+  { key: 5, name: "Payments", link: "/adminpayments" },
+  { key: 6, name: "Reports & Analytics", link: "/adminreports" },
+];
+const second = [
+  { key: 1, name: "Settings", link: "/adminsettings" },
+  { key: 2, name: "Profile", link: "/adminprofile" },
+  { key: 3, name: "Log Out", link: "/" },
+];
+
+AdminDrawer.propTypes = {
+  window: PropTypes.func,
+};
+
+export default function AdminDrawer(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -36,77 +55,35 @@ function AdminDrawer(props) {
   };
   const navigate = useNavigate();
 
-  const dashboardClick = () => {
-    navigate("/admin");
-  };
-  const adminusermanageClick = () => {
-    navigate("/adminusermanage");
-  };
-  const adminservicesClick = () => {
-    navigate("/adminservicesandprice");
-  };
-  const adminappointmentsClick = () => {
-    navigate("/adminappointments");
-  };
-  const adminpaymentsClick = () => {
-    navigate("/adminpayments");
-  };
-  const adminreportsClick = () => {
-    navigate("/adminreports");
-  };
-  const adminsettingsClick = () => {
-    navigate("/adminsettings");
-  };
-  const adminprofileClick = () => {
-    navigate("/adminprofile");
-  };
+  const goHome = () => {
+    navigate('/')
+  }
 
   const drawer = (
     <div>
-      <Toolbar>
+      <Toolbar >
         <h3>CARMESOFT S.A.M.</h3>
       </Toolbar>
       <Divider />
-      <List>
-        <ListItem>
-          <ListItemButton onClick={dashboardClick}>DashBoard</ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton onClick={adminusermanageClick}>
-            User Management
-          </ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton onClick={adminservicesClick}>
-            Services & Pricing
-          </ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton onClick={adminappointmentsClick}>
-            Appointments
-          </ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton onClick={adminpaymentsClick}>Payments</ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton onClick={adminreportsClick}>
-            Reports & Analitics
-          </ListItemButton>
-        </ListItem>
-      </List>
+        <List>
+          {first.map((button) => (
+            <ListItem key={button.key}>
+              <ListItemButton onClick={() => navigate(button.link)}>
+                {button.name}
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
       <Divider />
       <List>
-        <ListItem>
-          <ListItemButton onClick={adminsettingsClick}>Settings</ListItemButton>
+      {second.map((button) => (
+        <ListItem key={button.key}>
+          <ListItemButton onClick={() => navigate(button.link)}>
+            {button.name}
+          </ListItemButton>
         </ListItem>
-        <ListItem>
-          <ListItemButton onClick={adminprofileClick}>Profile</ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton>Log Out</ListItemButton>
-        </ListItem>
-      </List>
+      ))}
+    </List>
     </div>
   );
   return (
@@ -119,9 +96,9 @@ function AdminDrawer(props) {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar>
+        <Toolbar style={{backgroundColor:"purple"}}>
           <IconButton
-            color="inherit"
+            color="secondary"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
@@ -130,7 +107,7 @@ function AdminDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            CARMESOFT S.A.M.
+            <Button variant="contained" onClick={goHome} color="secondary" >CARMESOFT S.A.M.</Button> 
           </Typography>
         </Toolbar>
       </AppBar>
@@ -175,8 +152,4 @@ function AdminDrawer(props) {
   );
 }
 
-AdminDrawer.propTypes = {
-  window: PropTypes.func,
-};
 
-export default AdminDrawer;

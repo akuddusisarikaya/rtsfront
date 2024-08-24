@@ -1,9 +1,16 @@
-import * as React from 'react'
+import * as React from "react";
+import "../App.css";
+import Box from "@mui/material/Box";
+import AdminDrawer from "../components/AdminDrawer";
+import AdminSettingsContent from "../components/AdminSettingsContent";
 
-function AdminSettings() {
-    return(
-        <div></div>
-    )
+export default function AdminSettings() {
+  return (
+    <Box>
+      <AdminDrawer />
+      <Box className="dashboardNotMobile">
+        <AdminSettingsContent />
+      </Box>
+    </Box>
+  );
 }
-
-export default AdminSettings

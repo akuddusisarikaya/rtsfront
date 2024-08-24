@@ -8,18 +8,21 @@ import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const providers = [
+const managers = [
   {
     key: 1,
     name: "Alice Allen",
+    title: "Manager"
   },
   {
     key: 2,
     name: "Austin Arnord",
+    title: "Manager"
   },
   {
     key: 3,
     name: "Amelia Adams",
+    title: "Manager"
   },
 ];
 
@@ -34,15 +37,15 @@ export default function SmallProviders() {
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       <h3>Managers</h3>
-      {providers.map((provider) => (
-        <ListItem key={provider.key}>
+      {managers.map((manager) => (
+        <ListItem key={manager.key}>
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
-          <ListItemText primary={provider.name}/>
+          <ListItemText primary={manager.name} secondary={manager.title}/>
         </ListItem>
       ))}
-      <Button variant="contained" onClick={detailClick}>See Others</Button>
+      <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>
     </List>
   );
 }

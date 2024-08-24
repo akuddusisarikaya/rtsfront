@@ -12,7 +12,7 @@ function Register() {
   return (
     <div>
       <br></br>
-      <Button onClick={backClick}>BACK</Button>
+      <Button color="secondary" onClick={backClick}>BACK</Button>
       <div className="registerBox">
         <h1 style={{ marginTop: "5%" }}>Register</h1>
         <br></br>
@@ -80,7 +80,7 @@ function Register() {
             <br></br>
           </div>
           <br></br>
-          <Button variant="contained" className="registerButton">
+          <Button color="secondary" variant="contained" className="registerButton">
             Register
           </Button>
         </Box>

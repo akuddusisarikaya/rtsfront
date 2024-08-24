@@ -25,7 +25,7 @@ export default function AddNewUser() {
   return (
     <Card className="userDetailCard">
         <br></br>
-      <Button onClick={goBack}>Back</Button>
+      <Button color="secondary" onClick={goBack}>Back</Button>
       <Avatar className="userDetailAvatar"></Avatar>
       <CardContent>
         <TextField  label="Name"></TextField>
@@ -49,7 +49,7 @@ export default function AddNewUser() {
         <TextField  type="password" label="Password"></TextField>
       </CardContent>
       <CardActions>
-        <Button onClick={goBack}>Save</Button>
+        <Button color="secondary" onClick={goBack}>Save</Button>
       </CardActions>
     </Card>
   );

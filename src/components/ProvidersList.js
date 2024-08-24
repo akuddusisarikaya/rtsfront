@@ -77,16 +77,16 @@ export default function ProviderList() {
   return (
     <Box>
       <br></br>
-      <Button onClick={goBack} >Back</Button>
+      <Button color="secondary" onClick={goBack} >Back</Button>
       <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
       <h3 style={{marginLeft:"35%"}}>Service Providers</h3>
       {providers.map((provider) => (
-        <ListItem key={provider.key} style={{border : "solid 0.25px", marginTop: "1px", borderRadius:"1cap"}}>
+        <ListItem key={provider.key} style={{ marginTop: "5px"}}>
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
           <ListItemText primary={provider.name} secondary={provider.title} />
-          <Button variant="contained" onClick={goDetails}>See Details</Button>
+          <Button color="secondary" variant="contained" onClick={goDetails}>See Details</Button>
         </ListItem>
       ))}
     </List>

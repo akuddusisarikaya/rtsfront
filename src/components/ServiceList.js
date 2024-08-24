@@ -39,8 +39,14 @@ export default function ServiceList() {
     navigate('/adminservicedetails')
   }
 
+  const goBack = () => {
+    navigate(-1)
+  }
+
   return (
     <Box>
+      <br></br>
+      <Button color="secondary" onClick={goBack} >Back</Button>
       <br></br>
       <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
         <h3 style={{ marginLeft: "35%" }}>Services</h3>
@@ -48,16 +54,14 @@ export default function ServiceList() {
           <ListItem
             key={service.key}
             style={{
-              border: "solid 0.25px",
-              marginTop: "1px",
-              borderRadius: "1cap",
+              marginTop: "5px",
             }}
           >
             <ListItemAvatar>
               <Avatar />
             </ListItemAvatar>
             <ListItemText primary={service.name} secondary={service.price}/>
-            <Button onClick={goDetails} variant="contained">See Details</Button>
+            <Button color="secondary" onClick={goDetails} variant="contained">See Details</Button>
           </ListItem>
         ))}
       </List>

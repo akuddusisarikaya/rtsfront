@@ -14,7 +14,7 @@ function Login() {
   };
   return (
     <div>
-      <Button onClick={backClick} > BACK </Button>
+      <Button color="secondary" onClick={backClick} > BACK </Button>
       <div className="loginBox">
         <h1 style={{ marginTop: "15%" }}> Login </h1>
         <br></br>
@@ -38,13 +38,13 @@ function Login() {
         />
         <br></br>
         <br></br>
-        <Button onClick={passwordReset} className="loginButton">
+        <Button color="secondary" onClick={passwordReset} className="loginButton">
           Forget Pasword?
         </Button>
         <br></br>
         <br></br>
         <br></br>
-        <Button variant="contained" className="loginButton">
+        <Button color="secondary" variant="contained" className="loginButton">
           {" "}
           Login
         </Button>

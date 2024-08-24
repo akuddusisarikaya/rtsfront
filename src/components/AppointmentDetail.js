@@ -13,12 +13,12 @@ export default function AppointmentDetail() {
   };
 
   const goUserDetail = () => {
-    navigate('/adminuserdetail')
-  }
+    navigate("/adminuserdetail");
+  };
   const [currentTime, setCurrentTime] = useState(new Date());
   const goEdit = () => {
-    navigate('/adminappointmentedit')
-  }
+    navigate("/adminappointmentedit");
+  };
 
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -64,6 +64,16 @@ export default function AppointmentDetail() {
       </TextField>
       <br></br>
       <br></br>
+      <h3>Services</h3>
+      <TextField
+        className="editSelectField"
+        disabled
+        select
+        label=" Service #1"
+      >
+      </TextField>
+      <br></br>
+      <br></br>
       <h3>Date</h3>
       <TextField
         disabled
@@ -86,10 +96,14 @@ export default function AppointmentDetail() {
       <Box>
         <br></br>
         <br></br>
-        <Button variant="contained" onClick={goEdit}>Edit Appointment</Button>
+        <Button color="secondary" variant="contained" onClick={goEdit}>
+          Edit Appointment
+        </Button>
         <br></br>
         <br></br>
-        <Button variant="contained" onClick={goUserDetail}>View Customer's Detail</Button>
+        <Button color="secondary" variant="contained" onClick={goUserDetail}>
+          View Customer's Detail
+        </Button>
       </Box>
     </Card>
   );

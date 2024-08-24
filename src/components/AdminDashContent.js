@@ -1,57 +1,96 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import SmallProviders from './SmallProviders'
-import DateChoise from'./DateChoise'
-import SmallCostumers from './SmallCustomers'
-import SmallAppointments from './SmallAppointments'
-import { useMediaQuery } from '@mui/material';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+import * as React from "react";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import SmallProviders from "./SmallProviders";
+import DateChoise from "./DateChoise";
+import SmallCostumers from "./SmallCustomers";
+import SmallAppointments from "./SmallAppointments";
+import { useMediaQuery } from "@mui/material";
+import SmallManagers from "./SmallManagers";
+import SmallServices from "./SmallServices";
+import SmallPayments from "./SmallPayments";
 
 
 export default function AdminDashContent() {
-
-    const isMobile = useMediaQuery('(max-width:768px)');
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: "100%" }}>
       {isMobile ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Item><SmallProviders /></Item>
+            <Paper className="itemStyles">
+              <DateChoise />
+            </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Item><DateChoise /></Item>
+            <Paper className="itemStyles">
+              <SmallAppointments />
+            </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Item><SmallCostumers /></Item>
+            <Paper className="itemStyles">
+              <SmallProviders />
+            </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Item><SmallAppointments /></Item>
+            <Paper className="itemStyles">
+              <SmallManagers />
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper className="itemStyles">
+              <SmallServices />
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper className="itemStyles">
+              <SmallPayments />
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper className="itemStyles">
+              <SmallCostumers />
+            </Paper>
           </Grid>
         </Grid>
       ) : (
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
-            <Item><SmallProviders /></Item>
+            <Paper className="itemStyles">
+              <DateChoise />
+            </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Item><div style={{ paddingLeft: "20%" }}><DateChoise /></div></Item>
+            <Paper className="itemStyles">
+              <SmallAppointments />
+            </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Item><SmallCostumers /></Item>
+            <Paper className="itemStyles">
+              <SmallProviders />
+            </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Item><SmallAppointments /></Item>
+            <Paper className="itemStyles">
+              <SmallManagers />
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className="itemStyles">
+              <SmallServices />
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className="itemStyles">
+              <SmallPayments />
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className="itemStyles">
+              <SmallCostumers />
+            </Paper>
           </Grid>
         </Grid>
       )}

@@ -50,7 +50,7 @@ export default function SmallCostumers() {
           <ListItemText primary={provider.name} />
         </ListItem>
       ))}
-      <Button variant="contained" onClick={detailClick}>See Others</Button>
+      <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>
     </List>
   );
 }

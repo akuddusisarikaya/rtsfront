@@ -14,7 +14,7 @@ function PasswordReset(params) {
   return (
     <div>
       <br></br>
-      <Button onClick={goBack}> BACK</Button>
+      <Button color="secondary" onClick={goBack}> BACK</Button>
       <div className="resetpassBox">
         <h1 style={{ marginTop: "15%" }}>Reset Pasword</h1>
         <br></br>
@@ -29,7 +29,7 @@ function PasswordReset(params) {
         <br></br>
         <br></br>
         <br></br>
-        <Button variant="contained" className="resetButton">
+        <Button color="secondary" variant="contained" className="resetButton">
           {" "}
           Reset Password
         </Button>

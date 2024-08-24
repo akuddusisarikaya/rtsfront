@@ -15,10 +15,10 @@ function NumberVerification(params) {
             <br></br>
             <br></br>
             <br></br>
-            <Button variant="contained" color='error' style={{width :"30%"}}> Send SMS Again</Button>
+            <Button color="secondary" variant="contained" color='error' style={{width :"30%"}}> Send SMS Again</Button>
             <br></br>
             <br></br>
-            <Button variant="contained" color='secondary' style={{width :"30%"}}> Verificate</Button>        
+            <Button color="secondary" variant="contained" color='secondary' style={{width :"30%"}}> Verificate</Button>        
         </div>
     )
 }

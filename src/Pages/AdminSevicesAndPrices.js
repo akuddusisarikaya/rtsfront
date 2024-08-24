@@ -3,18 +3,16 @@ import "../App.css";
 import Box from "@mui/material/Box";
 import Footer from "../components/Footer";
 import AdminDrawer from "../components/AdminDrawer";
-import ServiceList from "../components/ServiceList";
+import AdminServiceContent from "../components/AdminServiceContent";
 
-function AdminServicesAndPrices(params) {
+export default function AdminServicesAndPrices(params) {
   return (
     <Box>
       <AdminDrawer />
       <Box className="dashboardNotMobile">
-        <ServiceList/>
+        <AdminServiceContent/>
       </Box>
       <Footer />
     </Box>
   );
 }
-
-export default AdminServicesAndPrices;

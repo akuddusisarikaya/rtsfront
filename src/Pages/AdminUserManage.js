@@ -21,7 +21,7 @@ function AdminUserManage() {
       <Box className="dashboardNotMobile">
         <AdminUserContent />
       </Box>
-      <Button onClick={addNew} variant="contained" style={{marginLeft: "35%", marginTop: "10%", width: "30%"}}> Add New </Button>
+      <Button color="secondary" onClick={addNew} variant="contained" style={{marginLeft: "35%", marginTop: "10%", width: "30%"}}> Add New </Button>
       <Footer/>
     </Box>
   );

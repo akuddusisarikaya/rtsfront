@@ -39,16 +39,16 @@ export default function CustomerList() {
     }
   return (
     <Box>
-        <Button onClick={goBack}>Back</Button>
+        <Button color="secondary" onClick={goBack}>Back</Button>
         <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
       <h3 style={{marginLeft:"35%"}}>Customers</h3>
       {providers.map((provider) => (
-        <ListItem key={provider.key} style={{border : "solid 0.25px", marginTop: "1px", borderRadius:"1cap"}}>
+        <ListItem key={provider.key} style={{marginTop: "10px"}}>
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
           <ListItemText primary={provider.name} />
-          <Button variant="contained">See Details</Button>
+          <Button color="secondary" variant="contained">See Details</Button>
         </ListItem>
       ))}
     </List>

@@ -21,7 +21,7 @@ export default function ServiceDetail(){
             <br></br>
             <Card className='serviceDetailCard'>
                 <br></br>
-                <Button onClick={goBack}> BACK</Button>
+                <Button color="secondary" onClick={goBack}> BACK</Button>
                 <br></br>
                 <h1>Service#1</h1>
                 <br></br>
@@ -35,7 +35,7 @@ export default function ServiceDetail(){
                 <TextField disabled label="$100"></TextField>
                 <br></br>
                 <br></br>
-                <Button variant='contained' onClick={editService} className='serviceEditSaveButton' > Edit </Button>
+                <Button color="secondary" variant='contained' onClick={editService} className='serviceEditSaveButton' > Edit </Button>
             </Card>
         </Box>
     )

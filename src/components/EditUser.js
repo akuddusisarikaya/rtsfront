@@ -29,7 +29,7 @@ export default function EditUser() {
   return (
     <Card className="userDetailCard">
       <br></br>
-      <Button onClick={goBack}>Back</Button>
+      <Button color="secondary" onClick={goBack}>Back</Button>
       <Avatar className="userDetailAvatar"></Avatar>
       <CardContent>
         <h1>Adam Smith</h1>
@@ -58,7 +58,7 @@ export default function EditUser() {
         <TextField type="password" label="*********"></TextField>
       </CardContent>
       <CardActions>
-        <Button onClick={goBack}>Save</Button>
+        <Button color="secondary" onClick={goBack}>Save</Button>
       </CardActions>
     </Card>
   );

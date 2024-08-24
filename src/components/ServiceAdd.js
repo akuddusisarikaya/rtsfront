@@ -1,29 +1,29 @@
-import * as React from "react";
-import "../App.css";
+import * as React from 'react'
+import '../App.css'
 import { useNavigate } from "react-router-dom";
 import { Card, Button, TextField, MenuItem } from "@mui/material";
 import Box from "@mui/material/Box";
 
 const roles = [
-  {
-    value: "Manager",
-    label: "Manager",
-  },
-  {
-    value: "User",
-    label: "User",
-  },
-];
+    {
+      value: "Manager",
+      label: "Manager",
+    },
+    {
+      value: "User",
+      label: "User",
+    },
+  ];
 
-export default function EditService() {
-  const navigate = useNavigate();
+export default function ServiceAdd(){
+    const nav = useNavigate()
 
-  const goBack = () => {
-    navigate(-1);
-  };
-  return (
-    <Box className="serviceDetailBox">
-      <br></br>
+    const goBack = () => {
+        nav(-1)
+    }
+    return(
+        <Box className="serviceDetailBox">
+            <br></br>
       <br></br>
       <Card className="serviceDetailCard">
         <br></br>
@@ -32,7 +32,7 @@ export default function EditService() {
         <h1>Service#1</h1>
         <br></br>
         <h3>Service Name: </h3>
-        <TextField  label=" Service #1"></TextField>
+        <TextField  label=" Service Name"></TextField>
         <br></br>
         <h3> For: </h3>
         <TextField  select className="editSelectField" label="Role">
@@ -44,11 +44,11 @@ export default function EditService() {
         </TextField>
         <br></br>
         <h3> Price: </h3>
-        <TextField  label="$100"></TextField>
+        <TextField  label="Price"></TextField>
         <br></br>
         <br></br>
         <Button color="secondary" variant="contained" className="serviceEditSaveButton" onClick={goBack}> Save </Button>
       </Card>
-    </Box>
-  );
+        </Box>
+    )
 }

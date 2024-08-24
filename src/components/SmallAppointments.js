@@ -55,7 +55,7 @@ export default function SmallAppointments() {
           <ListItemText primary={provider.name} secondary={provider.time} />
         </ListItem>
       ))}
-      <Button variant="contained" onClick={detailClick}>See Others</Button>
+      <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>
     </List>
   );
 }

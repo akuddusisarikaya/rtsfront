@@ -55,7 +55,7 @@ export default function SmallProviders() {
           <ListItemText primary={provider.name} secondary={provider.title} />
         </ListItem>
       ))}
-      <Button variant="contained" onClick={detailClick}>See Others</Button>
+      <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>
     </List>
   );
 }

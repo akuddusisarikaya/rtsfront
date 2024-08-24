@@ -1,16 +1,18 @@
 import * as React from 'react'
 import '../App.css'
-import  Box  from '@mui/material/Box'
+import Box from '@mui/material/Box'
 import AdminDrawer from '../components/AdminDrawer'
-import EditService from '../components/EditService'
+import ServiceAdd from '../components/ServiceAdd'
+import Footer from '../components/Footer'
 
-export default function AdminServiceEdit(){
+export default function AdminAddService(){
     return(
         <Box>
             <AdminDrawer/>
             <Box className="dashboardNotMobile">
-                <EditService/>
+                <ServiceAdd/>
             </Box>
+            <Footer/>
         </Box>
     )
 }

@@ -17,7 +17,7 @@ export default function UserDetail() {
   return (
     <Card className="userDetailCard">
       <br></br>
-      <Button onClick={goBack}>Back</Button>
+      <Button color="secondary" onClick={goBack}>Back</Button>
       <Avatar className="userDetailAvatar"></Avatar>
       <CardContent>
         <h1>Adam Smith</h1>
@@ -40,7 +40,7 @@ export default function UserDetail() {
         <TextField disabled type="password" label="*********"></TextField>
       </CardContent>
       <CardActions>
-        <Button onClick={editPerson}>Edit</Button>
+        <Button color="secondary" onClick={editPerson}>Edit</Button>
       </CardActions>
     </Card>
   );

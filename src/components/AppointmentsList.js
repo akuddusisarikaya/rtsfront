@@ -48,16 +48,16 @@ export default function AppointmentsList() {
   return (
     <Box>
         <br></br>
-        <Button onClick={goBack}>Back</Button>
+        <Button color="secondary" onClick={goBack}>Back</Button>
         <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
       <h3 style={{marginLeft:"35%"}}>Appointments</h3>
       {providers.map((provider) => (
-        <ListItem key={provider.key} style={{border : "solid 0.25px", marginTop: "1px", borderRadius:"1cap"}}>
+        <ListItem key={provider.key} style={{ marginTop: "5px"}}>
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
           <ListItemText primary={provider.name} secondary={provider.time} />
-          <Button onClick={goDetail} variant="contained">See Details</Button>
+          <Button color="secondary" onClick={goDetail} variant="contained">See Details</Button>
         </ListItem>
       ))}
     </List>
