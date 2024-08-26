@@ -5,15 +5,20 @@ import Backdrop from "@mui/material/Backdrop";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SettingsIcon from "@mui/icons-material/Settings";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstructions";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import AppsIcon from "@mui/icons-material/Apps";
 
-const actions = [
-  { icon: <SettingsIcon />, name: "User Settings", element: " " },
-  { icon: <SettingsIcon />, name: "Account Management", element: " " },
-  { icon: <SettingsIcon />, name: "App Settings", element: " " },
-  { icon: <SettingsIcon />, name: "Security Settings", element: " " },
-  { icon: <SettingsIcon />, name: "Integration Settings", element: " " },
-  { icon: <SettingsIcon />, name: "Report & Analytics Settings", element: " " },
-  { icon: <SettingsIcon />, name: "Support & Feedback", element: " " },
+const tabs = [
+  { icon: <HelpOutlineIcon />, name: "Support&Feedback" },
+  { icon: <AssessmentIcon />, name: "Report&Analitics" },
+  { icon: <IntegrationInstructionsIcon />, name: "Integration" },
+  { icon: <AppsIcon />, name: "App" },
+  { icon: <AccountBoxIcon />, name: "Account" },
+  { icon: <PersonOutlineIcon />, name: "User" },
 ];
 
 export default function AdminSettingsTabsForMobile({ onSelectItem }) {
@@ -24,27 +29,28 @@ export default function AdminSettingsTabsForMobile({ onSelectItem }) {
 
   const handleTabClick = (item) => {
     onSelectItem(item.name);
-    handleClose(); // Menü kapatılır
+    handleClose();
   };
 
   return (
-    <Box sx={{ height: 330, transform: "translateZ(0px)", flexGrow: 1 }}>
+    <Box sx={{ position: "fixed", bottom: 16, right: 16 }}>
       <Backdrop open={open} />
       <SpeedDial
         ariaLabel="SpeedDial tooltip example"
-        sx={{ position: "absolute", bottom: 16, right: 16 }}
+        sx={{ position: "fixed", bottom: 16, right: 16 }}
         icon={<SettingsIcon />}
         onClose={handleClose}
         onOpen={handleOpen}
         open={open}
+        FabProps={{ color: "secondary" }}
       >
-        {actions.map((action) => (
+        {tabs.map((tab) => (
           <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
+            key={tab.name}
+            icon={tab.icon}
+            tooltipTitle={tab.name}
             tooltipOpen
-            onClick={() => handleTabClick(action)}
+            onClick={() => handleTabClick(tab)}
           />
         ))}
       </SpeedDial>

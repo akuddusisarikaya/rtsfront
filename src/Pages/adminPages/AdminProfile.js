@@ -1,7 +1,20 @@
 import * as React from 'react'
+import '../../App.css'
+import Box from '@mui/material/Box'
+import AdminDrawer from '../../components/adminPages/AdminDrawer'
+import AdminProfileContent from '../../components/adminPages/AdminProfileContent'
+import Footer from '../../components/Footer'
 
 function AdminProfile(){
-    return(<div></div>)
+    return(
+        <Box>
+            <AdminDrawer/>
+            <Box className="dashboardNotMobile">
+                <AdminProfileContent/>
+            </Box>
+            <Footer/>
+        </Box>
+    )
 }
 
 export default AdminProfile

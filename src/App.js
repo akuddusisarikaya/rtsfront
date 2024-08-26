@@ -30,6 +30,7 @@ import AdminPaymentList from "./Pages/adminPages/AdminPaymentList";
 import AdminAddAppointment from "./Pages/adminPages/AdminAddAppointment";
 import AdminServiceList from "./Pages/adminPages/AdminServiceList";
 import AdminAddService from "./Pages/adminPages/AdminAddService"
+import Prices from "./Pages/Prices";
 
 function App() {
   return (
@@ -107,6 +108,7 @@ function App() {
         />
         <Route exact path="/adminservicelist" element={<AdminServiceList/>}/>
         <Route exact path="/adminaddservice" element={<AdminAddService/>} />
+        <Route exact path="/prices" element={<Prices/>}/>
       </Routes>
     </Router>
   );

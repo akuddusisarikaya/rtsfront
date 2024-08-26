@@ -40,7 +40,7 @@ export default function UserDetail() {
         <TextField disabled type="password" label="*********"></TextField>
       </CardContent>
       <CardActions>
-        <Button color="secondary" onClick={editPerson}>Edit</Button>
+        <Button color="secondary" onClick={editPerson}>Edit</Button><Button color="error" > Delete</Button>
       </CardActions>
     </Card>
   );

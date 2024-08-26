@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const first = [
   { key: 1, name: "Dashboard", link: "/admin" },

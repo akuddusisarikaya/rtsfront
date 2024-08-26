@@ -18,6 +18,9 @@ function Homepage() {
     const goAdmin = () => {
         navigate('/admin')
     }
+    const goPrices = () => {
+        navigate('/prices')
+    }
 
     return(
         <div className="greets">
@@ -46,6 +49,11 @@ function Homepage() {
             <Button color="secondary" onClick={appointmentButtonClick} variant="contained" className="buttonHP">
                 Make Appointment
             </Button>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <Button variant="contained" color="secondary" className="buttonHP" onClick={goPrices}> Prices</Button>
             <br></br>
             <br></br>
             <br></br>

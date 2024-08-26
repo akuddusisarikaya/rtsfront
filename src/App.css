@@ -60,13 +60,35 @@
 
 .dashboardNotMobile {
   margin-left: 20%;
+  margin-right: 5%;
   margin-top: 7%;
 }
-
-@media (max-width:768px){
+ @media (max-width : 1300px){
   .dashboardNotMobile{
-    margin-left: 2%;
-    margin-right: 2%;
+    margin-left: 27%;
+    margin-right: 5%;
+    margin-top: 7%;
+  }
+ }
+ @media (max-width : 1100px){
+  .dashboardNotMobile{
+    margin-left: 32%;
+    margin-right: 5%;
+    margin-top: 7%;
+  }
+ }
+ @media (max-width : 800px){
+  .dashboardNotMobile{
+    margin-left: 40%;
+    margin-right: 5%;
+    margin-top: 15%;
+  }
+ }
+
+@media (max-width:600px){
+  .dashboardNotMobile{
+    margin-left: 3%;
+    margin-right: 3%;
     margin-top: 15%;
   }
 }
@@ -317,4 +339,28 @@
   padding: 5%;
   text-align: center;
   margin-top: 2%;
+}
+.adminProfileCard{
+  padding-left: 10%;
+  padding-bottom: 5% ;
+}
+@media (max-width:768px){
+  .adminProfileCard{
+    padding-left: 10%;
+    margin-bottom: 0px;
+  }
+}
+.adminProfilePerson{
+  margin-left: 75%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.settingButtons{
+  margin-left: 75%;
+}
+@media (max-width:768px){
+  .settingButtons{
+    margin-left: 15%;
+  }
 }

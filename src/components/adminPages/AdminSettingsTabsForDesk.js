@@ -1,16 +1,22 @@
 import * as React from "react";
-import '../../App.css'
+import "../../App.css";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstructions";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import AppsIcon from "@mui/icons-material/Apps";
+
 const tabs = [
-  { key: 1, name: "User Settings", element: " " },
-  { key: 2, name: "Account Managment", element: " " },
-  { key: 3, name: "App Settings", element: " " },
-  { key: 4, name: "Security Settings", element: " " },
-  { key: 5, name: "Integration Settings", element: " " },
-  { key: 6, name: "Report & Analitics Settings", element: " " },
-  { key: 7, name: "Support & Feedback", element: " " },
+  { icon: <PersonOutlineIcon color="secondary"/>, name: "User" },
+  { icon: <AccountBoxIcon color="secondary" />, name: "Account" },
+  { icon: <AppsIcon color="secondary" />, name: "App" },
+  { icon: <IntegrationInstructionsIcon color="secondary" />, name: "Integration" },
+  { icon: <AssessmentIcon color="secondary" />, name: "Report&Analitics" },
+  { icon: <HelpOutlineIcon color="secondary" />, name: "Support&Feedback" },
 ];
 
 export default function AdminSettingTabs({ onSelectItem }) {
@@ -25,8 +31,11 @@ export default function AdminSettingTabs({ onSelectItem }) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%" }} >
       <Tabs
+        indicatorColor="secondary"
+        textColor="secondary"
+        centered
         value={value}
         onChange={handleChange}
         variant="scrollable"
@@ -36,8 +45,10 @@ export default function AdminSettingTabs({ onSelectItem }) {
         {tabs.map((tab) => (
           <Tab
             key={tab.key}
+            icon={tab.icon}
             label={tab.name}
             onClick={() => handleTabClick(tab)}
+            style={{margin : "1%"}}
           ></Tab>
         ))}
       </Tabs>
