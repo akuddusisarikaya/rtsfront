@@ -37,6 +37,35 @@
   }
 }
 
+.verification{
+  padding-top: 15%;
+  padding-left: 40%;
+}
+
+@media(max-width:768px){
+  .verification{
+    padding-top: 35%;
+    padding-left: 10%;
+  }
+}
+.verBox{
+  padding-left: 5%;
+}
+@media(max-width:768px){
+  .verBox{
+    padding-left: 10%;
+  }
+}
+.verButton{
+  width: 35%;
+}
+@media(max-width:768px){
+  .verButton{
+    width: 80%;
+  }
+}
+
+
 .greets {
   margin-top: 15%;
   padding-left: 30%;
@@ -363,4 +392,44 @@
   .settingButtons{
     margin-left: 15%;
   }
+}
+
+.userProfileh1{
+  margin-left: 40%;
+  margin-top: 5%;
+  color:purple
+}
+
+@media (max-width : 768px){
+  .userProfileh1{
+    margin-left: 10%;
+    margin-top: 15%;
+    margin-bottom: 10%;
+    color:purple
+  }
+}
+
+.userProfileCard{
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 5%;
+
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 10%;
+  padding-top: 5%;
+}
+@media (max-width : 768px){
+  .userProfileCard{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+  }
+}
+
+.userProfileAvatar{
+  margin-left: 80%;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }

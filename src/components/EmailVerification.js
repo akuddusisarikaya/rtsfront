@@ -3,16 +3,16 @@ import "../App.css";
 import { Button, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 
-function NumberVerification(params) {
+export default function EmailVerification(params) {
   return (
     <Box>
-      <h1 >Verificate Your Number</h1>
+      <h1>Verificate Your Email</h1>
       <br></br>
       <br></br>
       <Box className="verBox">
         <TextField
-          id="smscode"
-          label="SMS Code"
+          id="emailcode"
+          label="eMail Code"
           variant="outlined"
           className="verButton"
         />
@@ -22,7 +22,7 @@ function NumberVerification(params) {
         <br></br>
         <Button variant="contained" color="error" className="verButton">
           {" "}
-          Send SMS Again
+          Send Email Again
         </Button>
         <br></br>
         <br></br>
@@ -34,4 +34,3 @@ function NumberVerification(params) {
     </Box>
   );
 }
-export default NumberVerification;

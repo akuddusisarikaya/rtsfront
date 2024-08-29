@@ -31,6 +31,10 @@ import AdminAddAppointment from "./Pages/adminPages/AdminAddAppointment";
 import AdminServiceList from "./Pages/adminPages/AdminServiceList";
 import AdminAddService from "./Pages/adminPages/AdminAddService"
 import Prices from "./Pages/Prices";
+import NumberVer from "./Pages/NumberVer";
+import EmailVer from "./Pages/EmailVer";
+import UserProfile from "./Pages/UserProfile";
+import UserProfileEdit from "./Pages/UserProfileEdit";
 
 function App() {
   return (
@@ -109,6 +113,10 @@ function App() {
         <Route exact path="/adminservicelist" element={<AdminServiceList/>}/>
         <Route exact path="/adminaddservice" element={<AdminAddService/>} />
         <Route exact path="/prices" element={<Prices/>}/>
+        <Route exact path="/numberver" element={<NumberVer/>}/>
+        <Route exact path="/emailver" element={<EmailVer/>}/>
+        <Route exact path="/userprofile" element={<UserProfile/>}/>
+        <Route exact path="/userprofileedit" element={<UserProfileEdit/>}/>
       </Routes>
     </Router>
   );

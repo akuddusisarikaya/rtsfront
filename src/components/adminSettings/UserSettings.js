@@ -5,8 +5,19 @@ import Divider from "@mui/material/Divider";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 
 export default function UserSettings() {
+
+  const nav = useNavigate();
+
+  const numberVer = () => {
+    nav('/numberver')
+  }
+
+  const emailVer = () => {
+    nav('/emailver')
+  }
   return (
     <div>
         <br></br>
@@ -55,10 +66,10 @@ export default function UserSettings() {
         <Divider style={{ marginRight: "5%" }} />
         <br></br>
         <Box style={{ marginLeft: "15%" }}>
-          <Button color="secondary" variant="contained">Number Verification</Button>
+          <Button color="secondary" variant="contained" onClick={numberVer}>Number Verification</Button>
           <br></br>
           <br></br>
-          <Button color="secondary" variant="contained">eMail Verification</Button>
+          <Button color="secondary" variant="contained" onClick={emailVer}>eMail Verification</Button>
         </Box>
       </Card>
     </div>
