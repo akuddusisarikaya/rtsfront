@@ -1,5 +1,5 @@
 //import logo from './logo.svg';
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./Pages/Login";
@@ -35,13 +35,22 @@ import NumberVer from "./Pages/NumberVer";
 import EmailVer from "./Pages/EmailVer";
 import UserProfile from "./Pages/UserProfile";
 import UserProfileEdit from "./Pages/UserProfileEdit";
+import SuperUser from "./Pages/SuperUser";
+import SuperUserAddCompany from "./components/superUserPages/SuperUserAddCompany";
+import SuperUserAddAdmin from "./components/superUserPages/SuperUserAddAdmin";
 
 function App() {
+  const [email, setEmail] = useState("");
+
+  const updateEmail = (newEmail) => {
+    setEmail(newEmail); // E-posta bilgisini günceller
+  };
+
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<Homepage />} />
-        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/login" element={<Login updateEmail={updateEmail} />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/admin" element={<AdminDashboard />} />
         <Route exact path="/appointment" element={<Appointment />} />
@@ -116,7 +125,10 @@ function App() {
         <Route exact path="/numberver" element={<NumberVer/>}/>
         <Route exact path="/emailver" element={<EmailVer/>}/>
         <Route exact path="/userprofile" element={<UserProfile/>}/>
-        <Route exact path="/userprofileedit" element={<UserProfileEdit/>}/>
+        <Route exact path="/userprofileedit" element={<UserProfileEdit  email={email}/>}/>
+        <Route exact path="/superuser" element={<SuperUser/>} />
+        <Route exact path="/superusercompanyadd" element={<SuperUserAddCompany/>}/>
+        <Route exact path="/superuseradminadd" element={< SuperUserAddAdmin/>} />
       </Routes>
     </Router>
   );

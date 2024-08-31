@@ -6,40 +6,43 @@ import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function UserProfile() {
+export default function UserProfile({ email }) {
   const nav = useNavigate();
-  const [userData, setUserData] = React.useState(null); // Kullanıcı bilgilerini saklamak için state
-  const [loading, setLoading] = React.useState(true); // Yükleme durumu
-  const [error, setError] = React.useState(null); // Hata durumu
-  const location = useLocation(); // navigate state'ini kullanmak için
+  const location = useLocation();
+  const [userData, setUserData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
 
   // Kullanıcı bilgilerini API'den almak için bir fonksiyon
   React.useEffect(() => {
     const fetchUserProfile = async () => {
+      const userEmail = email || location.state?.email; // Email'i prop veya state'ten al
+      console.log("Fetching user profile for email:", userEmail); // Debug için
       try {
-        const email = location.state?.email; // Login bileşeninden gelen email bilgisi
-        if (!email) {
+        if (!userEmail) {
           setError('Kullanıcı bilgileri mevcut değil');
           setLoading(false);
           return;
         }
 
-        const response = await fetch(`http://localhost:8080/userprofile?email=${email}`);
+        // API isteği yapılarak kullanıcı profili alınır
+        const response = await fetch(`http://localhost:8080/userprofile?email=${userEmail}`);
         if (!response.ok) {
           throw new Error('Kullanıcı bilgileri alınamadı');
         }
         const data = await response.json();
-        setUserData(data); // Kullanıcı bilgilerini state'e kaydet
+        console.log("Fetched data:", data); // Debug için
+        setUserData(data); 
         setLoading(false);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching user profile:", err);
         setError('Kullanıcı bilgileri alınırken bir hata oluştu');
         setLoading(false);
       }
     };
 
-    fetchUserProfile(); // Kullanıcı bilgilerini almak için API çağrısını yap
-  }, [location.state]);
+    fetchUserProfile();
+  }, [email, location.state]);
 
   const goEdit = () => {
     nav("/userprofileedit");
@@ -65,11 +68,11 @@ export default function UserProfile() {
       <br />
       <Card className="userProfileCard">
         <br />
-        <TextField label="Name" value={userData?.name} disabled />
+        <TextField label="Name" value={userData.Name} disabled />
         <br />
-        <TextField label="Email" value={userData?.email} disabled />
+        <TextField label="Email" value={userData.Email} disabled />
         <br />
-        <TextField label="Phone" value={userData?.phone} disabled />
+        <TextField label="Phone" value={userData.Phone} disabled />
         <br />
         <Button variant="contained" color="secondary" style={{ marginLeft: "25%" }} onClick={goEdit}>
           Edit

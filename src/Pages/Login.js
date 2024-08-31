@@ -3,7 +3,8 @@ import { TextField, Button, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
-function Login() {
+function Login({ updateEmail }) { // updateEmail prop olarak alındı
+  const [inputValue, setInputValue] = React.useState("");
   const navigate = useNavigate();
   const [credentials, setCredentials] = React.useState({ email: "", password: "" });
   const [snackbar, setSnackbar] = React.useState({
@@ -12,12 +13,14 @@ function Login() {
     severity: "success",
   });
 
-  // Kullanıcı girişi için input değişikliklerini yönetmek için
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.id]: e.target.value });
   };
 
-  // Kullanıcı girişi için handleLogin fonksiyonu
+  const handleEmailUpdate = (e) => {
+    setInputValue(e.target.value);
+  };
+
   const handleLogin = async () => {
     try {
       const response = await fetch("http://localhost:8080/login", {
@@ -30,18 +33,16 @@ function Login() {
 
       if (response.ok) {
         const result = await response.json();
-
-        // Başarılı giriş mesajı
+        updateEmail(inputValue); // E-posta bilgisini parent bileşene gönderir
         setSnackbar({
           open: true,
           message: result.message || "Login successful!",
           severity: "success",
         });
 
-        // Başarılı giriş sonrası kullanıcı bilgileri ile yönlendirme
         setTimeout(() => {
           navigate("/userprofile", { state: { email: credentials.email } });
-        }, 2000); // 2 saniye bekle
+        }, 2000);
       } else {
         const error = await response.json();
         setSnackbar({
@@ -60,32 +61,32 @@ function Login() {
     }
   };
 
-  // Snackbar'ı kapatmak için fonksiyon
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-  // Geri butonuna tıklama işlemi
   const backClick = () => {
     navigate("/");
   };
 
-  // Şifre sıfırlama sayfasına yönlendirme
   const passwordReset = () => {
     navigate("/resetpassword");
   };
 
   return (
     <div>
-      <Button color="secondary" onClick={backClick}> BACK </Button>
+      <Button color="secondary" onClick={backClick}>BACK</Button>
       <div className="loginBox">
-        <h1 style={{ marginTop: "15%" }}> Login </h1>
+        <h1 style={{ marginTop: "15%" }}>Login</h1>
         <TextField
           id="email"
           label="Email"
           variant="outlined"
           className="loginTextField"
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+            handleEmailUpdate(e);
+          }}
         />
         <br />
         <TextField
@@ -106,7 +107,6 @@ function Login() {
         </Button>
       </div>
 
-      {/* Pop-up mesajı (Snackbar) */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={3000}
