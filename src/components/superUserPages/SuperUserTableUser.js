@@ -46,7 +46,14 @@ export default function SuperUserTableUser() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/users"); // User koleksiyonuna istek
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:8080/protected/users" , {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, // Token'ı header'a ekle
+            'Content-Type': 'application/json',
+          },
+        }); // User koleksiyonuna istek
         if (!response.ok) throw new Error("Veriler alınamadı");
         const result = await response.json();
         setData(result); // Gelen veriyi state'e kaydet
@@ -70,9 +77,11 @@ export default function SuperUserTableUser() {
   // Verileri kaydetme fonksiyonu
   const handleSave = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch("http://localhost:8080/users", {
         method: "PUT",
         headers: {
+          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),

@@ -53,7 +53,7 @@ export default function Register() {
           name: user.name,
           email: user.email,
           passwordHash: user.password, // Parola hash'lemesi backend'de yapılacak
-          role: "customer", // Varsayılan olarak "customer" rolü
+          role: "Customer", // Varsayılan olarak "customer" rolü
           phone: user.phone
         }),
       });

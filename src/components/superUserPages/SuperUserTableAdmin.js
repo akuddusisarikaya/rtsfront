@@ -39,7 +39,14 @@ export default function SuperUserTableAdmin() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/admins'); // Admin koleksiyonuna istek
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:8080/protected/admins' , {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, // Token'ı header'a ekle
+            'Content-Type': 'application/json',
+          },
+        }); // Admin koleksiyonuna istek
         if (!response.ok) throw new Error('Veriler alınamadı');
         const result = await response.json();
         setData(result || []); // Gelen veriyi state'e kaydet, eğer null gelirse boş dizi ata
@@ -64,9 +71,11 @@ export default function SuperUserTableAdmin() {
   // Verileri kaydetme fonksiyonu
   const handleSave = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:8080/admins', {
         method: 'PUT',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Box  from '@mui/material/Box'
-import AdminDrawer from '../../components/adminPages/AdminDrawer'
 import AdminApointmentsContent from'../../components/adminPages/AdminApointmentsContent'
 import Footer from '../../components/Footer'
+import AdminDrawer from '../../components/adminPages/AdminDrawer'
 function AdminAppointments(){
     return(
         <Box>

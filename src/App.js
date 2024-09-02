@@ -2,6 +2,7 @@
 import React, {useState} from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
+import AdminLogin from "./Pages/adminPages/AdminLogin"
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Homepage from "./Pages/Homepage";
@@ -38,6 +39,11 @@ import UserProfileEdit from "./Pages/UserProfileEdit";
 import SuperUser from "./Pages/SuperUser";
 import SuperUserAddCompany from "./components/superUserPages/SuperUserAddCompany";
 import SuperUserAddAdmin from "./components/superUserPages/SuperUserAddAdmin";
+import ProviderDashboard from "./Pages/ProviderPages/ProviderDashboard";
+import ProviderAppointment from "./Pages/ProviderPages/ProviderAppointment";
+import ProviderServices from "./Pages/ProviderPages/ProviderServices";
+import ProviderReports from "./Pages/ProviderPages/ProviderReports"
+import ProviderProfile from "./Pages/ProviderPages/ProviderProfile";
 
 function App() {
   const [email, setEmail] = useState("");
@@ -52,83 +58,45 @@ function App() {
         <Route exact path="/" element={<Homepage />} />
         <Route exact path="/login" element={<Login updateEmail={updateEmail} />} />
         <Route exact path="/register" element={<Register />} />
+        <Route exact path="adminlogin" element={< AdminLogin updateEmail={updateEmail}  />} />
         <Route exact path="/admin" element={<AdminDashboard />} />
         <Route exact path="/appointment" element={<Appointment />} />
         <Route exact path="/resetpassword" element={<PasswordReset />} />
         <Route exact path="/adminusermanage" element={<AdminUserManage />} />
-        <Route
-          exact
-          path="/adminservicesandprice"
-          element={<AdminServicesAndPrices />}
-        />
-        <Route
-          exact
-          path="/adminappointments"
-          element={<AdminAppointments />}
-        />
+        <Route exact path="/adminservicesandprice" element={<AdminServicesAndPrices />} />
+        <Route exact path="/adminappointments" element={<AdminAppointments />} />
         <Route exact path="/adminpayments" element={<AdminPayments />} />
         <Route exact path="/adminreports" element={<AdminReports />} />
         <Route exact path="/adminsettings" element={<AdminSettings />} />
         <Route exact path="/adminprofile" element={<AdminProfile />} />
-        <Route
-          exact
-          path="/adminproviderslist"
-          element={<AdminUserManProviders />}
-        />
-        <Route
-          exact
-          path="/adminmanagerslist"
-          element={<AdminUserManManagers />}
-        />
-        <Route
-          exact
-          path="/adminmanappointments"
-          element={<AdminManageAppointments />}
-        />
-        <Route
-          exact
-          path="/adminmancustomers"
-          element={<AdminManCustomers />}
-        />
+        <Route exact path="/adminproviderslist" element={<AdminUserManProviders />} />
+        <Route exact path="/adminmanagerslist" element={<AdminUserManManagers />} />
+        <Route exact path="/adminmanappointments" element={<AdminManageAppointments />} />
+        <Route exact path="/adminmancustomers" element={<AdminManCustomers />} />
         <Route exact path="/adminuserdetail" element={<AdminUserDetail />} />
-        <Route
-          exact
-          path="/adminuserdetailedit"
-          element={<AdminUserDetailEdit />}
-        />
+        <Route exact path="/adminuserdetailedit" element={<AdminUserDetailEdit />} />
         <Route exact path="/adminaddnewuser" element={<AdminAddNewUser />} />
-        <Route
-          exact
-          path="/adminservicedetails"
-          element={<AdminServiceDetail />}
-        />
+        <Route exact path="/adminservicedetails" element={<AdminServiceDetail />} />
         <Route exact path="/adminserviceedit" element={<AdminServiceEdit />} />
-        <Route
-          exact
-          path="/adminappointmentdetail"
-          element={<AdminAppointmentDetail />}
-        />
-        <Route
-          exact
-          path="/adminappointmentedit"
-          element={<AdminAppointmentEdit />}
-        />
+        <Route exact path="/adminappointmentdetail:appointmentId" element={<AdminAppointmentDetail />} />
+        <Route exact path="/adminappointmentedit" element={<AdminAppointmentEdit />} />
         <Route exact path="/adminpaymentlist" element={<AdminPaymentList />} />
-        <Route
-          exact
-          path="/adminaddappointment"
-          element={<AdminAddAppointment />}
-        />
-        <Route exact path="/adminservicelist" element={<AdminServiceList/>}/>
+        <Route exact path="/adminaddappointment" element={<AdminAddAppointment />} />
+        <Route exact path="/adminservicelist" element={<AdminServiceList/>} />
         <Route exact path="/adminaddservice" element={<AdminAddService/>} />
-        <Route exact path="/prices" element={<Prices/>}/>
-        <Route exact path="/numberver" element={<NumberVer/>}/>
-        <Route exact path="/emailver" element={<EmailVer/>}/>
-        <Route exact path="/userprofile" element={<UserProfile/>}/>
-        <Route exact path="/userprofileedit" element={<UserProfileEdit  email={email}/>}/>
+        <Route exact path="/prices" element={<Prices/>} />
+        <Route exact path="/numberver" element={<NumberVer/>} />
+        <Route exact path="/emailver" element={<EmailVer/>} />
+        <Route exact path="/userprofile" element={<UserProfile email={email}/>} />
+        <Route exact path="/userprofileedit" element={<UserProfileEdit  email={email}/>} />
         <Route exact path="/superuser" element={<SuperUser/>} />
-        <Route exact path="/superusercompanyadd" element={<SuperUserAddCompany/>}/>
-        <Route exact path="/superuseradminadd" element={< SuperUserAddAdmin/>} />
+        <Route exact path="/superusercompanyadd" element={<SuperUserAddCompany />} />
+        <Route exact path="/superuseradminadd" element={< SuperUserAddAdmin />} />
+        <Route exact path="/provider" element={<ProviderDashboard />} />
+        <Route exact path="/providerappointment" element={<ProviderAppointment />} />
+        <Route exact path="/providerservices" element={<ProviderServices/>} />
+        <Route exact path="/providerreports" element={<ProviderReports/>} />
+        <Route exact path="/providerProfile" element={<ProviderProfile/>} />
       </Routes>
     </Router>
   );

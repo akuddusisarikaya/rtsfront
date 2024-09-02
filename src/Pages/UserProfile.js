@@ -13,6 +13,9 @@ export default function UserProfile({ email }) {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
 
+  const logOut = () => {
+    localStorage.removeItem('token')
+  }
   // Kullanıcı bilgilerini API'den almak için bir fonksiyon
   React.useEffect(() => {
     const fetchUserProfile = async () => {
@@ -25,18 +28,25 @@ export default function UserProfile({ email }) {
           return;
         }
 
-        // API isteği yapılarak kullanıcı profili alınır
-        const response = await fetch(`http://localhost:8080/userprofile?email=${userEmail}`);
+        // API isteği yapılarak kullanıcı profili alınır 
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:8080/protected/userprofile?email=${userEmail}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, // Token'ı header'a ekle
+            'Content-Type': 'application/json',
+          },
+        });
         if (!response.ok) {
           throw new Error('Kullanıcı bilgileri alınamadı');
         }
         const data = await response.json();
         console.log("Fetched data:", data); // Debug için
         setUserData(data); 
-        setLoading(false);
       } catch (err) {
         console.error("Error fetching user profile:", err);
         setError('Kullanıcı bilgileri alınırken bir hata oluştu');
+      } finally {
         setLoading(false);
       }
     };
@@ -50,6 +60,10 @@ export default function UserProfile({ email }) {
   const goBack = () => {
     nav(-1);
   };
+  const handleLogOut = () => {
+    logOut();
+    goBack();
+  }
   const goApp = () => {
     nav("/appointment");
   };
@@ -61,18 +75,18 @@ export default function UserProfile({ email }) {
     <Box>
       <h1 className="userProfileh1">CARMESOFT S.A.M.</h1>
       <br />
-      <Button style={{ marginLeft: "65%" }} variant="contained" color="secondary" onClick={goBack}>
+      <Button style={{ marginLeft: "65%" }} variant="contained" color="secondary" onClick={handleLogOut}>
         Log out
       </Button>
       <br />
       <br />
       <Card className="userProfileCard">
         <br />
-        <TextField label="Name" value={userData.Name} disabled />
+        <TextField label="Name" value={userData?.Name || ''} disabled />
         <br />
-        <TextField label="Email" value={userData.Email} disabled />
+        <TextField label="Email" value={userData?.Email || ''} disabled />
         <br />
-        <TextField label="Phone" value={userData.Phone} disabled />
+        <TextField label="Phone" value={userData?.Phone || ''} disabled />
         <br />
         <Button variant="contained" color="secondary" style={{ marginLeft: "25%" }} onClick={goEdit}>
           Edit

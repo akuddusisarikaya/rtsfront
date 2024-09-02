@@ -1,11 +1,11 @@
 import * as React from "react";
 import "../../App.css";
-import AdminDrawer from "../../components/adminPages/AdminDrawer";
 import Box from "@mui/material/Box";
 import AdminUserContent from "../../components/adminPages/AdminUserContent";
 import { Button } from "@mui/material";
 import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom'
+import AdminDrawer from "../../components/adminPages/AdminDrawer";
 
 function AdminUserManage() {
 
@@ -17,7 +17,7 @@ function AdminUserManage() {
 
   return (
     <Box>
-      <AdminDrawer />
+      <AdminDrawer/>
       <Box className="dashboardNotMobile">
         <AdminUserContent />
       </Box>

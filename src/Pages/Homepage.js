@@ -2,6 +2,7 @@ import * as React from "react";
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import '../App.css'
+import Footer from "../components/Footer";
 
 function Homepage() {
 
@@ -16,10 +17,13 @@ function Homepage() {
         navigate('/appointment')
     }
     const goAdmin = () => {
-        navigate('/admin')
+        navigate('/adminlogin')
     }
     const goPrices = () => {
         navigate('/prices')
+    }
+    const goProvider = () => {
+        navigate("/provider")
     }
 
     return(
@@ -59,7 +63,17 @@ function Homepage() {
             <br></br>
             <br></br>
             <Button variant="contained" color="secondary" className="buttonHP" onClick={goAdmin}> Admin</Button>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <Button variant="contained" color="secondary" className="buttonHP" onClick={goProvider}> Provider</Button>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
             </div>
+            <Footer/>
         </div>
     )
     

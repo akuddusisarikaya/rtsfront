@@ -1,9 +1,9 @@
 import * as React from "react";
 import { TextField, Button, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../App.css";
+import "../../App.css";
 
-export default function Login({ updateEmail }) {
+export default function AdminLogin({ updateEmail }) {
   const [credentials, setCredentials] = React.useState({ email: "", password: "" });
   const [snackbar, setSnackbar] = React.useState({
     open: false,
@@ -26,7 +26,7 @@ export default function Login({ updateEmail }) {
   // Giriş işlemi fonksiyonu
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch("http://localhost:8080/adminlogin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +46,7 @@ export default function Login({ updateEmail }) {
         });
 
         setTimeout(() => {
-          navigate("/userprofile", { state: { email: credentials.email } });
+          navigate("/admin", { state: { email: credentials.email } });
         }, 2000);
       } else {
         const error = await response.json();
@@ -73,7 +73,7 @@ export default function Login({ updateEmail }) {
 
   // Geri gitme fonksiyonu
   const backClick = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   // Şifre sıfırlama fonksiyonu
@@ -87,7 +87,7 @@ export default function Login({ updateEmail }) {
         BACK
       </Button>
       <div className="loginBox">
-        <h1 style={{ marginTop: "15%" }}>Login</h1>
+        <h1 style={{ marginTop: "15%" }}>Admin Login</h1>
         <TextField
           id="email"
           label="Email"
@@ -116,7 +116,7 @@ export default function Login({ updateEmail }) {
 
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={3000}
+        autoHideDuration={5000}  // Mesaj süresini artırdık
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
