@@ -26,7 +26,7 @@ export default function SuperUserAddCompany() {
   // Company ekleme işlemi
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:8080/companies', {
+      const response = await fetch('http://localhost:8080/superuser/companies', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

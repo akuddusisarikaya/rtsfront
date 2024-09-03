@@ -1,5 +1,5 @@
-import * as React from "react"
-import "../../App.css"
+import * as React from "react";
+import "../../App.css";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -19,6 +19,7 @@ import { Button } from "@mui/material";
 const drawerWidth = 260;
 
 const first = [
+  { key: 0, name: "Today", link: "/providertoday" },
   { key: 1, name: "Dashboard", link: "/provider" },
   { key: 2, name: "Services & Pricing", link: "/providerservices" },
   { key: 3, name: "Appointments", link: "/providerappointment" },
@@ -33,8 +34,8 @@ ProviderDrawer.propTypes = {
   window: PropTypes.func,
 };
 
-export default function ProviderDrawer(){
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+export default function ProviderDrawer() {
+  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
   const handleDrawerClose = () => {
@@ -54,34 +55,34 @@ export default function ProviderDrawer(){
   const navigate = useNavigate();
 
   const goHome = () => {
-    navigate('/')
-  }
+    navigate("/");
+  };
 
   const drawer = (
     <div>
-      <Toolbar >
+      <Toolbar>
         <h3>CARMESOFT S.A.M.</h3>
       </Toolbar>
       <Divider />
-        <List>
-          {first.map((button) => (
-            <ListItem key={button.key}>
-              <ListItemButton onClick={() => navigate(button.link)}>
-                {button.name}
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+      <List>
+        {first.map((button) => (
+          <ListItem key={button.key}>
+            <ListItemButton onClick={() => navigate(button.link)}>
+              {button.name}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
       <Divider />
       <List>
-      {second.map((button) => (
-        <ListItem key={button.key}>
-          <ListItemButton onClick={() => navigate(button.link)}>
-            {button.name}
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
+        {second.map((button) => (
+          <ListItem key={button.key}>
+            <ListItemButton onClick={() => navigate(button.link)}>
+              {button.name}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
   return (
@@ -94,7 +95,7 @@ export default function ProviderDrawer(){
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar style={{backgroundColor:"purple"}}>
+        <Toolbar style={{ backgroundColor: "purple" }}>
           <IconButton
             color="secondary"
             aria-label="open drawer"
@@ -105,7 +106,9 @@ export default function ProviderDrawer(){
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            <Button variant="contained" onClick={goHome} color="secondary" >CARMESOFT S.A.M.</Button> 
+            <Button variant="contained" onClick={goHome} color="secondary">
+              CARMESOFT S.A.M.
+            </Button>
           </Typography>
         </Toolbar>
       </AppBar>

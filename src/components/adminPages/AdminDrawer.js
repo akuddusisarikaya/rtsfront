@@ -18,6 +18,7 @@ import { Button } from "@mui/material";
 const drawerWidth = 260;
 
 const first = [
+  { key: 0, name: "Today", link: "/admintoday" },
   { key: 1, name: "Dashboard", link: "/admin" },
   { key: 2, name: "User Management", link: "/adminusermanage" },
   { key: 3, name: "Services & Pricing", link: "/adminservicesandprice" },
@@ -55,35 +56,40 @@ export default function AdminDrawer(props) {
   };
   const navigate = useNavigate();
 
+  const logOut = () => {
+    localStorage.removeItem("token");
+  };
+
   const goHome = () => {
-    navigate('/')
-  }
+    logOut();
+    navigate("/");
+  };
 
   const drawer = (
     <div>
-      <Toolbar >
+      <Toolbar>
         <h3>CARMESOFT S.A.M.</h3>
       </Toolbar>
       <Divider />
-        <List>
-          {first.map((button) => (
-            <ListItem key={button.key}>
-              <ListItemButton onClick={() => navigate(button.link)}>
-                {button.name}
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+      <List>
+        {first.map((button) => (
+          <ListItem key={button.key}>
+            <ListItemButton onClick={() => navigate(button.link)}>
+              {button.name}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
       <Divider />
       <List>
-      {second.map((button) => (
-        <ListItem key={button.key}>
-          <ListItemButton onClick={() => navigate(button.link)}>
-            {button.name}
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
+        {second.map((button) => (
+          <ListItem key={button.key}>
+            <ListItemButton onClick={() => navigate(button.link)}>
+              {button.name}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
   return (
@@ -96,7 +102,7 @@ export default function AdminDrawer(props) {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar style={{backgroundColor:"purple"}}>
+        <Toolbar style={{ backgroundColor: "purple" }}>
           <IconButton
             color="secondary"
             aria-label="open drawer"
@@ -107,7 +113,9 @@ export default function AdminDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            <Button variant="contained" onClick={goHome} color="secondary" >CARMESOFT S.A.M.</Button> 
+            <Button variant="contained" onClick={goHome} color="secondary">
+              CARMESOFT S.A.M.
+            </Button>
           </Typography>
         </Toolbar>
       </AppBar>
@@ -151,5 +159,3 @@ export default function AdminDrawer(props) {
     </Box>
   );
 }
-
-

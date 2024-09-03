@@ -1,11 +1,11 @@
 import * as React from "react";
-import "../App.css";
+import "../../App.css";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import SuperUserTab from "../components/superUserPages/SuperUserTab";
-import SuperUserTableAdmin from "../components/superUserPages/SuperUserTableAdmin";
-import SuperUserTableUser from "../components/superUserPages/SuperUserTableUser";
-import SuperUserTableCompany from "../components/superUserPages/SuperUserTableCompany";
+import SuperUserTab from "../../components/superUserPages/SuperUserTab";
+import SuperUserTableAdmin from "../../components/superUserPages/SuperUserTableAdmin";
+import SuperUserTableUser from "../../components/superUserPages/SuperUserTableUser";
+import SuperUserTableCompany from "../../components/superUserPages/SuperUserTableCompany";
 
 export default function SuperUser() {
   const [selectedTab, setSelectedTab] = React.useState(0); // Aktif sekme state'i

@@ -3,6 +3,8 @@ import "../../App.css";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { useNavigate } from "react-router-dom";
+import {Button} from "@mui/material"
 
 // Sekme isimleri
 const tabs = [{ name: "Admins" }, { name: "Companies" }, { name: "Users" }];
@@ -12,9 +14,19 @@ export default function SuperUserTab({ selectedTab, onTabChange }) {
   const handleChange = (event, newValue) => {
     onTabChange(newValue); // SuperUser bileşenine sekme indeksini gönderir
   };
+  const nav = useNavigate();
+  const goBack = () => {
+    nav(-1)
+  }
+
+  const logOut = () =>{
+    localStorage.removeItem('token')
+    goBack();
+  }
 
   return (
     <Box sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: "background.paper" }}>
+      <Button variant="contained" color="secondary" onClick={logOut}>LogOut</Button>
       <Tabs
         indicatorColor="secondary"
         textColor="secondary"

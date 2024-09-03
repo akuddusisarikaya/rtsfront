@@ -6,7 +6,7 @@ import AppointmentDetail from '../../components/AppointmentDetail'
 export default function AdminAppointmentDetail(){
     return(
         <Box>
-            <Box className="dashboardNotMobile">
+            <Box>
                 <AppointmentDetail/>
             </Box>
         </Box>

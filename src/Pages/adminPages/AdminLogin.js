@@ -81,6 +81,12 @@ export default function AdminLogin({ updateEmail }) {
     navigate("/resetpassword");
   };
 
+  const onKeyEnter = (e) => {
+    if(e.key === 'Enter'){
+      handleLogin();
+    }
+  }
+
   return (
     <div>
       <Button color="secondary" onClick={backClick}>
@@ -96,6 +102,7 @@ export default function AdminLogin({ updateEmail }) {
           onChange={handleChange}
         />
         <br />
+        <br />
         <TextField
           id="password"
           label="Password"
@@ -103,11 +110,14 @@ export default function AdminLogin({ updateEmail }) {
           variant="outlined"
           className="loginTextField"
           onChange={handleChange}
+          onKeyDown={onKeyEnter}
         />
+        <br />
         <br />
         <Button color="secondary" onClick={passwordReset} className="loginButton">
           Forget Password?
         </Button>
+        <br />
         <br />
         <Button color="secondary" variant="contained" className="loginButton" onClick={handleLogin}>
           Login

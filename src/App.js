@@ -36,7 +36,7 @@ import NumberVer from "./Pages/NumberVer";
 import EmailVer from "./Pages/EmailVer";
 import UserProfile from "./Pages/UserProfile";
 import UserProfileEdit from "./Pages/UserProfileEdit";
-import SuperUser from "./Pages/SuperUser";
+import SuperUser from "./Pages/superuserPages/SuperUser";
 import SuperUserAddCompany from "./components/superUserPages/SuperUserAddCompany";
 import SuperUserAddAdmin from "./components/superUserPages/SuperUserAddAdmin";
 import ProviderDashboard from "./Pages/ProviderPages/ProviderDashboard";
@@ -44,6 +44,11 @@ import ProviderAppointment from "./Pages/ProviderPages/ProviderAppointment";
 import ProviderServices from "./Pages/ProviderPages/ProviderServices";
 import ProviderReports from "./Pages/ProviderPages/ProviderReports"
 import ProviderProfile from "./Pages/ProviderPages/ProviderProfile";
+import ProviderToday from "./Pages/ProviderPages/ProviderToday";
+import AdminToday from "./Pages/adminPages/AdminToday";
+import SuperUserLogin from "./Pages/superuserPages/SuperUserLogin";
+import SuperuserCompanyEdit from "./Pages/superuserPages/SuperuserCompanyEdit";
+import SuperUserAdminEdit from "./Pages/superuserPages/SuperuserAdminEdit";
 
 function App() {
   const [email, setEmail] = useState("");
@@ -58,8 +63,9 @@ function App() {
         <Route exact path="/" element={<Homepage />} />
         <Route exact path="/login" element={<Login updateEmail={updateEmail} />} />
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="adminlogin" element={< AdminLogin updateEmail={updateEmail}  />} />
+        <Route exact path="/adminlogin" element={< AdminLogin updateEmail={updateEmail}  />} />
         <Route exact path="/admin" element={<AdminDashboard />} />
+        <Route exact path="/adminToday" element={<AdminToday />} /> 
         <Route exact path="/appointment" element={<Appointment />} />
         <Route exact path="/resetpassword" element={<PasswordReset />} />
         <Route exact path="/adminusermanage" element={<AdminUserManage />} />
@@ -89,14 +95,18 @@ function App() {
         <Route exact path="/emailver" element={<EmailVer/>} />
         <Route exact path="/userprofile" element={<UserProfile email={email}/>} />
         <Route exact path="/userprofileedit" element={<UserProfileEdit  email={email}/>} />
-        <Route exact path="/superuser" element={<SuperUser/>} />
+        <Route exact path="/superuserdash" element={<SuperUser/>} />
         <Route exact path="/superusercompanyadd" element={<SuperUserAddCompany />} />
         <Route exact path="/superuseradminadd" element={< SuperUserAddAdmin />} />
         <Route exact path="/provider" element={<ProviderDashboard />} />
+        <Route exact path="/providertoday" element={<ProviderToday />} />
         <Route exact path="/providerappointment" element={<ProviderAppointment />} />
         <Route exact path="/providerservices" element={<ProviderServices/>} />
         <Route exact path="/providerreports" element={<ProviderReports/>} />
         <Route exact path="/providerProfile" element={<ProviderProfile/>} />
+        <Route exact path="/superuser" element={<SuperUserLogin updateEmail= {updateEmail} />} />
+        <Route exact path="/superusercompanyedit" element={<SuperuserCompanyEdit/> } />
+        <Route exact path="/superuseradminedit" element={<SuperUserAdminEdit />} />
       </Routes>
     </Router>
   );

@@ -6,7 +6,7 @@ import AddAppointment from '../../components/AddAppointment'
 export default function AdminAddAppointment(){
     return(
         <Box>
-            <Box className="dashboardNotMobile">
+            <Box className="listing">
                 <AddAppointment/>
             </Box>
         </Box>

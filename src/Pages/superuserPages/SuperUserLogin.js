@@ -1,13 +1,10 @@
-import * as React from "react";
+import * as React from "react"
 import { TextField, Button, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../App.css";
+import "../../App.css";
 
-export default function Login({ updateEmail }) {
-  const [credentials, setCredentials] = React.useState({
-    email: "",
-    password: "",
-  });
+export default function SuperUserLogin({ updateEmail }) {
+  const [credentials, setCredentials] = React.useState({ email: "", password: "" });
   const [snackbar, setSnackbar] = React.useState({
     open: false,
     message: "",
@@ -29,7 +26,7 @@ export default function Login({ updateEmail }) {
   // Giriş işlemi fonksiyonu
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch("http://localhost:8080/superuserlogin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +46,7 @@ export default function Login({ updateEmail }) {
         });
 
         setTimeout(() => {
-          navigate("/userprofile", { state: { email: credentials.email } });
+          navigate("/superuserdash", { state: { email: credentials.email } });
         }, 2000);
       } else {
         const error = await response.json();
@@ -84,11 +81,11 @@ export default function Login({ updateEmail }) {
     navigate("/resetpassword");
   };
 
-  const onKeyEnter = (e) => {
-    if (e.key === "Enter") {
+  const onEnterKey = (e) => {
+    if(e.key === 'Enter'){
       handleLogin();
     }
-  };
+  }
 
   return (
     <div>
@@ -96,7 +93,7 @@ export default function Login({ updateEmail }) {
         BACK
       </Button>
       <div className="loginBox">
-        <h1 style={{ marginTop: "15%" }}>Login</h1>
+        <h1 style={{ marginTop: "15%" }}>SuperUser Login</h1>
         <TextField
           id="email"
           label="Email"
@@ -113,43 +110,31 @@ export default function Login({ updateEmail }) {
           variant="outlined"
           className="loginTextField"
           onChange={handleChange}
-          onKeyDown={onKeyEnter}
+          onKeyDown={onEnterKey}
         />
         <br />
         <br />
-        <Button
-          color="secondary"
-          onClick={passwordReset}
-          className="loginButton"
-        >
+        <Button color="secondary" onClick={passwordReset} className="loginButton">
           Forget Password?
         </Button>
         <br />
         <br />
-        <Button
-          color="secondary"
-          variant="contained"
-          className="loginButton"
-          onClick={handleLogin}
-        >
+        <Button color="secondary" variant="contained" className="loginButton" onClick={handleLogin}>
           Login
         </Button>
       </div>
 
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={3000}
+        autoHideDuration={5000}  // Mesaj süresini artırdık
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={snackbar.severity}
-          sx={{ width: "100%" }}
-        >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: "100%" }}>
           {snackbar.message}
         </Alert>
       </Snackbar>
     </div>
   );
 }
+

@@ -7,7 +7,7 @@ import Footer from '../../components/Footer'
 export default function AdminAddService(){
     return(
         <Box>
-            <Box className="dashboardNotMobile">
+            <Box className="listing">
                 <ServiceAdd/>
             </Box>
             <Footer/>

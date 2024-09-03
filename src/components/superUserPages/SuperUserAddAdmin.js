@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 export default function SuperUserAddAdmin() {
   const [admin, setAdmin] = useState({
     name: '',
-    userid : '',
     email: '',
     password: '',
     phone: '',
@@ -28,7 +27,7 @@ export default function SuperUserAddAdmin() {
   const handleSubmit = async () => {
     const token = localStorage.getItem('token')
     try {
-      const response = await fetch('http://localhost:8080/protected/admins', {
+      const response = await fetch('http://localhost:8080/superuser/admins', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -65,15 +64,6 @@ export default function SuperUserAddAdmin() {
         fullWidth
         margin="normal"
         value={admin.email}
-        onChange={handleChange}
-      />
-      <TextField
-        id="userid"
-        label="User ID"
-        variant='outlined'
-        fullWidth
-        margin='normal'
-        value={admin.userid}
         onChange={handleChange}
       />
       <TextField

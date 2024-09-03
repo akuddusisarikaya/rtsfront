@@ -8,7 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
@@ -41,7 +40,7 @@ export default function SuperUserTableCompany() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8080/companies' , {
+        const response = await fetch('http://localhost:8080/superuser/companies', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`, // Token'ı header'a ekle
@@ -61,36 +60,6 @@ export default function SuperUserTableCompany() {
     fetchData();
   }, []);
 
-  // Veri düzenleme fonksiyonu
-  const handleEdit = (id, field, value) => {
-    setData((prevData) =>
-      prevData.map((item) =>
-        item._id === id ? { ...item, [field]: value } : item
-      )
-    );
-  };
-
-  // Verileri kaydetme fonksiyonu
-  const handleSave = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/protected/companies', {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) throw new Error('Veriler güncellenemedi');
-      alert('Veriler başarıyla güncellendi!');
-    } catch (error) {
-      console.error('Güncelleme hatası:', error);
-      alert('Güncelleme sırasında bir hata oluştu.');
-    }
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -99,10 +68,14 @@ export default function SuperUserTableCompany() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const goEdit = () => {
+    nav('/superusercompanyedit')
+  }
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <Button onClick={addClick} variant='contained' color="secondary">Add Company</Button>
+      <Button onClick={goEdit} variant='contained' color='secondary'>Edit Company</Button>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -128,16 +101,9 @@ export default function SuperUserTableCompany() {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value !== 'undefined' ? (
-                            column.format(value)
-                          ) : (
-                            <TextField
-                              value={value || ""}
-                              onChange={(e) => handleEdit(row._id, column.id, e.target.value)}
-                              variant="outlined"
-                              size="small"
-                            />
-                          )}
+                          {column.format && typeof value !== 'undefined'
+                            ? column.format(value)
+                            : value || ""}
                         </TableCell>
                       );
                     })}
@@ -162,14 +128,6 @@ export default function SuperUserTableCompany() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSave}
-        style={{ margin: '16px' }}
-      >
-        Save
-      </Button>
     </Paper>
   );
 }

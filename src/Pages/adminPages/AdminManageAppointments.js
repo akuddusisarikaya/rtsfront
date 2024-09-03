@@ -8,7 +8,7 @@ import AppointmentsList from "../../components/AppointmentsList";
 export default function AdminManageAppointments(){
     return (
         <Box>
-          <Box className="dashboardNotMobile">
+          <Box className="listing">
             <AppointmentsList />
           </Box>
           <Footer/>
