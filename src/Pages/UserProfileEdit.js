@@ -6,17 +6,17 @@ import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function UserProfileEdit({ email }) {
+export default function UserProfileEdit() {
   const nav = useNavigate();
   const location = useLocation();
   const [userData, setUserData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const email = localStorage.getItem('email')
 
   React.useEffect(() => {
     const fetchUserProfile = async () => {
       const userEmail = email || location.state?.email; // Email'i prop veya state'ten al
-      console.log("Fetching user profile for email:", userEmail); // Debug için
       try {
         if (!userEmail) {
           setError("Kullanıcı bilgileri mevcut değil");
@@ -37,7 +37,6 @@ export default function UserProfileEdit({ email }) {
           throw new Error("Kullanıcı bilgileri alınamadı");
         }
         const data = await response.json();
-        console.log("Fetched data:", data); // Debug için
         setUserData(data);
       } catch (err) {
         console.error("Error fetching user profile:", err);

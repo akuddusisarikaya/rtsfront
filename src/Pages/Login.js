@@ -3,7 +3,7 @@ import { TextField, Button, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
-export default function Login({ updateEmail }) {
+export default function Login() {
   const [credentials, setCredentials] = React.useState({
     email: "",
     password: "",
@@ -19,11 +19,6 @@ export default function Login({ updateEmail }) {
   const handleChange = (e) => {
     const { id, value } = e.target;
     setCredentials((prev) => ({ ...prev, [id]: value }));
-
-    // Email alanı değiştiğinde parent'a bildir
-    if (id === "email") {
-      updateEmail(value);
-    }
   };
 
   // Giriş işlemi fonksiyonu
@@ -39,7 +34,7 @@ export default function Login({ updateEmail }) {
 
       if (response.ok) {
         const result = await response.json();
-        // Token'ı localStorage'da sakla
+        localStorage.setItem("email", credentials.email)
         localStorage.setItem("token", result.token);
 
         setSnackbar({

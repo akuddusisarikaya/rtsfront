@@ -17,11 +17,12 @@ import { useNavigate } from 'react-router-dom';
 
 function Row({ row }) {
   const [open, setOpen] = React.useState(false);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
-  const goDetail = (appointmentId) => {
+  /*const goDetail = (appointmentId) => {
     navigate(`/adminappointmentdetail/${appointmentId}`);
   };
+  */
 
   return (
     <React.Fragment>

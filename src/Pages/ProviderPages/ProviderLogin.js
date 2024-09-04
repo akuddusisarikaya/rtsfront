@@ -3,7 +3,7 @@ import { TextField, Button, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
 
-export default function AdminLogin() {
+export default function ProviderLogin() {
   const [credentials, setCredentials] = React.useState({ email: "", password: "" });
   const [snackbar, setSnackbar] = React.useState({
     open: false,
@@ -12,7 +12,6 @@ export default function AdminLogin() {
   });
   const navigate = useNavigate();
 
-  // Kullanıcı bilgilerini değiştiren fonksiyon
   const handleChange = (e) => {
     const { id, value } = e.target;
     setCredentials((prev) => ({ ...prev, [id]: value }));
@@ -21,7 +20,7 @@ export default function AdminLogin() {
   // Giriş işlemi fonksiyonu
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:8080/adminlogin", {
+      const response = await fetch("http://localhost:8080/provider/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +40,7 @@ export default function AdminLogin() {
         });
 
         setTimeout(() => {
-          navigate("/adminprofile", { state: { email: credentials.email } });
+          navigate("/providerprofile", { state: { email: credentials.email } });
         }, 2000);
       } else {
         const error = await response.json();
@@ -88,7 +87,7 @@ export default function AdminLogin() {
         BACK
       </Button>
       <div className="loginBox">
-        <h1 style={{ marginTop: "15%" }}>Admin Login</h1>
+        <h1 style={{ marginTop: "15%" }}>Provider Login</h1>
         <TextField
           id="email"
           label="Email"

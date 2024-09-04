@@ -27,7 +27,6 @@ const first = [
 ];
 const second = [
   { key: 1, name: "Profile", link: "/providerprofile" },
-  { key: 2, name: "Log Out", link: "/" },
 ];
 
 ProviderDrawer.propTypes = {
@@ -55,13 +54,15 @@ export default function ProviderDrawer() {
   const navigate = useNavigate();
 
   const goHome = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("email")
     navigate("/");
   };
 
   const drawer = (
     <div>
       <Toolbar>
-        <h3>CARMESOFT S.A.M.</h3>
+        <Button variant="contained" color="secondary" onClick={()=> {navigate('/provider')}}>CARMESOFT S.A.M.</Button>
       </Toolbar>
       <Divider />
       <List>
@@ -147,6 +148,7 @@ export default function ProviderDrawer() {
           open
         >
           {drawer}
+          <Button color="secondary" variant="contained" onClick={goHome} style={{borderRadius:"2cap"}}> LogOut</Button>
         </Drawer>
       </Box>
     </Box>

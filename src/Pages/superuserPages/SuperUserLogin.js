@@ -3,7 +3,7 @@ import { TextField, Button, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
 
-export default function SuperUserLogin({ updateEmail }) {
+export default function SuperUserLogin() {
   const [credentials, setCredentials] = React.useState({ email: "", password: "" });
   const [snackbar, setSnackbar] = React.useState({
     open: false,
@@ -16,11 +16,6 @@ export default function SuperUserLogin({ updateEmail }) {
   const handleChange = (e) => {
     const { id, value } = e.target;
     setCredentials((prev) => ({ ...prev, [id]: value }));
-
-    // Email alanı değiştiğinde parent'a bildir
-    if (id === "email") {
-      updateEmail(value);
-    }
   };
 
   // Giriş işlemi fonksiyonu
@@ -36,7 +31,7 @@ export default function SuperUserLogin({ updateEmail }) {
 
       if (response.ok) {
         const result = await response.json();
-        // Token'ı localStorage'da sakla
+        localStorage.setItem("email", credentials.email)
         localStorage.setItem("token", result.token);
 
         setSnackbar({

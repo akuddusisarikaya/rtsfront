@@ -11,8 +11,11 @@ function AdminUserManage() {
 
   const navigate = useNavigate()
 
-  const addNew = () => {
-    navigate('/adminaddnewuser')
+  const addProvider = () => {
+    navigate('/adminaddnewprovider')
+  }
+  const addManager = () => {
+    navigate('/adminaddnewmanager')
   }
 
   return (
@@ -21,7 +24,8 @@ function AdminUserManage() {
       <Box className="dashboardNotMobile">
         <AdminUserContent />
       </Box>
-      <Button color="secondary" onClick={addNew} variant="contained" style={{marginLeft: "35%", marginTop: "10%", width: "30%"}}> Add New </Button>
+      <Button color="secondary" onClick={addProvider} variant="contained" style={{marginLeft: "35%", marginTop: "10%", width: "30%"}}> Add New Provider </Button>
+      <Button color="secondary" onClick={addManager} variant="contained" style={{marginLeft: "35%", marginTop: "2%", width: "30%"}}> Add Manager</Button>
       <Footer/>
     </Box>
   );

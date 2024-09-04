@@ -5,7 +5,6 @@ import {
   Avatar,
   Button,
   CardActions,
-  MenuItem,
   TextField,
   Snackbar,
   Alert,
@@ -13,34 +12,20 @@ import {
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 
-const roles = [
-  {
-    value: "Manager",
-    label: "Manager",
-  },
-  {
-    value: "Provider",
-    label: "Provider",
-  },
-  {
-    value: "Customer",
-    label: "Customer",
-  },
-];
-
-export default function AddNewUser() {
-  const [user, setUser] = React.useState({
+export default function AddNewManager() {
+  const [provider, setProvider] = React.useState({
     name: "",
-    role: "",
+    role: "Manager",
     email: "",
     phone: "",
     password: "",
+    companyName : "",
   });
 
   const [snackbar, setSnackbar] = React.useState({
     open: false,
     message: "",
-    severity: "success", // success, error, warning, info
+    severity: "success",
   });
 
   const navigate = useNavigate();
@@ -52,42 +37,38 @@ export default function AddNewUser() {
   // Değerlerin değişimini yönetmek için
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setUser((prevUser) => ({
-      ...prevUser,
+    setProvider((prevProvider) => ({
+      ...prevProvider,
       [id]: value,
     }));
   };
 
-  // Role seçimi için özel bir handleChange fonksiyonu
-  const handleRoleChange = (e) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      role: e.target.value,
-    }));
-  };
-
+  // Provider ekleme işlemi
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/user", {
+      const token = localStorage.getItem('token'); 
+      const response = await fetch("http://localhost:8080/admin/manager/add", {
         method: "POST",
         headers: {
+          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: user.name,
-          email: user.email,
-          passwordHash: user.password,
-          role: user.role,
-          phone: user.phone,
+          name: provider.name,
+          email: provider.email,
+          passwordHash: provider.password,
+          role: provider.role,
+          phone: provider.phone,
+          companyName: provider.companyName,
         }),
       });
 
       if (response.ok) {
         setSnackbar({
           open: true,
-          message: "User registered successfully!",
+          message: "Provider registered successfully!",
           severity: "success",
         });
 
@@ -97,12 +78,12 @@ export default function AddNewUser() {
       } else {
         setSnackbar({
           open: true,
-          message: "Failed to register user.",
+          message: "Failed to register provider.",
           severity: "error",
         });
       }
     } catch (error) {
-      console.error("Error registering user:", error);
+      console.error("Error registering provider:", error);
       setSnackbar({
         open: true,
         message: "Error occurred during registration.",
@@ -127,31 +108,24 @@ export default function AddNewUser() {
           <TextField
             label="Name"
             id="name"
-            value={user.name}
+            value={provider.name}
             onChange={handleChange}
           />
           <br />
           <br />
           <TextField
-            select
-            className="editSelectField"
             label="Role"
             id="role"
-            value={user.role}
-            onChange={handleRoleChange} // Role seçimini güncelleyen özel fonksiyon
-          >
-            {roles.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+            value={provider.role}
+            onChange={handleChange} // Provider rolünü seçili bırakmak için
+            disabled // Rol değişimini devre dışı bırak
+          />
           <br />
           <br />
           <TextField
             label="eMail"
             id="email"
-            value={user.email}
+            value={provider.email}
             onChange={handleChange}
           />
           <br />
@@ -159,7 +133,7 @@ export default function AddNewUser() {
           <TextField
             label="Phone Number"
             id="phone"
-            value={user.phone}
+            value={provider.phone}
             onChange={handleChange}
           />
           <br />
@@ -168,7 +142,15 @@ export default function AddNewUser() {
             type="password"
             label="Password"
             id="password"
-            value={user.password}
+            value={provider.password}
+            onChange={handleChange}
+          />
+          <br/>
+          <br/>
+          <TextField
+            label="Company Name"
+            id = "companyName"
+            value={provider.companyName}
             onChange={handleChange}
           />
         </CardContent>

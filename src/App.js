@@ -1,5 +1,5 @@
 //import logo from './logo.svg';
-import React, {useState} from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import AdminLogin from "./Pages/adminPages/AdminLogin"
@@ -22,7 +22,7 @@ import AdminManageAppointments from "./Pages/adminPages/AdminManageAppointments"
 import AdminManCustomers from "./Pages/adminPages/AdminManCustomers";
 import AdminUserDetail from "./Pages/adminPages/AdminUserDetail";
 import AdminUserDetailEdit from "./Pages/adminPages/AdminUserDetailEdit";
-import AdminAddNewUser from "./Pages/adminPages/AdminAddNewUser";
+import AdminAddNewProvider from "./Pages/adminPages/AdminAddNewProvider";
 import AdminServiceDetail from "./Pages/adminPages/AdminServiceDetail";
 import AdminServiceEdit from "./Pages/adminPages/AdminServiceEdit";
 import AdminAppointmentDetail from "./Pages/adminPages/AdminAppointmetDetail";
@@ -49,21 +49,19 @@ import AdminToday from "./Pages/adminPages/AdminToday";
 import SuperUserLogin from "./Pages/superuserPages/SuperUserLogin";
 import SuperuserCompanyEdit from "./Pages/superuserPages/SuperuserCompanyEdit";
 import SuperUserAdminEdit from "./Pages/superuserPages/SuperuserAdminEdit";
+import AdminAddNewManager from "./Pages/adminPages/AdminAddNewManager";
+import ProviderLogin from "./Pages/ProviderPages/ProviderLogin";
+import ProviderWorkingDates from "./Pages/ProviderPages/ProviderWorkingDates";
 
 function App() {
-  const [email, setEmail] = useState("");
-
-  const updateEmail = (newEmail) => {
-    setEmail(newEmail); // E-posta bilgisini günceller
-  };
 
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<Homepage />} />
-        <Route exact path="/login" element={<Login updateEmail={updateEmail} />} />
+        <Route exact path="/login" element={<Login/>} />
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="/adminlogin" element={< AdminLogin updateEmail={updateEmail}  />} />
+        <Route exact path="/adminlogin" element={< AdminLogin />} />
         <Route exact path="/admin" element={<AdminDashboard />} />
         <Route exact path="/adminToday" element={<AdminToday />} /> 
         <Route exact path="/appointment" element={<Appointment />} />
@@ -81,7 +79,8 @@ function App() {
         <Route exact path="/adminmancustomers" element={<AdminManCustomers />} />
         <Route exact path="/adminuserdetail" element={<AdminUserDetail />} />
         <Route exact path="/adminuserdetailedit" element={<AdminUserDetailEdit />} />
-        <Route exact path="/adminaddnewuser" element={<AdminAddNewUser />} />
+        <Route exact path="/adminaddnewprovider" element={<AdminAddNewProvider />} />
+        <Route exact path="adminaddnewmanager" element={<AdminAddNewManager/>} /> 
         <Route exact path="/adminservicedetails" element={<AdminServiceDetail />} />
         <Route exact path="/adminserviceedit" element={<AdminServiceEdit />} />
         <Route exact path="/adminappointmentdetail:appointmentId" element={<AdminAppointmentDetail />} />
@@ -93,8 +92,8 @@ function App() {
         <Route exact path="/prices" element={<Prices/>} />
         <Route exact path="/numberver" element={<NumberVer/>} />
         <Route exact path="/emailver" element={<EmailVer/>} />
-        <Route exact path="/userprofile" element={<UserProfile email={email}/>} />
-        <Route exact path="/userprofileedit" element={<UserProfileEdit  email={email}/>} />
+        <Route exact path="/userprofile" element={<UserProfile/>} />
+        <Route exact path="/userprofileedit" element={<UserProfileEdit/>} />
         <Route exact path="/superuserdash" element={<SuperUser/>} />
         <Route exact path="/superusercompanyadd" element={<SuperUserAddCompany />} />
         <Route exact path="/superuseradminadd" element={< SuperUserAddAdmin />} />
@@ -103,10 +102,12 @@ function App() {
         <Route exact path="/providerappointment" element={<ProviderAppointment />} />
         <Route exact path="/providerservices" element={<ProviderServices/>} />
         <Route exact path="/providerreports" element={<ProviderReports/>} />
-        <Route exact path="/providerProfile" element={<ProviderProfile/>} />
-        <Route exact path="/superuser" element={<SuperUserLogin updateEmail= {updateEmail} />} />
+        <Route exact path="/providerprofile" element={<ProviderProfile/>} />
+        <Route exact path="/superuser" element={<SuperUserLogin />} />
+        <Route exact path="/providerlogin" element={<ProviderLogin/>}/>
         <Route exact path="/superusercompanyedit" element={<SuperuserCompanyEdit/> } />
         <Route exact path="/superuseradminedit" element={<SuperUserAdminEdit />} />
+        <Route exact path="/providerworkingdates" element={<ProviderWorkingDates />} />
       </Routes>
     </Router>
   );

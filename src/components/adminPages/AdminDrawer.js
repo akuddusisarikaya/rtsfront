@@ -29,7 +29,6 @@ const first = [
 const second = [
   { key: 1, name: "Settings", link: "/adminsettings" },
   { key: 2, name: "Profile", link: "/adminprofile" },
-  { key: 3, name: "Log Out", link: "/" },
 ];
 
 AdminDrawer.propTypes = {
@@ -58,6 +57,7 @@ export default function AdminDrawer(props) {
 
   const logOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("email")
   };
 
   const goHome = () => {
@@ -68,7 +68,7 @@ export default function AdminDrawer(props) {
   const drawer = (
     <div>
       <Toolbar>
-        <h3>CARMESOFT S.A.M.</h3>
+        <Button color="secondary" variant="contained" onClick={()=>{navigate("/admin")}}>CARMESOFT S.A.M.</Button>
       </Toolbar>
       <Divider />
       <List>
@@ -154,6 +154,14 @@ export default function AdminDrawer(props) {
           open
         >
           {drawer}
+          <Button
+            color="secondary"
+            variant="contained"
+            style={{ borderRadius: "2cap" }}
+            onClick={goHome}
+          >
+            LogOut
+          </Button>
         </Drawer>
       </Box>
     </Box>

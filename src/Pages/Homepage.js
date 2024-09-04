@@ -23,7 +23,7 @@ function Homepage() {
         navigate('/prices')
     }
     const goProvider = () => {
-        navigate("/provider")
+        navigate("/providerlogin")
     }
 
     return(
