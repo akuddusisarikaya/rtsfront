@@ -1,189 +1,379 @@
-import React, { useState } from "react";
+import * as React from "react";
+import "../../App.css";
+import Box from "@mui/material/Box";
+import NewDatePicker from "../NewDatePicker";
 import {
-  Box,
-  Button,
-  TextField,
+  List,
+  ListItem,
+  ListItemText,
   Typography,
+  Button,
   Card,
   CardContent,
-  Grid,
-  Badge,
-  IconButton,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import NewTimePicker from "../NewTimePicker";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
-import { PickersDay } from "@mui/x-date-pickers/PickersDay";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-export default function ProviderWorkingDatesContent(){
-  const [selectedDays, setSelectedDays] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [appointments, setAppointments] = useState({});
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
-  const handleDaySelect = (day) => {
-    const dateString = day.format("YYYY-MM-DD");
-    if (selectedDays.includes(dateString)) {
-      // Kartı kapat
-      setSelectedDays((prev) => prev.filter((d) => d !== dateString));
-      setSelectedDate(null);
-    } else {
-      // Kartı aç
-      setSelectedDays((prev) => [...prev, dateString]);
-      setSelectedDate(day);
+export default function ProviderWorkingDatesContent() {
+  const [selectedDate, setSelectedDate] = React.useState(null);
+  const [appointments, setAppointments] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [isCardOpen, setIsCardOpen] = React.useState(false);
+  const [isEditOpen, setIsEditOpen] = React.useState(false);
+  const [selectedStartTime, setSelectedStartTime] = React.useState(null);
+  const [selectedEndTime, setSelectedEndTime] = React.useState(null);
+  const [snackbar, setSnackbar] = React.useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+  const email = localStorage.getItem("email");
+  const token = localStorage.getItem("token");
+  const company = localStorage.getItem("company");
+  const [editStartTime, setEditStartTime] = React.useState(null);
+  const [editEndTime, setEditEndTime] = React.useState(null);
+  const [editAppointmentId, setEditAppointmentId] = React.useState(null);
+
+  const [refreshKey, setRefreshKey] = React.useState(0);
+
+  const refreshComponent = () => {
+    setRefreshKey((prevKey) => prevKey + 1); // Key'i değiştirerek bileşeni yeniden oluşturur
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
+  const handleAddButton = () => {
+    setIsCardOpen(!isCardOpen);
+  };
+
+  const handleEditButton = (id) => {
+    setEditAppointmentId(id);
+    setIsEditOpen(!isEditOpen);
+  };
+
+  const handleDateChange = (newDate) => {
+    setSelectedDate(newDate);
+  };
+
+  const handleStartTimeChange = (newStartTime) => {
+    setSelectedStartTime(newStartTime);
+  };
+
+  const handleEndTimeChange = (newEndTime) => {
+    setSelectedEndTime(newEndTime);
+  };
+  const handleEditStartTime = (e) => {
+    setEditStartTime(e);
+  };
+  const handleEditEndTime = (e) => {
+    setEditEndTime(e);
+  };
+
+  const formedTime = (time) => {
+    return dayjs.utc(time).format("HH:mm");
+  };
+
+  React.useEffect(() => {
+    const fetchAppointments = async () => {
+      if (!selectedDate) return;
+      setLoading(true);
+      setError(null);
+
+      try {
+        const formattedDate = selectedDate.format("YYYY-MM-DD");
+        const response = await fetch(
+          `http://localhost:8080/provider/getappointments?email=${email}&date=${formattedDate}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) throw new Error("Randevular alınamadı");
+        const data = await response.json();
+        setAppointments(data);
+      } catch (error) {
+        setError("Randevu verisi alınırken hata oluştu: " + error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, [selectedDate, email, token]);
+
+  const handleSubmit = async () => {
+    if (!selectedDate || !selectedStartTime || !selectedEndTime) {
+      setSnackbar({
+        open: true,
+        message: "Please select date, start time, and end time.",
+        severity: "warning",
+      });
+      return;
     }
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/provider/addproviderapp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            providerEmail: email,
+            companyName: company,
+            date: selectedDate.format("YYYY-MM-DD"),
+            startTime: selectedStartTime.format("HH:mm"),
+            endTime: selectedEndTime.format("HH:mm"),
+            activate: false,
+          }),
+        }
+      );
+      if (response.ok) {
+        setSnackbar({
+          open: true,
+          message: "Appointment added successfully!",
+          severity: "success",
+        });
+        setIsCardOpen(false);
+      } else {
+        setSnackbar({
+          open: true,
+          message: "Failed to add appointment.",
+          severity: "error",
+        });
+      }
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: "An error occurred while adding the appointment.",
+        severity: "error",
+      });
+    }
+    refreshComponent();
   };
 
-  const handleAppointmentChange = (index, field, value) => {
-    setAppointments((prev) => {
-      const dateString = selectedDate.format("YYYY-MM-DD");
-      const updatedAppointments = [...(prev[dateString] || [])];
-      updatedAppointments[index] = {
-        ...updatedAppointments[index],
-        [field]: value,
-      };
-      return { ...prev, [dateString]: updatedAppointments };
-    });
+  const handleEdit = async (id) => {
+    if (!id) return;
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/provider/updateapp?id=${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            startTime: editStartTime.format("HH:mm"),
+            endTime: editEndTime.format("HH:mm"),
+          }),
+        }
+      );
+      if (response.ok) {
+        setSnackbar({
+          open: true,
+          message: "Appointment updated successfully!",
+          severity: "success",
+        });
+        setIsEditOpen(false);
+      } else {
+        setSnackbar({
+          open: true,
+          message: "Failed to update appointment.",
+          severity: "error",
+        });
+      }
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: "An error occurred while updating the appointment.",
+        severity: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+    refreshComponent();
   };
 
-  const handleAddAppointment = () => {
-    setAppointments((prev) => {
-      const dateString = selectedDate.format("YYYY-MM-DD");
-      const newAppointment = {
-        startTime: "",
-        endTime: "",
-        status: "Pasif",
-      };
-      return {
-        ...prev,
-        [dateString]: [...(prev[dateString] || []), newAppointment],
-      };
-    });
-  };
-
-  const handleDeleteAppointment = (index) => {
-    setAppointments((prev) => {
-      const dateString = selectedDate.format("YYYY-MM-DD");
-      const updatedAppointments = [...(prev[dateString] || [])];
-      updatedAppointments.splice(index, 1);
-      return { ...prev, [dateString]: updatedAppointments };
-    });
-  };
-
-  const handleSaveAppointments = () => {
-    setSelectedDate(null);
-    console.log("Appointments saved:", appointments);
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/provider/deleteapp?id=${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.ok) {
+        setSnackbar({
+          open: true,
+          message: "Appointment deleted successfully!",
+          severity: "success",
+        });
+        setAppointments(appointments.filter((app) => app._id !== id));
+      } else {
+        setSnackbar({
+          open: true,
+          message: "Failed to delete appointment.",
+          severity: "error",
+        });
+      }
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: "An error occurred while deleting the appointment.",
+        severity: "error",
+      });
+    }
+    refreshComponent();
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box sx={{ padding: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          Aylık Çalışma Takvimi
-        </Typography>
-        <StaticDatePicker
-          displayStaticWrapperAs="desktop"
-          openTo="day"
-          value={null}
-          onChange={() => {}}
-          renderDay={(day, _value, DayComponentProps) => {
-            const dateString = day.format("YYYY-MM-DD");
-            return (
-              <Badge
-                key={day.toString()}
-                overlap="circular"
-                badgeContent={
-                  selectedDays.includes(dateString) ? "✓" : undefined
-                }
-              >
-                <PickersDay
-                  {...DayComponentProps}
-                  day={day}
-                  selected={selectedDays.includes(dateString)}
-                  onClick={() => handleDaySelect(day)}
-                />
-              </Badge>
-            );
-          }}
-        />
-        {selectedDate && (
-          <Card sx={{ marginTop: 3 }}>
-            <CardContent>
-              <Typography variant="h6">
-                {selectedDate.format("YYYY-MM-DD")} için Randevular
-              </Typography>
-              <Grid container spacing={2} sx={{ marginTop: 2 }}>
-                {(appointments[selectedDate.format("YYYY-MM-DD")] || []).map(
-                  (appointment, index) => (
-                    <Grid item xs={12} key={index}>
-                      <Box display="flex" alignItems="center" gap={2}>
-                        <TextField
-                          label="Başlangıç Saati"
-                          type="time"
-                          value={appointment.startTime}
-                          onChange={(e) =>
-                            handleAppointmentChange(
-                              index,
-                              "startTime",
-                              e.target.value
-                            )
-                          }
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          sx={{ width: 150 }}
+    <Box>
+      <NewDatePicker onDateChange={handleDateChange} />
+      {loading && <Typography>Loading...</Typography>}
+      {error && <Typography color="error">{error}</Typography>}
+      <Button onClick={handleAddButton} color="secondary" variant="contained">
+        {isCardOpen ? "Close" : "Add Appointment"}
+      </Button>
+      {isCardOpen && (
+        <Card sx={{ marginTop: 2 }}>
+          <CardContent>
+            <Typography variant="h6">Add Appointment</Typography>
+            <NewTimePicker
+              onTimeChange={handleStartTimeChange}
+              label="Start Time"
+            />
+            <NewTimePicker
+              onTimeChange={handleEndTimeChange}
+              label="End Time"
+            />
+            <Button
+              onClick={handleSubmit}
+              color="secondary"
+              variant="contained"
+            >
+              Add
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+      <Card sx={{ marginTop: 2 }}>
+        {appointments === null ? (
+          <CardContent>
+            <Typography>
+              No appointments available for the selected date.
+            </Typography>
+          </CardContent>
+        ) : (
+          <CardContent key={refreshKey} >
+            <Typography variant="h6">Appointments:</Typography>
+            <List>
+              {appointments.length > 0 ? (
+                appointments.map((appointment) => (
+                  <ListItem key={appointment.ID}>
+                    <ListItemText
+                      primary={`Appointment: ${formedTime(
+                        appointment.StartTime
+                      )} - ${formedTime(appointment.EndTime)}`}
+                      secondary={`Status: ${
+                        appointment.activate
+                          ? `Active Customer: ${appointment.CustomerEmail}`
+                          : "Inactive"
+                      }`}
+                    />
+                    <Button
+                      color="secondary"
+                      onClick={() => handleEditButton(appointment._id)}
+                    >
+                      {isEditOpen && editAppointmentId === appointment._id
+                        ? ""
+                        : "Edit"}
+                    </Button>
+                    {isEditOpen && editAppointmentId === appointment._id && (
+                      <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        key={appointment._id}
+                      >
+                        <TimePicker
+                          key={appointment._id}
+                          ampm={false}
+                          value={selectedStartTime}
+                          onChange={handleEditStartTime}
+                          label="Edit Start Time"
                         />
-                        <TextField
-                          label="Bitiş Saati"
-                          type="time"
-                          value={appointment.endTime}
-                          onChange={(e) =>
-                            handleAppointmentChange(
-                              index,
-                              "endTime",
-                              e.target.value
-                            )
-                          }
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          sx={{ width: 150 }}
+                        <TimePicker
+                          key={appointment._id}
+                          ampm={false}
+                          value={selectedEndTime}
+                          onChange={handleEditEndTime}
+                          label="Edit End Time"
                         />
-                        <Typography variant="body2">
-                          Durum: {appointment.status}
-                        </Typography>
-                        <IconButton
-                          color="secondary"
-                          onClick={() => handleDeleteAppointment(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Box>
-                    </Grid>
-                  )
-                )}
-              </Grid>
-              <Button
-                startIcon={<AddIcon />}
-                onClick={handleAddAppointment}
-                variant="outlined"
-                sx={{ marginTop: 2 }}
-              >
-                Yeni Randevu Ekle
-              </Button>
-              <Button
-                onClick={handleSaveAppointments}
-                variant="contained"
-                color="primary"
-                sx={{ marginTop: 2 }}
-              >
-                Kaydet
-              </Button>
-            </CardContent>
-          </Card>
+                      </LocalizationProvider>
+                    )}
+                    <Button
+                      key={appointment._id}
+                      onClick={() => handleEdit(appointment.ID)}
+                      color="secondary"
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      key={appointment._id}
+                      onClick={() => handleDelete(appointment.ID)}
+                      color="error"
+                    >
+                      Delete
+                    </Button>
+                  </ListItem>
+                ))
+              ) : (
+                <Typography>
+                  No appointments available for the selected date.
+                </Typography>
+              )}
+            </List>
+          </CardContent>
         )}
-      </Box>
-    </LocalizationProvider>
+      </Card>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 }

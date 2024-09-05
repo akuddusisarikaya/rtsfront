@@ -14,7 +14,7 @@ export default function AdminProfileContent() {
       try {
         const token = localStorage.getItem("token");
         const email = localStorage.getItem('email');
-        const response = await fetch(`http://localhost:8080/superuser/adminsget?email=${email}`, {
+        const response = await fetch(`http://localhost:8080/admin/adminsget?email=${email}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
