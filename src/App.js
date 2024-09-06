@@ -52,6 +52,7 @@ import SuperUserAdminEdit from "./Pages/superuserPages/SuperuserAdminEdit";
 import AdminAddNewManager from "./Pages/adminPages/AdminAddNewManager";
 import ProviderLogin from "./Pages/ProviderPages/ProviderLogin";
 import ProviderWorkingDates from "./Pages/ProviderPages/ProviderWorkingDates";
+import ManagerLogin from "./Pages/ManagerLogin";
 
 function App() {
 
@@ -108,6 +109,7 @@ function App() {
         <Route exact path="/superusercompanyedit" element={<SuperuserCompanyEdit/> } />
         <Route exact path="/superuseradminedit" element={<SuperUserAdminEdit />} />
         <Route exact path="/providerworkingdates" element={<ProviderWorkingDates />} />
+        <Route exact path="/managerlogin" element={<ManagerLogin />} />
       </Routes>
     </Router>
   );

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { TextField, Button, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../../App.css";
+import "../App.css";
 
-export default function AdminLogin() {
+export default function ManagerLogin() {
   const [credentials, setCredentials] = React.useState({ email: "", password: "" });
   const [snackbar, setSnackbar] = React.useState({
     open: false,
@@ -12,7 +12,6 @@ export default function AdminLogin() {
   });
   const navigate = useNavigate();
 
-  // Kullanıcı bilgilerini değiştiren fonksiyon
   const handleChange = (e) => {
     const { id, value } = e.target;
     setCredentials((prev) => ({ ...prev, [id]: value }));
@@ -21,7 +20,7 @@ export default function AdminLogin() {
   // Giriş işlemi fonksiyonu
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:8080/adminlogin", {
+      const response = await fetch("http://localhost:8080/managerlogin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +32,7 @@ export default function AdminLogin() {
         const result = await response.json();
         localStorage.setItem("email", credentials.email)
         localStorage.setItem("token", result.token);
-        localStorage.setItem("ID" , result.ID)
+        localStorage.setItem("ID", result.ID)
 
         setSnackbar({
           open: true,
@@ -42,7 +41,7 @@ export default function AdminLogin() {
         });
 
         setTimeout(() => {
-          navigate("/adminprofile", { state: { email: credentials.email } });
+          navigate("/managerprofile", { state: { email: credentials.email } });
         }, 2000);
       } else {
         const error = await response.json();
@@ -89,7 +88,7 @@ export default function AdminLogin() {
         BACK
       </Button>
       <div className="loginBox">
-        <h1 style={{ marginTop: "15%" }}>Admin Login</h1>
+        <h1 style={{ marginTop: "15%" }}>Manager Login</h1>
         <TextField
           id="email"
           label="Email"

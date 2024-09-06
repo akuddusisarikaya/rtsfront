@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import "../../App.css";
 import Box from "@mui/material/Box";
-import PersonIcon from "@mui/icons-material/Person";
 import Card from "@mui/material/Card";
 
 export default function AdminProfileContent() {
@@ -35,7 +34,7 @@ export default function AdminProfileContent() {
     };
 
     fetchAdminDetails();
-  });
+  },[admin]);
 
   if (error) {
     return <div>Hata: {error}</div>;
@@ -49,7 +48,6 @@ export default function AdminProfileContent() {
     <Box>
       <h1 style={{ marginLeft: "5%" }}>Admin Profile</h1>
       <Card className="adminProfileCard">
-        <PersonIcon fontSize="large" className="adminProfilePerson" />
         <br />
         <h3>Name:</h3>
         <h2>{admin.Name}</h2>

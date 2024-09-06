@@ -50,7 +50,6 @@ export default function SuperUserTableCompany() {
         if (!response.ok) throw new Error('Veriler alınamadı');
         const result = await response.json();
         setData(result || []); // Gelen veriyi state'e kaydet, eğer null gelirse boş dizi ata
-        console.log(result)
       } catch (error) {
         console.error("Veri çekme hatası:", error);
         setData([]); // Hata durumunda data'yı boş dizi olarak ayarla
@@ -102,7 +101,7 @@ export default function SuperUserTableCompany() {
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.format && typeof value !== 'undefined'
-                            ? column.format(value)
+                            ? column.toString(value)
                             : value || ""}
                         </TableCell>
                       );

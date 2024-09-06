@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import {Button} from "@mui/material"
 
 // Sekme isimleri
-const tabs = [{ name: "Admins" }, { name: "Companies" }, { name: "Users" }];
+const tabs = [{ name: "Admins" }, { name: "Companies" }];
 
 export default function SuperUserTab({ selectedTab, onTabChange }) {
   // Sekme değiştiğinde çalışacak fonksiyon

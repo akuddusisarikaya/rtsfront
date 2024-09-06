@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import SuperUserTab from "../../components/superUserPages/SuperUserTab";
 import SuperUserTableAdmin from "../../components/superUserPages/SuperUserTableAdmin";
-import SuperUserTableUser from "../../components/superUserPages/SuperUserTableUser";
 import SuperUserTableCompany from "../../components/superUserPages/SuperUserTableCompany";
 
 export default function SuperUser() {
@@ -24,7 +23,6 @@ export default function SuperUser() {
         {/* Aktif sekmeye göre tablo bileşenlerini gösterir */}
         {selectedTab === 0 && <SuperUserTableAdmin />}
         {selectedTab === 1 && <SuperUserTableCompany />}
-        {selectedTab === 2 && <SuperUserTableUser />}
       </Card>
     </Box>
   );

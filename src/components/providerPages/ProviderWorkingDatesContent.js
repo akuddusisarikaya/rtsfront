@@ -1,5 +1,8 @@
 import * as React from "react";
 import "../../App.css";
+import { styled } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import NewDatePicker from "../NewDatePicker";
 import {
@@ -20,11 +23,24 @@ import timezone from "dayjs/plugin/timezone";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { useMediaQuery } from "@mui/material";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  ...theme.applyStyles("dark", {
+    backgroundColor: "#1A2027",
+  }),
+}));
+
 export default function ProviderWorkingDatesContent() {
+  const isMobile = useMediaQuery("(max-width:768px)");
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [appointments, setAppointments] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -264,14 +280,61 @@ export default function ProviderWorkingDatesContent() {
         <Card sx={{ marginTop: 2 }}>
           <CardContent>
             <Typography variant="h6">Add Appointment</Typography>
-            <NewTimePicker
-              onTimeChange={handleStartTimeChange}
-              label="Start Time"
-            />
-            <NewTimePicker
-              onTimeChange={handleEndTimeChange}
-              label="End Time"
-            />
+            <Box>
+              {isMobile ? (
+                <Grid
+                  container
+                  rowSpacing={1}
+                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                >
+                  <Grid className="clock" item xs={12}>
+                    <Item >
+                    <h4>Start Time:</h4>
+                      <NewTimePicker
+                        onTimeChange={handleStartTimeChange}
+                        label="Start Time"
+                      />
+                    </Item>
+                  </Grid>
+                  <Grid className="clock" item xs={12}>
+                    <Item >
+                    <h4>End Time:</h4>
+                      <NewTimePicker
+                        onTimeChange={handleEndTimeChange}
+                        label="End Time"
+                      />
+                    </Item>
+                  </Grid>
+                </Grid>
+              ):(
+                <Grid
+                  container
+                  rowSpacing={1}
+                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                >
+                  <Grid item xs={6}>
+                    <Item>
+                      <h4>Start Time:</h4>
+                      <NewTimePicker
+                        onTimeChange={handleStartTimeChange}
+                        label="Start Time"
+                      />
+                    </Item>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Item>
+                    <h4>End Time:</h4>
+                      {" "}
+                      <NewTimePicker
+                        onTimeChange={handleEndTimeChange}
+                        label="End Time"
+                      />
+                    </Item>
+                  </Grid>
+                </Grid>
+              )}
+            </Box>
+
             <Button
               onClick={handleSubmit}
               color="secondary"
@@ -290,7 +353,7 @@ export default function ProviderWorkingDatesContent() {
             </Typography>
           </CardContent>
         ) : (
-          <CardContent key={refreshKey} >
+          <CardContent key={refreshKey}>
             <Typography variant="h6">Appointments:</Typography>
             <List>
               {appointments.length > 0 ? (
@@ -323,14 +386,14 @@ export default function ProviderWorkingDatesContent() {
                           key={appointment._id}
                           ampm={false}
                           value={selectedStartTime}
-                          onChange={handleEditStartTime}
+                          onTimeChange={handleEditStartTime}
                           label="Edit Start Time"
                         />
                         <TimePicker
                           key={appointment._id}
                           ampm={false}
                           value={selectedEndTime}
-                          onChange={handleEditEndTime}
+                          onTimeChange={handleEditEndTime}
                           label="Edit End Time"
                         />
                       </LocalizationProvider>

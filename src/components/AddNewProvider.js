@@ -1,14 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import CardContent from "@mui/material/CardContent";
-import {
-  Avatar,
-  Button,
-  CardActions,
-  TextField,
-  Snackbar,
-  Alert,
-} from "@mui/material";
+import { Button, CardActions, TextField, Snackbar, Alert } from "@mui/material";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 
@@ -19,7 +12,8 @@ export default function AddNewProvider() {
     email: "",
     phone: "",
     password: "",
-    companyName : "",
+    companyName: "",
+    companyID:"",
   });
 
   const [snackbar, setSnackbar] = React.useState({
@@ -48,11 +42,12 @@ export default function AddNewProvider() {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token'); 
+      const admin = JSON.parse(localStorage.getItem("admin"));
+      const token = localStorage.getItem("token");
       const response = await fetch("http://localhost:8080/admin/provider/add", {
         method: "POST",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -61,7 +56,8 @@ export default function AddNewProvider() {
           password: provider.password,
           role: provider.role,
           phone: provider.phone,
-          companyName: provider.companyName,
+          companyName: admin.CompanyName,
+          companyID : admin.CompanyID
         }),
       });
 
@@ -71,7 +67,6 @@ export default function AddNewProvider() {
           message: "Provider registered successfully!",
           severity: "success",
         });
-
         setTimeout(() => {
           navigate(-1);
         }, 1000);
@@ -98,14 +93,15 @@ export default function AddNewProvider() {
 
   return (
     <Box>
-      <Card className="userDetailCard">
-        <br />
-        <Button color="secondary" onClick={goBack}>
+      <Button color="secondary" onClick={goBack}>
           Back
         </Button>
-        <Avatar className="userDetailAvatar"></Avatar>
+      <Card className="userDetailCard">
+        <br />
+        
         <CardContent>
           <TextField
+            fullWidth
             label="Name"
             id="name"
             value={provider.name}
@@ -114,6 +110,7 @@ export default function AddNewProvider() {
           <br />
           <br />
           <TextField
+            fullWidth
             label="Role"
             id="role"
             value={provider.role}
@@ -123,6 +120,7 @@ export default function AddNewProvider() {
           <br />
           <br />
           <TextField
+            fullWidth
             label="eMail"
             id="email"
             value={provider.email}
@@ -131,6 +129,7 @@ export default function AddNewProvider() {
           <br />
           <br />
           <TextField
+            fullWidth
             label="Phone Number"
             id="phone"
             value={provider.phone}
@@ -139,23 +138,18 @@ export default function AddNewProvider() {
           <br />
           <br />
           <TextField
+            fullWidth
             type="password"
             label="Password"
             id="password"
             value={provider.password}
             onChange={handleChange}
           />
-          <br/>
-          <br/>
-          <TextField
-            label="Company Name"
-            id = "companyName"
-            value={provider.companyName}
-            onChange={handleChange}
-          />
+          <br />
+          <br />
         </CardContent>
         <CardActions>
-          <Button color="secondary" onClick={handleSubmit}>
+          <Button style={{marginLeft: "40%"}} variant="contained" color="secondary" onClick={handleSubmit}>
             Save
           </Button>
         </CardActions>

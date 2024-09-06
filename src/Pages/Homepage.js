@@ -25,6 +25,9 @@ function Homepage() {
     const goProvider = () => {
         navigate("/providerlogin")
     }
+    const goManager = () => {
+        navigate("/managerlogin")
+    }
 
     return(
         <div className="greets">
@@ -68,6 +71,11 @@ function Homepage() {
             <br></br>
             <br></br>
             <Button variant="contained" color="secondary" className="buttonHP" onClick={goProvider}> Provider</Button>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <Button variant="contained" color="secondary" className="buttonHP" onClick={goManager}> Manager</Button>
             <br></br>
             <br></br>
             <br></br>

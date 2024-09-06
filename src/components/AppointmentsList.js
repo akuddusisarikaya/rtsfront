@@ -1,86 +1,16 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-
-function Row({ row }) {
-  const [open, setOpen] = React.useState(false);
-  //const navigate = useNavigate();
-
-  /*const goDetail = (appointmentId) => {
-    navigate(`/adminappointmentdetail/${appointmentId}`);
-  };
-  */
-
-  return (
-    <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {row.ProviderID}
-        </TableCell>
-        <TableCell align="right">{new Date(row.Date).toLocaleDateString()}</TableCell>
-        <TableCell align="right">{new Date(row.Date).toLocaleTimeString()}</TableCell>
-        <TableCell align="right">{row.Status}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Appointment Details
-              </Typography>
-              <Table size="small" aria-label="details">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Service</TableCell>
-                    <TableCell align="right">Company ID</TableCell>
-                    <TableCell align="right">Notes</TableCell>
-                    <TableCell align="right">Created At</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.Services.map((service, index) => (
-                    <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        {service}
-                      </TableCell>
-                      <TableCell align="right">{row.CompanyID}</TableCell>
-                      <TableCell align="right">{row.Notes || "No Notes"}</TableCell>
-                      <TableCell align="right">
-                        {new Date(row.CreatedAt).toLocaleDateString()}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
-}
+import * as React from "react";
+import Box from "@mui/material/Box";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function AppointmentsList() {
   const [appointments, setAppointments] = React.useState([]);
@@ -91,14 +21,18 @@ export default function AppointmentsList() {
   React.useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await fetch("http://localhost:8080/protected/appointments", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const email = localStorage.getItem("email");
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          `http://localhost:8080/admin/getallproviderapp?email=${email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -106,9 +40,9 @@ export default function AppointmentsList() {
 
         const data = await response.json();
         setAppointments(data);
-        setLoading(false);
       } catch (error) {
         setError("An error occurred while fetching data.");
+      } finally {
         setLoading(false);
       }
     };
@@ -133,18 +67,37 @@ export default function AppointmentsList() {
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              <TableCell />
-              <TableCell>Provider ID</TableCell>
-              <TableCell align="right">Date</TableCell>
-              <TableCell align="right">Time</TableCell>
-              <TableCell align="right">Status</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell align="center">Provider Email</TableCell>
+              <TableCell align="center">Date</TableCell>
+              <TableCell align="center">StartTime</TableCell>
+              <TableCell align="center">EndTime</TableCell>
+              <TableCell align="center">CustomerEmail</TableCell>
+              <TableCell align="center">Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {appointments.map((appointment) => (
-              <Row key={appointment.ID} row={appointment} />
-            ))}
+            {appointments.length > 0 ? (
+              appointments.map((appointment) => (
+                <TableRow key={appointment.ID}>
+                  <TableCell align="center">{appointment.ProviderEmail}</TableCell>
+                  <TableCell align="center">{new Date(appointment.Date).toLocaleDateString()}</TableCell>
+                  <TableCell align="center">{appointment.StartTime}</TableCell>
+                  <TableCell align="center">{appointment.EndTime}</TableCell>
+                  {appointment.CustomerEmail !== null ? (
+                    <TableCell align="center">{appointment.CustomerEmail}</TableCell>
+                  ):(
+                    <div/>
+                  )}
+                  <TableCell align="center">{appointment.Activate ? 'Active' : 'Inactive'}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5} align="center">
+                  No Appointments Available
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>

@@ -55,7 +55,6 @@ export default function SuperUserEditCompany() {
         providersNumber: data.ProvidersNumber,
         services: data.Services,
       });
-      console.log(data)
     } catch (error) {
       setError('Şirket arama hatası: ' + error.message);
       console.error('Şirket arama hatası:', error);

@@ -8,7 +8,9 @@ export default function SuperUserAddAdmin() {
     email: '',
     password: '',
     phone: '',
-    role: 'admin', // Default olarak 'admin' rolü atanabilir
+    companyName:'',
+    companyID:'112',
+    role: 'Admin', // Default olarak 'admin' rolü atanabilir
     services: [],
   });
 
@@ -27,7 +29,7 @@ export default function SuperUserAddAdmin() {
   const handleSubmit = async () => {
     const token = localStorage.getItem('token')
     try {
-      const response = await fetch('http://localhost:8080/superuser/admins', {
+      const response = await fetch('http://localhost:8080/superuser/adminadd', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -64,6 +66,15 @@ export default function SuperUserAddAdmin() {
         fullWidth
         margin="normal"
         value={admin.email}
+        onChange={handleChange}
+      />
+      <TextField
+        id="companyName"
+        label="Company Name"
+        variant='outlined'
+        fullWidth
+        margin='normal'
+        value={admin.companyName}
         onChange={handleChange}
       />
       <TextField

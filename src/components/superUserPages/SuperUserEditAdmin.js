@@ -10,7 +10,8 @@ export default function SuperUserEditAdmin() {
     email: "",
     phone: "",
     role: "",
-    companyID: ""
+    companyName: "",
+    companyID : "",
   });
   const [searchName, setSearchName] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -54,9 +55,9 @@ export default function SuperUserEditAdmin() {
         email: data.Email,
         phone: data.Phone,
         role: data.Role,
-        companyID: data.CompanyID,
+        companyName: data.CompanyName,
+        companyID: data.CompanyID
       });
-      console.log(data);
     } catch (error) {
       setError("Admin searching error :" + error.message);
       console.error("Admin searching error:", error);
@@ -167,7 +168,16 @@ export default function SuperUserEditAdmin() {
         onChange={handleChange}
       />
       <TextField
-        id="companyId"
+        id="CompanyName"
+        label="Company Name"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={company.companyName}
+        onChange={handleChange}
+      />
+      <TextField
+        id="CompanyID"
         label="Company ID"
         variant="outlined"
         fullWidth
