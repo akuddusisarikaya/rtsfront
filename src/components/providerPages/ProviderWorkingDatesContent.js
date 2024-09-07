@@ -15,6 +15,7 @@ import {
   CardContent,
   Snackbar,
   Alert,
+  TextField,
 } from "@mui/material";
 import NewTimePicker from "../NewTimePicker";
 import dayjs from "dayjs";
@@ -24,9 +25,11 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useMediaQuery } from "@mui/material";
+import SelectWeekdays from "../SelectWeekdays";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+const TIMEZONE = "Europe/Istanbul";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -60,11 +63,25 @@ export default function ProviderWorkingDatesContent() {
   const [editStartTime, setEditStartTime] = React.useState(null);
   const [editEndTime, setEditEndTime] = React.useState(null);
   const [editAppointmentId, setEditAppointmentId] = React.useState(null);
-
+  const [autoAddButton, setAutoAddButton] = React.useState(false);
   const [refreshKey, setRefreshKey] = React.useState(0);
+  const [weekdays, setWeekdays] = React.useState("");
+  const [shiftStart, setShiftStart] = React.useState(null);
+  const [shiftEnd, setShiftEnd] = React.useState(null);
+  const [period, setPeriod] = React.useState("");
+
+  const handleDays = (newTime) => {
+    setWeekdays(newTime);
+  };
+  const handleShiftStart = (newTime) => {
+    setShiftStart(newTime);
+  };
+  const handleShiftEnd = (newTime) => {
+    setShiftEnd(newTime);
+  };
 
   const refreshComponent = () => {
-    setRefreshKey((prevKey) => prevKey + 1); // Key'i değiştirerek bileşeni yeniden oluşturur
+    setRefreshKey((prevKey) => prevKey + 1);
   };
 
   const handleCloseSnackbar = () => {
@@ -73,6 +90,10 @@ export default function ProviderWorkingDatesContent() {
 
   const handleAddButton = () => {
     setIsCardOpen(!isCardOpen);
+  };
+
+  const handleAutoAddButton = () => {
+    setAutoAddButton(!autoAddButton);
   };
 
   const handleEditButton = (id) => {
@@ -99,7 +120,7 @@ export default function ProviderWorkingDatesContent() {
   };
 
   const formedTime = (time) => {
-    return dayjs.utc(time).format("HH:mm");
+    return dayjs(time).tz(TIMEZONE).format("HH:mm");
   };
 
   React.useEffect(() => {
@@ -160,6 +181,59 @@ export default function ProviderWorkingDatesContent() {
             startTime: selectedStartTime.format("HH:mm"),
             endTime: selectedEndTime.format("HH:mm"),
             activate: false,
+          }),
+        }
+      );
+      if (response.ok) {
+        setSnackbar({
+          open: true,
+          message: "Appointment added successfully!",
+          severity: "success",
+        });
+        setIsCardOpen(false);
+      } else {
+        setSnackbar({
+          open: true,
+          message: "Failed to add appointment.",
+          severity: "error",
+        });
+      }
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: "An error occurred while adding the appointment.",
+        severity: "error",
+      });
+    }
+    refreshComponent();
+  };
+  const handleAuto = async () => {
+    if (!shiftStart || !shiftEnd || !period || !weekdays) {
+      setSnackbar({
+        open: true,
+        message:
+          "Please select weekdays, start time, end time and period(with minutes).",
+        severity: "warning",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/provider/addappauto",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            providerEmail: email,
+            companyName: company,
+            weekdays: weekdays,
+            shiftStart: formedTime(shiftStart),
+            shiftEnd: formedTime(shiftEnd),
+            period : parseInt(period),
           }),
         }
       );
@@ -276,6 +350,13 @@ export default function ProviderWorkingDatesContent() {
       <Button onClick={handleAddButton} color="secondary" variant="contained">
         {isCardOpen ? "Close" : "Add Appointment"}
       </Button>
+      <Button
+        color="secondary"
+        variant="contained"
+        onClick={handleAutoAddButton}
+      >
+        {autoAddButton ? "Close" : "Edit Appointments Automaticly"}
+      </Button>
       {isCardOpen && (
         <Card sx={{ marginTop: 2 }}>
           <CardContent>
@@ -288,25 +369,19 @@ export default function ProviderWorkingDatesContent() {
                   columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                 >
                   <Grid className="clock" item xs={12}>
-                    <Item >
-                    <h4>Start Time:</h4>
-                      <NewTimePicker
-                        onTimeChange={handleStartTimeChange}
-                        label="Start Time"
-                      />
+                    <Item>
+                      <h4>Start Time:</h4>
+                      <NewTimePicker onTimeChange={handleStartTimeChange} />
                     </Item>
                   </Grid>
                   <Grid className="clock" item xs={12}>
-                    <Item >
-                    <h4>End Time:</h4>
-                      <NewTimePicker
-                        onTimeChange={handleEndTimeChange}
-                        label="End Time"
-                      />
+                    <Item>
+                      <h4>End Time:</h4>
+                      <NewTimePicker onTimeChange={handleEndTimeChange} />
                     </Item>
                   </Grid>
                 </Grid>
-              ):(
+              ) : (
                 <Grid
                   container
                   rowSpacing={1}
@@ -323,8 +398,7 @@ export default function ProviderWorkingDatesContent() {
                   </Grid>
                   <Grid item xs={6}>
                     <Item>
-                    <h4>End Time:</h4>
-                      {" "}
+                      <h4>End Time:</h4>{" "}
                       <NewTimePicker
                         onTimeChange={handleEndTimeChange}
                         label="End Time"
@@ -341,6 +415,23 @@ export default function ProviderWorkingDatesContent() {
               variant="contained"
             >
               Add
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+      {autoAddButton && (
+        <Card sx={{ marginTop: 2 }}>
+          <CardContent>
+            <Typography variant="h6">Select Weekdays</Typography>
+            <SelectWeekdays handleWeekdays={handleDays} value={weekdays} />
+            <Typography variant="h6">Shift Start Time</Typography>
+            <NewTimePicker onTimeChange={handleShiftStart} />
+            <Typography variant="h6">Shift End Time</Typography>
+            <NewTimePicker onTimeChange={handleShiftEnd} />
+            <Typography variant="h6">Period:</Typography>
+            <TextField type="number" label="Period (minutes)" onChange={(e) => setPeriod(e.target.value)} />
+            <Button color="secondary" variant="contained" onClick={handleAuto}>
+              OK
             </Button>
           </CardContent>
         </Card>

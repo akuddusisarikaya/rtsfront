@@ -21,11 +21,12 @@ function AdminUserManage() {
   return (
     <Box>
       <AdminDrawer/>
-      <Box className="dashboardNotMobile">
+      <Box className="dashboardNotMobile"> 
+        <Button color="secondary" onClick={addProvider} variant="contained" style={{marginLeft: "25%", marginTop: "10%", width: "50%"}}> Add New Provider </Button>
+        <Button color="secondary" onClick={addManager} variant="contained" style={{marginLeft: "25%", marginTop: "2%",marginBottom: "10%", width: "50%"}}> Add Manager</Button>
         <AdminUserContent />
       </Box>
-      <Button color="secondary" onClick={addProvider} variant="contained" style={{marginLeft: "35%", marginTop: "10%", width: "30%"}}> Add New Provider </Button>
-      <Button color="secondary" onClick={addManager} variant="contained" style={{marginLeft: "35%", marginTop: "2%", width: "30%"}}> Add Manager</Button>
+     
       <Footer/>
     </Box>
   );

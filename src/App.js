@@ -44,8 +44,6 @@ import ProviderAppointment from "./Pages/ProviderPages/ProviderAppointment";
 import ProviderServices from "./Pages/ProviderPages/ProviderServices";
 import ProviderReports from "./Pages/ProviderPages/ProviderReports"
 import ProviderProfile from "./Pages/ProviderPages/ProviderProfile";
-import ProviderToday from "./Pages/ProviderPages/ProviderToday";
-import AdminToday from "./Pages/adminPages/AdminToday";
 import SuperUserLogin from "./Pages/superuserPages/SuperUserLogin";
 import SuperuserCompanyEdit from "./Pages/superuserPages/SuperuserCompanyEdit";
 import SuperUserAdminEdit from "./Pages/superuserPages/SuperuserAdminEdit";
@@ -53,6 +51,7 @@ import AdminAddNewManager from "./Pages/adminPages/AdminAddNewManager";
 import ProviderLogin from "./Pages/ProviderPages/ProviderLogin";
 import ProviderWorkingDates from "./Pages/ProviderPages/ProviderWorkingDates";
 import ManagerLogin from "./Pages/ManagerLogin";
+import ProviderAppOfDays from "./Pages/ProviderPages/ProviderAppOfDays";
 
 function App() {
 
@@ -64,7 +63,6 @@ function App() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/adminlogin" element={< AdminLogin />} />
         <Route exact path="/admin" element={<AdminDashboard />} />
-        <Route exact path="/adminToday" element={<AdminToday />} /> 
         <Route exact path="/appointment" element={<Appointment />} />
         <Route exact path="/resetpassword" element={<PasswordReset />} />
         <Route exact path="/adminusermanage" element={<AdminUserManage />} />
@@ -99,7 +97,6 @@ function App() {
         <Route exact path="/superusercompanyadd" element={<SuperUserAddCompany />} />
         <Route exact path="/superuseradminadd" element={< SuperUserAddAdmin />} />
         <Route exact path="/provider" element={<ProviderDashboard />} />
-        <Route exact path="/providertoday" element={<ProviderToday />} />
         <Route exact path="/providerappointment" element={<ProviderAppointment />} />
         <Route exact path="/providerservices" element={<ProviderServices/>} />
         <Route exact path="/providerreports" element={<ProviderReports/>} />
@@ -110,6 +107,7 @@ function App() {
         <Route exact path="/superuseradminedit" element={<SuperUserAdminEdit />} />
         <Route exact path="/providerworkingdates" element={<ProviderWorkingDates />} />
         <Route exact path="/managerlogin" element={<ManagerLogin />} />
+        <Route exact path="/appofday" element={<ProviderAppOfDays />} />
       </Routes>
     </Router>
   );

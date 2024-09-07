@@ -18,7 +18,7 @@ export default function DateChoise() {
   const nav = useNavigate()
 
   const goAppointments = () => {
-    nav('/providerworkingdates')
+    nav('/appofday')
   }
 
   return (

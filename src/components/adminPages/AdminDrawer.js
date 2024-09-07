@@ -18,7 +18,6 @@ import { Button } from "@mui/material";
 const drawerWidth = 260;
 
 const first = [
-  { key: 0, name: "Today", link: "/admintoday" },
   { key: 1, name: "Dashboard", link: "/admin" },
   { key: 2, name: "User Management", link: "/adminusermanage" },
   { key: 3, name: "Services & Pricing", link: "/adminservicesandprice" },

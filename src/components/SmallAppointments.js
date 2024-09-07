@@ -7,6 +7,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
 
 const providers = [
   {
@@ -36,26 +37,31 @@ const providers = [
   },
 ];
 
-export default function SmallAppointments() {
+export default function SmallAppointments({ size }) {
+  const listClassSize = size === "large" ? "listSizeLarge" : "listSizeSmall";
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const detailClick = () => {
-    navigate('/adminmanappointments')
-  }
+    navigate("/adminmanappointments");
+  };
 
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      <h3>Appointments</h3>
-      {providers.map((provider) => (
-        <ListItem key={provider.key}>
-          <ListItemAvatar>
-            <Avatar />
-          </ListItemAvatar>
-          <ListItemText primary={provider.name} secondary={provider.time} />
-        </ListItem>
-      ))}
-      <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>
-    </List>
+    <Box className={listClassSize}>
+      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+        <h3>Appointments</h3>
+        {providers.map((provider) => (
+          <ListItem key={provider.key}>
+            <ListItemAvatar>
+              <Avatar />
+            </ListItemAvatar>
+            <ListItemText primary={provider.name} secondary={provider.time} />
+          </ListItem>
+        ))}
+        <Button color="secondary" variant="contained" onClick={detailClick}>
+          See Others
+        </Button>
+      </List>
+    </Box>
   );
 }

@@ -16,7 +16,6 @@ export default function NewTimePicker({ onTimeChange }, label) {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <StaticTimePicker
-          label={label}
           value={selectedTime}
           onChange={handleTimeChange}
           ampm={false}
