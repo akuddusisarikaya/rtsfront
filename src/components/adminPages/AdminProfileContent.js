@@ -54,6 +54,7 @@ export default function AdminProfileContent() {
   return (
     <Box>
       <h1 style={{ marginLeft: "5%" }}>Admin Profile</h1>
+
        <Button color="secondary" variant="contained" onClick={goLinkCreat} style={{marginLeft:"65%"}}> Create Link </Button>
       <Card className="adminProfileCard">
         <br />
