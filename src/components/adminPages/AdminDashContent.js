@@ -6,17 +6,26 @@ import SmallProviders from "../SmallProviders";
 import DateChoise from "../DateChoise";
 import SmallCostumers from "../SmallCustomers";
 import SmallAppointments from "../SmallAppointments";
-import { useMediaQuery } from "@mui/material";
+import { useMediaQuery, Button } from "@mui/material";
 import SmallManagers from "../SmallManagers";
 import SmallServices from "../SmallServices";
 import SmallPayments from "../SmallPayments";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function AdminDashContent() {
   const isMobile = useMediaQuery("(max-width:768px)");
 
+  const nav = useNavigate()
+
+  const goLinkCreat = () => {
+    nav("/adminlinkcreate")
+  }
+
   return (
     <Box sx={{ width: "100%" }}>
+      <Button color="secondary" variant="contained" onClick={goLinkCreat} style={{marginLeft:"65%", marginTop:"5%" }}> Create Link </Button>
       {isMobile ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>

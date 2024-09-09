@@ -52,6 +52,7 @@ import ProviderLogin from "./Pages/ProviderPages/ProviderLogin";
 import ProviderWorkingDates from "./Pages/ProviderPages/ProviderWorkingDates";
 import ManagerLogin from "./Pages/ManagerLogin";
 import ProviderAppOfDays from "./Pages/ProviderPages/ProviderAppOfDays";
+import AdminLinkCreator from "./Pages/adminPages/AdminLinkCreator";
 
 function App() {
 
@@ -63,7 +64,7 @@ function App() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/adminlogin" element={< AdminLogin />} />
         <Route exact path="/admin" element={<AdminDashboard />} />
-        <Route exact path="/appointment" element={<Appointment />} />
+        <Route exact path="/appointment/:companyID" element={<Appointment />} />
         <Route exact path="/resetpassword" element={<PasswordReset />} />
         <Route exact path="/adminusermanage" element={<AdminUserManage />} />
         <Route exact path="/adminservicesandprice" element={<AdminServicesAndPrices />} />
@@ -108,6 +109,7 @@ function App() {
         <Route exact path="/providerworkingdates" element={<ProviderWorkingDates />} />
         <Route exact path="/managerlogin" element={<ManagerLogin />} />
         <Route exact path="/appofday" element={<ProviderAppOfDays />} />
+        <Route exact path="/adminlinkcreate" element={<AdminLinkCreator />} />
       </Routes>
     </Router>
   );

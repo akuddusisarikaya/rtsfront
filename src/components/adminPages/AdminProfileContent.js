@@ -3,10 +3,17 @@ import { useEffect, useState } from "react";
 import "../../App.css";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminProfileContent() {
   const [admin, setAdmin] = useState(null);
   const [error, setError] = useState(null);
+  const nav = useNavigate()
+
+  const goLinkCreat = () => {
+    nav("/adminlinkcreate")
+  }
 
   useEffect(() => {
     const fetchAdminDetails = async () => {
@@ -47,6 +54,7 @@ export default function AdminProfileContent() {
   return (
     <Box>
       <h1 style={{ marginLeft: "5%" }}>Admin Profile</h1>
+       <Button color="secondary" variant="contained" onClick={goLinkCreat} style={{marginLeft:"65%"}}> Create Link </Button>
       <Card className="adminProfileCard">
         <br />
         <h3>Name:</h3>

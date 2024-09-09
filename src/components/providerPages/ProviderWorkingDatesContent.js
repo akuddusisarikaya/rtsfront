@@ -234,6 +234,7 @@ export default function ProviderWorkingDatesContent() {
             shiftStart: formedTime(shiftStart),
             shiftEnd: formedTime(shiftEnd),
             period : parseInt(period),
+            activate: false
           }),
         }
       );
