@@ -35,11 +35,41 @@ export default function Appointment() {
     message: "",
     severity: "success",
   });
-  const [isAppear, setIsAppear] = React.useState(true);
   const navigate = useNavigate();
   const [providerInfo, setProviderInfo] = React.useState([]); // Başlangıç değeri boş dizi olmalı
   const [selectedProvider, setSelectedProvider] = React.useState("");
   const [appointments, setAppointments] = React.useState([]);
+  const [companies, setCompanies] = React.useState([]);
+  const [selectedCompany, setSelectedCompany] = React.useState({});
+  const [selectedAppointment, setSelectedAppointment] = React.useState({});
+
+  React.useEffect(() => {
+    if (!companyID) {
+      const fetchCompanies = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+          const response = await fetch("http://localhost:8080/getallcompanies", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (!response.ok) {
+            throw new Error("Failed to fetch companies");
+          }
+          const data = await response.json();
+          setCompanies(data);
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchCompanies();
+    }
+  }, [companyID]);
 
   const formedTime = (time) => {
     return dayjs(time).tz(TIMEZONE).format("HH:mm");
@@ -51,7 +81,7 @@ export default function Appointment() {
       setError(null);
       try {
         const response = await fetch(
-          `http://localhost:8080/getproviderbycompany?companyID=${companyID}`,
+          `http://localhost:8080/getproviderbycompany?companyID=${selectedCompany.ID}`,
           {
             method: "GET",
             headers: {
@@ -71,11 +101,17 @@ export default function Appointment() {
       }
     };
     fetchProviderInfo();
-  }, [companyID]);
+  }, [selectedCompany]);
 
   React.useEffect(() => {
-    setIsAppear(!companyID); // companyID varsa görünmez yap
+    if (companyID) {
+      setSelectedCompany(companyID);
+    }
   }, [companyID]);
+
+  const handleCompanyChange = (event) => {
+    setSelectedCompany(event.target.value);
+  };
 
   const handleSelectedDate = (newDate) => setSelectedDate(newDate);
 
@@ -126,12 +162,12 @@ export default function Appointment() {
 
   const handleSubmit = async () => {
     const appointmentData = {
-      customer_id: formData.name, // Daha iyi bir ID yapısı için kullanıcı adı kullanılıyor
-      provider_id: selectedProvider, // Seçilen provider id'si
-      company_id: companyID, // companyID URL'den alınıyor
+      customer_email: formData.email, // Daha iyi bir ID yapısı için kullanıcı adı kullanılıyor
+      provider_id: selectedProvider.ID, // Seçilen provider id'si
+      company_id: selectedCompany.ID, // companyID URL'den alınıyor
       services: selectedServices,
       date: selectedDate.toISOString(),
-      status: "pending",
+      activate: true,
       notes: "Any special requests or notes here", // Notlar kullanıcıdan alınabilir
     };
 
@@ -165,6 +201,9 @@ export default function Appointment() {
       });
     }
   };
+  const handleSelectedAppointment = (e) => {
+    setSelectedAppointment(e)
+  }
 
   const handleCloseSnackbar = () => setSnackbar({ ...snackbar, open: false });
 
@@ -186,7 +225,7 @@ export default function Appointment() {
       <div className="appointmentBox">
         <h1 style={{ marginTop: "5%", marginLeft: "10%" }}>Appointment</h1>
         {loading && <h5>Loading</h5>}
-        {error&& <h5>{error}</h5>}
+        {error && <h5>{error}</h5>}
         <br />
         <Box component="form" autoComplete="off">
           <div>
@@ -221,14 +260,26 @@ export default function Appointment() {
             />
             <br />
             <br />
-            {isAppear && (
+            {!companyID && (
               <Box>
                 <TextField
                   required
                   select
                   className="appointmentTextField"
                   label="Select Company"
-                ></TextField>
+                  value={selectedCompany}
+                  onChange={handleCompanyChange}
+                >
+                  {companies.length > 0 ? (
+                    companies.map((company) => (
+                      <MenuItem key={company.ID} value={company}>
+                        {company.Name}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled>No Companies Available</MenuItem>
+                  )}
+                </TextField>
                 <br />
                 <br />
               </Box>
@@ -242,7 +293,7 @@ export default function Appointment() {
               value={selectedProvider}
               onChange={handleProviderChange}
             >
-              {providerInfo.length > 0 ? (
+              {providerInfo !== null ? (
                 providerInfo.map((provider) => (
                   <MenuItem key={provider} value={provider}>
                     {provider.Name}
@@ -267,19 +318,18 @@ export default function Appointment() {
                 renderValue: (selected) => selected.join(", "),
               }}
             >
-              {
-                selectedProvider.Services !== null ? (
-                  selectedProvider.Services.map((service) => (
-                <MenuItem key={service.key} value={service.name}>
-                  {`${service.name} - ${service.price}`}
-                </MenuItem>
-              ))
-                ):(
-                  <MenuItem>
-                    <p>Services Not found</p>
+              {Array.isArray(selectedProvider.Services) &&
+              selectedProvider.Services !== null ? (
+                selectedProvider.Services.map((service) => (
+                  <MenuItem key={service.key} value={service.name}>
+                    {`${service.name} - ${service.price}`}
                   </MenuItem>
-                )
-              }
+                ))
+              ) : (
+                <MenuItem disabled>
+                  <p>Services Not Found</p>
+                </MenuItem>
+              )}
             </TextField>
             <br />
             <br />
@@ -294,7 +344,7 @@ export default function Appointment() {
               style={{ width: "40%" }}
               onClick={handleShowTime}
             >
-              Select Appointment
+              {showTimes ? "Close" : "Select Appointment"}
             </Button>
             {showTimes && (
               <Box>
@@ -304,15 +354,16 @@ export default function Appointment() {
                     <Box>
                       <Button
                         key={appointment.ID}
-                        value={appointment.ID}
+                        value={appointment}
                         variant="contained"
                         color="secondary"
+                        onClick={()=> {handleSelectedAppointment(appointment)}}
                       >
                         {`${formedTime(appointment.StartTime)} - ${formedTime(
                           appointment.EndTime
                         )}`}
                       </Button>
-                      <br/>
+                      <br />
                       <br />
                     </Box>
                   ))

@@ -22,7 +22,7 @@ export default function AdminLinkCreatorContent() {
     }
 
     // Bağlantıyı oluştur
-    const link = `${window.location.origin}/makeappointmentbycompany/${companyID}`;
+    const link = `${window.location.origin}/appointment/${companyID}`;
     setGeneratedLink(link);
   };
 

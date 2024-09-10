@@ -6,64 +6,75 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { Button } from "@mui/material";
-import Box from "@mui/material/Box";
-
-const services = [
-  {
-    key: 1,
-    name: "Service#1",
-    price: "$100"
-  },
-  {
-    key: 2,
-    name: "Service#2",
-    price: "$50"
-  },
-  {
-    key: 3,
-    name: "Service#3",
-    price: "$200"
-  },
-  {
-    key: 4,
-    name: "Service#4",
-    price: "$350"
-  },
-];
+import { Button, Box } from "@mui/material";
 
 export default function ServiceList() {
-  const navigate = useNavigate()
+  const [error, setError] = React.useState(null);
+  const nav = useNavigate();
+  const [selectedService, setSelectedService] = React.useState(null)
+  const provider = JSON.parse(localStorage.getItem("provider"))
 
-  const goDetails = () => {
-    navigate('/adminservicedetails')
+
+  const handleService = async (e) => {
+    setSelectedService(e.target.value)
+    setError(null)
+    try {
+      const token = localStorage.getItem("token")
+      const response = await fetch(
+        `http://localhost:8080/provider/deleteservice?providerID=${provider.ID}&index=${selectedService}`,
+        {
+          method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+        }
+      )
+      if (!response.ok) {
+        throw new Error("Services did not deleted");
+      }
+    } catch (error) {
+      setError(error.message)
+    }
   }
-
-  const goBack = () => {
-    navigate(-1)
+  
+  // JSON veriyi JavaScript dizisine çevirme işlemi
+  let services = [];
+  try {
+    services = JSON.parse(localStorage.getItem("services")) || [];
+  } catch (error) {
+    console.error("Failed to parse services:", error);
   }
 
   return (
     <Box>
-      <br></br>
-      <Button color="secondary" onClick={goBack} >Back</Button>
-      <br></br>
+      <br />
+      <Button color="secondary" onClick={()=> {nav(-1)}}>Back</Button>
+      <br />
+      {error && <h5>{error}</h5>}
+      <br/>
       <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
         <h3 style={{ marginLeft: "35%" }}>Services</h3>
-        {services.map((service) => (
-          <ListItem
-            key={service.key}
-            style={{
-              marginTop: "5px",
-            }}
-          >
-            <ListItemAvatar>
-              <Avatar />
-            </ListItemAvatar>
-            <ListItemText primary={service.name} secondary={service.price}/>
-            <Button color="secondary" onClick={goDetails} variant="contained">See Details</Button>
-          </ListItem>
-        ))}
+        {services.length > 0 ? (
+          services.map((service, index) => (
+            <ListItem
+              key={service.index}
+              style={{
+                marginTop: "5px",
+              }}
+            >
+              <ListItemAvatar>
+                <Avatar />
+              </ListItemAvatar>
+              <ListItemText primary={service.service}/>
+              <Button color="secondary" value={service.index} onClick={handleService} variant="contained">delete</Button>
+            </ListItem>
+          ))
+        ) : (
+          <Box>
+            <p style={{ textAlign: "center", color: "grey" }}>No services available.</p>
+          </Box>
+        )}
       </List>
     </Box>
   );
