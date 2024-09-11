@@ -12,8 +12,8 @@ import PasswordReset from "./Pages/PasswordReset";
 import AdminUserManage from "./Pages/adminPages/AdminUserManage";
 import AdminServicesAndPrices from "./Pages/adminPages/AdminSevicesAndPrices";
 import AdminAppointments from "./Pages/adminPages/AdminAppointments";
-import AdminPayments from "./Pages/adminPages/AdminPayments";
-import AdminReports from "./Pages/adminPages/AdminReports";
+import AdminPayments from "./Pages/zzexpectedDevPages/AdminPayments";
+import AdminReports from "./Pages/zzexpectedDevPages/AdminReports";
 import AdminSettings from "./Pages/adminPages/AdminSettings";
 import AdminProfile from "./Pages/adminPages/AdminProfile";
 import AdminUserManProviders from "./Pages/adminPages/AdminUserManProviders";
@@ -27,7 +27,7 @@ import AdminServiceDetail from "./Pages/adminPages/AdminServiceDetail";
 import AdminServiceEdit from "./Pages/adminPages/AdminServiceEdit";
 import AdminAppointmentDetail from "./Pages/adminPages/AdminAppointmetDetail";
 import AdminAppointmentEdit from "./Pages/adminPages/AdminAppointmentEdit";
-import AdminPaymentList from "./Pages/adminPages/AdminPaymentList";
+import AdminPaymentList from "./Pages/zzexpectedDevPages/AdminPaymentList";
 import AdminAddAppointment from "./Pages/adminPages/AdminAddAppointment";
 import AdminServiceList from "./Pages/adminPages/AdminServiceList";
 import AdminAddService from "./Pages/adminPages/AdminAddService"
@@ -39,22 +39,23 @@ import UserProfileEdit from "./Pages/UserProfileEdit";
 import SuperUser from "./Pages/superuserPages/SuperUser";
 import SuperUserAddCompany from "./components/superUserPages/SuperUserAddCompany";
 import SuperUserAddAdmin from "./components/superUserPages/SuperUserAddAdmin";
-import ProviderDashboard from "./Pages/ProviderPages/ProviderDashboard";
-import ProviderAppointment from "./Pages/ProviderPages/ProviderAppointment";
-import ProviderServices from "./Pages/ProviderPages/ProviderServices";
-import ProviderReports from "./Pages/ProviderPages/ProviderReports"
-import ProviderProfile from "./Pages/ProviderPages/ProviderProfile";
+import ProviderDashboard from "./Pages/providerPages/ProviderDashboard";
+import ProviderAppointment from "./Pages/providerPages/ProviderAppointment";
+import ProviderServices from "./Pages/providerPages/ProviderServices";
+import ProviderReports from "./Pages/providerPages/ProviderReports"
+import ProviderProfile from "./Pages/providerPages/ProviderProfile";
 import SuperUserLogin from "./Pages/superuserPages/SuperUserLogin";
 import SuperuserCompanyEdit from "./Pages/superuserPages/SuperuserCompanyEdit";
 import SuperUserAdminEdit from "./Pages/superuserPages/SuperuserAdminEdit";
 import AdminAddNewManager from "./Pages/adminPages/AdminAddNewManager";
-import ProviderLogin from "./Pages/ProviderPages/ProviderLogin";
-import ProviderWorkingDates from "./Pages/ProviderPages/ProviderWorkingDates";
+import ProviderLogin from "./Pages/providerPages/ProviderLogin";
+import ProviderWorkingDates from "./Pages/providerPages/ProviderWorkingDates";
 import ManagerLogin from "./Pages/ManagerLogin";
-import ProviderAppOfDays from "./Pages/ProviderPages/ProviderAppOfDays";
+import ProviderAppOfDays from "./Pages/providerPages/ProviderAppOfDays";
 import AdminLinkCreator from "./Pages/adminPages/AdminLinkCreator";
-import ProviderAddService from "./Pages/ProviderPages/ProviderAddService";
-import ProviderServiceList from "./Pages/ProviderPages/ProviderServiceList";
+import ProviderAddService from "./Pages/providerPages/ProviderAddService";
+import ProviderServiceList from "./Pages/providerPages/ProviderServiceList";
+import AdminAppOfDay from "./Pages/adminPages/AdminAppOfDay";
 
 function App() {
 
@@ -72,8 +73,8 @@ function App() {
         <Route exact path="/adminusermanage" element={<AdminUserManage />} />
         <Route exact path="/adminservicesandprice" element={<AdminServicesAndPrices />} />
         <Route exact path="/adminappointments" element={<AdminAppointments />} />
-        <Route exact path="/adminpayments" element={<AdminPayments />} />
-        <Route exact path="/adminreports" element={<AdminReports />} />
+        {/*<Route exact path="/adminpayments" element={<AdminPayments />} />*/} 
+        {/*<Route exact path="/adminreports" element={<AdminReports />} />*/}
         <Route exact path="/adminsettings" element={<AdminSettings />} />
         <Route exact path="/adminprofile" element={<AdminProfile />} />
         <Route exact path="/adminproviderslist" element={<AdminUserManProviders />} />
@@ -115,6 +116,7 @@ function App() {
         <Route exact path="/adminlinkcreate" element={<AdminLinkCreator />} />
         <Route exact path="/provideraddservice" element={<ProviderAddService />} />
         <Route exact path="/providerservicelist" element={<ProviderServiceList />} />
+        <Route exact path="/appofdayadmin" element={<AdminAppOfDay />} />
       </Routes>
     </Router>
   );

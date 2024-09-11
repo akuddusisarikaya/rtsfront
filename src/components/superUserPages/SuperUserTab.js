@@ -20,7 +20,7 @@ export default function SuperUserTab({ selectedTab, onTabChange }) {
   }
 
   const logOut = () =>{
-    localStorage.removeItem('token')
+    sessionStorage.removeItem('token')
     goBack();
   }
 

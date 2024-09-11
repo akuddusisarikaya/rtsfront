@@ -11,6 +11,12 @@ import {
   Paper,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(utc);
+dayjs.extend(timezone);
+const TIMEZONE = "Europe/Istanbul";
 
 export default function AppointmentsList() {
   const [appointments, setAppointments] = React.useState([]);
@@ -18,11 +24,15 @@ export default function AppointmentsList() {
   const [error, setError] = React.useState(null);
   const navigate = useNavigate();
 
+  const formedTime = (time) => {
+    return dayjs(time).tz(TIMEZONE).format("HH:mm");
+  };
+
   React.useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const email = localStorage.getItem("email");
-        const token = localStorage.getItem("token");
+        const email = sessionStorage.getItem("email");
+        const token = sessionStorage.getItem("token");
         const response = await fetch(
           `http://localhost:8080/admin/getallproviderapp?email=${email}`,
           {
@@ -81,8 +91,8 @@ export default function AppointmentsList() {
                 <TableRow key={appointment.ID}>
                   <TableCell align="center">{appointment.ProviderEmail}</TableCell>
                   <TableCell align="center">{new Date(appointment.Date).toLocaleDateString()}</TableCell>
-                  <TableCell align="center">{appointment.StartTime}</TableCell>
-                  <TableCell align="center">{appointment.EndTime}</TableCell>
+                  <TableCell align="center">{formedTime(appointment.StartTime)}</TableCell>
+                  <TableCell align="center">{formedTime(appointment.EndTime)}</TableCell>
                   {appointment.CustomerEmail !== null ? (
                     <TableCell align="center">{appointment.CustomerEmail}</TableCell>
                   ):(

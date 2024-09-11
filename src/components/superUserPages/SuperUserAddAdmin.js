@@ -27,7 +27,7 @@ export default function SuperUserAddAdmin() {
 
   // Admin ekleme işlemi
   const handleSubmit = async () => {
-    const token = localStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     try {
       const response = await fetch('http://localhost:8080/superuser/adminadd', {
         method: 'POST',

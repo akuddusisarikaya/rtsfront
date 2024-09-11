@@ -3,6 +3,8 @@ import "../../App.css";
 import NewDatePicker from "../NewDatePicker";
 import Box from "@mui/material/Box";
 import {
+  TextField,
+  MenuItem,
   List,
   ListItem,
   ListItemText,
@@ -13,15 +15,18 @@ import {
   Alert,
   Button,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { useNavigate } from "react-router-dom";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 const TIMEZONE = "Europe/Istanbul";
 
-export default function ProviderAppointmentsOfDay() {
+export default function AdminAppOfDayContent() {
+  const admin = JSON.parse(sessionStorage.getItem("admin"));
+  const [providers, setProviders] = React.useState([]);
+  const [selectedProvider, setSelectedProvider] = React.useState({});
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [appointments, setAppointments] = React.useState([]);
   const [snackbar, setSnackbar] = React.useState({
@@ -31,13 +36,11 @@ export default function ProviderAppointmentsOfDay() {
   });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
-  const provider = JSON.parse(sessionStorage.getItem("provider"));
   const nav = useNavigate();
-  const todayInIstanbul = dayjs().tz(TIMEZONE).format('YYYY-MM-DD')
 
   const handleDateChange = (newdate) => {
-    setSelectedDate(newdate)
-  }
+    setSelectedDate(newdate);
+  };
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
   };
@@ -45,11 +48,46 @@ export default function ProviderAppointmentsOfDay() {
     return dayjs(time).tz(TIMEZONE).format("HH:mm");
   };
   const goBack = () => {
-    nav(-1)
-  }
-  const goEdit = () => {
-    nav("/providerworkingdates")
-  }
+    nav(-1);
+  };
+
+  const handleProviderChange = (e) => {
+    setSelectedProvider(e.target.value);
+  };
+
+  React.useEffect(() => {
+    if (!admin) return;
+    const fetchProviders = async () => {
+      if (!admin || !admin.CompanyID) {
+        return;
+      }
+      setLoading(true)
+      setError(null)
+
+      setError(null);
+      try {
+        const response = await fetch(
+          `http://localhost:8080/getproviderbycompany?companyID=${admin.CompanyID}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Providers did not catch");
+        }
+        const data = await response.json();
+        setProviders(data);
+      } catch (error) {
+        setError(error.message);
+      }finally{
+        setLoading(false)
+      }
+    };
+    fetchProviders();
+  }, []);
 
   React.useEffect(() => {
     const fetchAppointments = async () => {
@@ -60,10 +98,11 @@ export default function ProviderAppointmentsOfDay() {
       try {
         const formattedDate = selectedDate.format("YYYY-MM-DD");
         const token = sessionStorage.getItem("token");
-        const email = provider.Email;
+        const email = selectedProvider.Email;
+        console.log(email, formattedDate)
 
         const response = await fetch(
-          `http://localhost:8080/provider/getappointments?email=${email}&date=${formattedDate}`,
+          `http://localhost:8080/admin/getappointments?email=${email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {
@@ -83,13 +122,26 @@ export default function ProviderAppointmentsOfDay() {
       }
     };
     fetchAppointments();
-  }, [selectedDate, provider.Email]);
+  }, [selectedDate, selectedProvider.Email]);
 
   return (
     <Box className="appoftoday">
-      <Button color="secondary" onClick={goBack} style={{margin:"2%"}} >Back</Button>
-      <Button color="secondary" variant="contained" onClick={goEdit} style={{marginLeft:"60%"}} > Edit</Button>
+      <Button color="secondary" onClick={goBack} style={{ margin: "2%" }}>
+        Back
+      </Button>
       <NewDatePicker onDateChange={handleDateChange} />
+     
+      <TextField select style={{width:"30%"}} label="Provider" variant="outlined"  onChange={handleProviderChange}>
+        {providers !== null ? (
+          providers.map((prov, index) => (
+            <MenuItem key={index} value={prov}>
+              {prov.Name}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem disabled>No Providers Available</MenuItem>
+        )}
+      </TextField> 
       {loading && <Typography>Loading...</Typography>}
       {error && <Typography color="error">{error}</Typography>}
       <Card sx={{ marginTop: 2 }}>
@@ -105,7 +157,7 @@ export default function ProviderAppointmentsOfDay() {
             <List>
               {appointments.length > 0 ? (
                 appointments.map((appointment) => (
-                  <ListItem key={appointment.ID} >
+                  <ListItem key={appointment.ID}>
                     <ListItemText
                       primary={`Appointment: ${formedTime(
                         appointment.StartTime

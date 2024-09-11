@@ -32,7 +32,7 @@ export default function AppointmentDetail() {
       }
 
       try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const response = await fetch(`http://localhost:8080/protected/appointments?ID=${appointmentId}`, {
           method: "GET",
           headers: {

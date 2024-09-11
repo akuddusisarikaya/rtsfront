@@ -8,35 +8,41 @@ import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const providers = [
-  {
-    key: 1,
-    name: "Alice Allen",
-    title: "Aesthetician",
-  },
-  {
-    key: 2,
-    name: "Austin Arnord",
-    title: "Nutritionist",
-  },
-  {
-    key: 3,
-    name: "Amelia Adams",
-    title: "Aesthetician",
-  },
-  {
-    key: 4,
-    name: "Alice Abbott",
-    title: "Nutritionist",
-  },
-  {
-    key: 5,
-    name: "Abigail Armstrong",
-    title: "Aesthetician",
-  },
-];
-
 export default function SmallProviders() {
+
+  const [error, setError] = React.useState(null);
+  const [providers, setProviders] = React.useState([])
+
+  React.useEffect(() => {
+    const admin = JSON.parse(sessionStorage.getItem("admin")) || {}; // Buraya taşındı
+    if(!admin)return;
+    const fetchProviders = async () => {
+      if (!admin || !admin.CompanyID) {
+        return;
+      }
+
+      setError(null);
+      try {
+        const response = await fetch(
+          `http://localhost:8080/getproviderbycompany?companyID=${admin.CompanyID}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Providers did not catch");
+        }
+        const data = await response.json();
+        setProviders(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchProviders();
+  }, []);
 
   const navigate = useNavigate()
 
@@ -47,12 +53,13 @@ export default function SmallProviders() {
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       <h3>Service Providers</h3>
-      {providers.map((provider) => (
+      {error&&<h5>{error}</h5>}
+      {providers.slice(0,5).map((provider) => (
         <ListItem key={provider.key}>
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
-          <ListItemText primary={provider.name} secondary={provider.title} />
+          <ListItemText primary={provider.Name} />
         </ListItem>
       ))}
       <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>

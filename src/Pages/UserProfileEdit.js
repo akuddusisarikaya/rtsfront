@@ -12,7 +12,7 @@ export default function UserProfileEdit() {
   const [userData, setUserData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
-  const email = localStorage.getItem('email')
+  const email = sessionStorage.getItem('email')
 
   React.useEffect(() => {
     const fetchUserProfile = async () => {
@@ -25,7 +25,7 @@ export default function UserProfileEdit() {
         }
 
         // API isteği yapılarak kullanıcı profili alınır
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const response = await fetch(`http://localhost:8080/protected/userprofile?email=${userEmail}`, {
           method: 'GET',
           headers: {
@@ -52,7 +52,7 @@ export default function UserProfileEdit() {
   // Verileri kaydetme fonksiyonu
   const handleSave = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch("http://localhost:8080/protected/user", {
         method: "PUT",
         headers: {

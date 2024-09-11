@@ -18,8 +18,8 @@ export default function AdminProfileContent() {
   useEffect(() => {
     const fetchAdminDetails = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const email = localStorage.getItem('email');
+        const token = sessionStorage.getItem("token");
+        const email = sessionStorage.getItem('email');
         const response = await fetch(`http://localhost:8080/admin/adminsget?email=${email}`, {
           method: "GET",
           headers: {
@@ -34,7 +34,7 @@ export default function AdminProfileContent() {
 
         const data = await response.json();
         setAdmin(data);
-        localStorage.setItem("admin", JSON.stringify(data));
+        sessionStorage.setItem("admin", JSON.stringify(data));
       } catch (err) {
         setError(err.message);
       }

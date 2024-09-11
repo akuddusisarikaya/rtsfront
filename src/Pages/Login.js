@@ -34,8 +34,8 @@ export default function Login() {
 
       if (response.ok) {
         const result = await response.json();
-        localStorage.setItem("email", credentials.email)
-        localStorage.setItem("token", result.token);
+        sessionStorage.setItem("email", credentials.email)
+        sessionStorage.setItem("token", result.token);
 
         setSnackbar({
           open: true,

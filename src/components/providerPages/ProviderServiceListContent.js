@@ -5,14 +5,14 @@ import ServiceList from "../ServiceList";
 
 export default function ProviderServiceListContent() {
   const [error, setError] = React.useState(null);
-  const provider = JSON.parse(localStorage.getItem("provider"));
+  const provider = JSON.parse(sessionStorage.getItem("provider"));
 
   React.useEffect(() => {
     if (!provider) return;
     setError(null);
     const fetchServices = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const response = await fetch(
           `http://localhost:8080/provider/getservicesforprovider?providerID=${provider.ID}`,
           {
@@ -27,7 +27,7 @@ export default function ProviderServiceListContent() {
           throw new Error("Services did not catch");
         }
         const data = await response.json();
-        localStorage.setItem("services", JSON.stringify(data));
+        sessionStorage.setItem("services", JSON.stringify(data));
       } catch (error) {
         setError(error.message);
       }

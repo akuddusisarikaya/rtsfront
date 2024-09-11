@@ -42,8 +42,8 @@ export default function AddNewProvider() {
     e.preventDefault();
 
     try {
-      const admin = JSON.parse(localStorage.getItem("admin"));
-      const token = localStorage.getItem("token");
+      const admin = JSON.parse(sessionStorage.getItem("admin"));
+      const token = sessionStorage.getItem("token");
       const response = await fetch("http://localhost:8080/admin/provider/add", {
         method: "POST",
         headers: {

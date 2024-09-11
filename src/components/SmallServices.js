@@ -7,53 +7,59 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box"
-
-const services = [
-  {
-    key: 1,
-    name: "Service#1",
-    price: "$100",
-  },
-  {
-    key: 2,
-    name: "Service#2",
-    price: "$50",
-  },
-  {
-    key: 3,
-    name: "Service#3",
-    price: "$200",
-  },
-  {
-    key: 4,
-    name: "Service#4",
-    price: "$350",
-  },
-];
+import Box from "@mui/material/Box";
 
 export default function SmallServices({ size }) {
+  const [error, setError] = React.useState(null);
+  const [providers, setProviders] = React.useState([]);
   const nav = useNavigate();
   const goList = () => {
     nav("/adminservicelist");
   };
   const listClassSize = size === "large" ? "listSizeLarge" : "listSizeSmall";
 
+  React.useEffect(() => {
+    const admin = JSON.parse(sessionStorage.getItem("admin"));
+    const getProviders = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/getproviderbycompany?companyID=${admin.CompanyID}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Providers did not catch");
+        }
+        const data = await response.json();
+        setProviders(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    getProviders();
+  }, []);
+
   return (
     <Box className={listClassSize}>
-      <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-      >
+      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         <h3>Services</h3>
-        {services.map((service) => (
-          <ListItem key={service.key}>
-            <ListItemAvatar>
-              <Avatar />
-            </ListItemAvatar>
-            <ListItemText primary={service.name} secondary={service.price} />
-          </ListItem>
-        ))}
-        <br></br>
+        {error && <h5>{error}</h5>}
+        {providers.map((provider) => {
+          const services = provider.Services || [];
+          return services.slice(0,5).map((serv, index) => (
+            <ListItem key={`${provider.ID}-${index}`}>
+              <ListItemAvatar>
+                <Avatar />
+              </ListItemAvatar>
+              <ListItemText primary={provider.Name} secondary={serv} />
+            </ListItem>
+          ));
+        })}
+        <br />
         <Button color="secondary" variant="contained" onClick={goList}>
           See Others
         </Button>

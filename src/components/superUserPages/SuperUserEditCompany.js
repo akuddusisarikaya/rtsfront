@@ -32,7 +32,7 @@ export default function SuperUserEditCompany() {
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`http://localhost:8080/superuser/companyget?name=${searchName}`, {
         method: 'GET',
         headers: {
@@ -69,7 +69,7 @@ export default function SuperUserEditCompany() {
   // Şirket güncelleme işlemi
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       const response = await fetch(`http://localhost:8080/superuser/company/update?name=${searchName}`, {
         method: 'PUT',
         headers: {

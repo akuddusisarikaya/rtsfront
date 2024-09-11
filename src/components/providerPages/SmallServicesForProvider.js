@@ -12,7 +12,7 @@ import Box from "@mui/material/Box"
 export default function SmallServicesForProvider({ size }) {
     let services = [];
   try {
-    services = JSON.parse(localStorage.getItem("services")) || [];
+    services = JSON.parse(sessionStorage.getItem("services")) || [];
   } catch (error) {
     console.error("Failed to parse services:", error);
   }

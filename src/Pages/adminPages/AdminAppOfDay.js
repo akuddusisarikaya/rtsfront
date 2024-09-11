@@ -1,18 +1,16 @@
 import * as React from "react";
 import "../../App.css";
 import Box from "@mui/material/Box";
-import Footer from "../../components/Footer";
-import AddNewProvider from '../../components/AddNewProvider';
 import AdminDrawer from "../../components/adminPages/AdminDrawer";
+import AdminAppOfDayContent from "../../components/adminPages/AdminAppOfDayContent";
 
-export default function AdminUserDetailEdit() {
+export default function AdminAppOfDay() {
   return (
     <Box>
-      <AdminDrawer/>
+      <AdminDrawer />
       <Box className="dashboardNotMobile">
-        <AddNewProvider/>
+        <AdminAppOfDayContent />
       </Box>
-      <Footer />
     </Box>
   );
 }

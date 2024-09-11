@@ -7,7 +7,7 @@ import DateChoise from '../DateChoise';
 import SmallAppointments from '../SmallAppointments';
 
 import { useMediaQuery } from '@mui/material';
-import SmallPayments from '../SmallPayments';
+import SmallPayments from './SmallPayments';
 
 
 export default function AdminPaymentsContent(){

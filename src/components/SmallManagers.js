@@ -8,27 +8,40 @@ import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const managers = [
-  {
-    key: 1,
-    name: "Alice Allen",
-    title: "Manager"
-  },
-  {
-    key: 2,
-    name: "Austin Arnord",
-    title: "Manager"
-  },
-  {
-    key: 3,
-    name: "Amelia Adams",
-    title: "Manager"
-  },
-];
+export default function SmallManagers() {
 
-export default function SmallProviders() {
+  const [error, setError] = React.useState(null);
+  const [managers, setManagers] = React.useState([]);
 
-  const navigate = useNavigate()
+  React.useEffect(() => {
+    const admin = JSON.parse(sessionStorage.getItem("admin"));
+    if (!admin) return;
+    const fetchManagers = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const response = await fetch(
+          `http://localhost:8080/admin/getmanagerbycompany?companyID=${admin.CompanyID}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Managers did not catch");
+        }
+        const data = await response.json();
+        setManagers(data);
+        console.log(managers);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchManagers();
+  },[]);
+  const navigate = useNavigate();
 
   const detailClick = () => {
     navigate('/adminmanagerslist')
@@ -37,12 +50,13 @@ export default function SmallProviders() {
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       <h3>Managers</h3>
-      {managers.map((manager) => (
+      {error&& <h5>{error}</h5>}
+      {managers.slice(0,5).map((manager) => (
         <ListItem key={manager.key}>
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
-          <ListItemText primary={manager.name} secondary={manager.title}/>
+          <ListItemText primary={manager.Name}/>
         </ListItem>
       ))}
       <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>

@@ -53,8 +53,10 @@ export default function ProviderDrawer() {
   const navigate = useNavigate();
 
   const goHome = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("email")
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("provider");
+    sessionStorage.removeItem("services"); 
     navigate("/");
   };
 

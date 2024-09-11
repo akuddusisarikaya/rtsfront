@@ -42,9 +42,9 @@ export default function AddNewManager() {
     e.preventDefault();
 
     try {
-      const admin = JSON.parse(localStorage.getItem("admin"));
+      const admin = JSON.parse(sessionStorage.getItem("admin"));
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const response = await fetch("http://localhost:8080/admin/manager/add", {
         method: "POST",
         headers: {

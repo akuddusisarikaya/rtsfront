@@ -33,7 +33,7 @@ export default function SuperUserEditAdmin() {
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const response = await fetch(
         `http://localhost:8080/superuser/adminsget?email=${searchName}`,
         {
@@ -71,7 +71,7 @@ export default function SuperUserEditAdmin() {
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const response = await fetch(
         `http://localhost:8080/superuser/admins/update?email=${searchName}`,
         {

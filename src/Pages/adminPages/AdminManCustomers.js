@@ -1,7 +1,7 @@
 import * as React from "react";
 import "../../App.css";
 import Box from "@mui/material/Box";
-import CustomerList from "../../components/CustomerList";
+import CustomerList from "../../components/zzexpectedDevComponenets/CustomerList";
 import Footer from '../../components/Footer'
 
 export default function AdminManCustomers() {

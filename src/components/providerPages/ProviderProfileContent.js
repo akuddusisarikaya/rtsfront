@@ -5,8 +5,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import Card from "@mui/material/Card";
 
 export default function ProviderProfileContent() {
-  const email = localStorage.getItem("email");
-  const token = localStorage.getItem("token");
+  const email = sessionStorage.getItem("email");
+  const token = sessionStorage.getItem("token");
   const [provider, setProvider] = React.useState(null);
   const [error, setError] = React.useState(null);
 
@@ -30,7 +30,7 @@ export default function ProviderProfileContent() {
 
         const data = await response.json();
         setProvider(data);
-        localStorage.setItem("provider", JSON.stringify(data));
+        sessionStorage.setItem("provider", JSON.stringify(data));
       } catch (err) {
         setError(err.message);
       }
@@ -53,7 +53,7 @@ export default function ProviderProfileContent() {
         );
         if (!response.ok) throw new Error("Şirket alınamadı");
         const data = await response.json();
-        localStorage.setItem("company", data)
+        sessionStorage.setItem("companyName", data.CompanyName)
       } catch (error) {
         setError("Şirket verisi alınırken hata oluştu: " + error.message);
       }

@@ -7,7 +7,7 @@ import { Card, Button, TextField } from "@mui/material";
 export default function ProviderAddServiceContent() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
-  const provider = JSON.parse(localStorage.getItem("provider"));
+  const provider = JSON.parse(sessionStorage.getItem("provider"));
   const [service, setService] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [record, setRecord] = React.useState([]);
@@ -51,7 +51,7 @@ export default function ProviderAddServiceContent() {
     setLoading(true);
     setError(null);
 
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `http://localhost:8080/provider/addservices?providerID=${provider.ID}`,

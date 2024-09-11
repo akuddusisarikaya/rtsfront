@@ -18,12 +18,13 @@ import { Button } from "@mui/material";
 const drawerWidth = 260;
 
 const first = [
+  { key: 0, name: "ADMİN PANEL", link: "/admin" },
   { key: 1, name: "Dashboard", link: "/admin" },
   { key: 2, name: "User Management", link: "/adminusermanage" },
   { key: 3, name: "Services & Pricing", link: "/adminservicesandprice" },
   { key: 4, name: "Appointments", link: "/adminappointments" },
-  { key: 5, name: "Payments", link: "/adminpayments" },
-  { key: 6, name: "Reports & Analytics", link: "/adminreports" },
+  //{ key: 5, name: "Payments", link: "/adminpayments" },
+  //{ key: 6, name: "Reports & Analytics", link: "/adminreports" },
 ];
 const second = [
   { key: 1, name: "Settings", link: "/adminsettings" },
@@ -55,8 +56,11 @@ export default function AdminDrawer(props) {
   const navigate = useNavigate();
 
   const logOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("email")
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("admin");
+    sessionStorage.removeItem("services");
+    sessionStorage.removeItem("provider");
   };
 
   const goHome = () => {
@@ -67,7 +71,15 @@ export default function AdminDrawer(props) {
   const drawer = (
     <div>
       <Toolbar>
-        <Button color="secondary" variant="contained" onClick={()=>{navigate("/admin")}}>CARMESOFT S.A.M.</Button>
+        <Button
+          color="secondary"
+          variant="contained"
+          onClick={() => {
+            navigate("/admin");
+          }}
+        >
+          CARMESOFT S.A.M.
+        </Button>
       </Toolbar>
       <Divider />
       <List>

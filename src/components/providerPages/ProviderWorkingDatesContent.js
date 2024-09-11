@@ -57,9 +57,9 @@ export default function ProviderWorkingDatesContent() {
     message: "",
     severity: "success",
   });
-  const email = localStorage.getItem("email");
-  const token = localStorage.getItem("token");
-  const company = localStorage.getItem("company");
+  const email = sessionStorage.getItem("email");
+  const token = sessionStorage.getItem("token");
+  const provider = JSON.parse(sessionStorage.getItem("provider"))
   const [editStartTime, setEditStartTime] = React.useState(null);
   const [editEndTime, setEditEndTime] = React.useState(null);
   const [editAppointmentId, setEditAppointmentId] = React.useState(null);
@@ -175,8 +175,9 @@ export default function ProviderWorkingDatesContent() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            providerEmail: email,
-            companyName: company,
+            providerEmail: provider.Email,
+            companyName: provider.CompanyName,
+            companyID : provider.CompanyID,
             date: selectedDate.format("YYYY-MM-DD"),
             startTime: selectedStartTime.format("HH:mm"),
             endTime: selectedEndTime.format("HH:mm"),
@@ -228,8 +229,9 @@ export default function ProviderWorkingDatesContent() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            providerEmail: email,
-            companyName: company,
+            providerEmail: provider.Email,
+            companyID:provider.CompanyID,
+            companyName: provider.CompanyName,
             weekdays: weekdays,
             shiftStart: formedTime(shiftStart),
             shiftEnd: formedTime(shiftEnd),

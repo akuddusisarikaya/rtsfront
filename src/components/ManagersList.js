@@ -9,25 +9,38 @@ import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
-const managers = [
-  {
-    key: 1,
-    name: "Alice Allen",
-    title: "Manager"
-  },
-  {
-    key: 2,
-    name: "Austin Arnord",
-    title: "Manager"
-  },
-  {
-    key: 3,
-    name: "Amelia Adams",
-    title: "Manager"
-  },
-];
-
 export default function ManagersList() {
+  const [error, setError] = React.useState(null);
+  const [managers, setManagers] = React.useState([]);
+
+  React.useEffect(() => {
+    const admin = JSON.parse(sessionStorage.getItem("admin"));
+    if (!admin) return;
+    const fetchManagers = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const response = await fetch(
+          `http://localhost:8080/admin/getmanagerbycompany?companyID=${admin.CompanyID}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Managers did not catch");
+        }
+        const data = await response.json();
+        setManagers(data);
+        console.log(managers);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchManagers();
+  },[]);
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -40,9 +53,12 @@ export default function ManagersList() {
   return (
     <Box>
       <br></br>
-      <Button color="secondary" onClick={goBack}>Back</Button>
+      <Button color="secondary" onClick={goBack}>
+        Back
+      </Button>
       <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
         <h3 style={{ marginLeft: "35%" }}>Managers</h3>
+        {error && <h5>{error}</h5>}
         {managers.map((manager) => (
           <ListItem
             key={manager.key}
@@ -53,7 +69,7 @@ export default function ManagersList() {
             <ListItemAvatar>
               <Avatar />
             </ListItemAvatar>
-            <ListItemText primary={manager.name} secondary={manager.title} />
+            <ListItemText primary={manager.Name} />
             <Button color="secondary" onClick={editPerson} variant="contained">
               See Details
             </Button>

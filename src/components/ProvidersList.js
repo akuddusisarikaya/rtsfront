@@ -9,60 +9,41 @@ import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
-const providers = [
-  {
-    key: 1,
-    name: "Alice Allen",
-    title: "Aesthetician",
-  },
-  {
-    key: 2,
-    name: "Austin Arnord",
-    title: "Nutritionist",
-  },
-  {
-    key: 3,
-    name: "Amelia Adams",
-    title: "Aesthetician",
-  },
-  {
-    key: 4,
-    name: "Alice Abbott",
-    title: "Nutritionist",
-  },
-  {
-    key: 5,
-    name: "Abigail Armstrong",
-    title: "Aesthetician",
-  },
-  {
-    key: 6,
-    name: "Alice Allen",
-    title: "Aesthetician",
-  },
-  {
-    key: 7,
-    name: "Austin Arnord",
-    title: "Nutritionist",
-  },
-  {
-    key: 8,
-    name: "Amelia Adams",
-    title: "Aesthetician",
-  },
-  {
-    key: 9,
-    name: "Alice Abbott",
-    title: "Nutritionist",
-  },
-  {
-    key: 10,
-    name: "Abigail Armstrong",
-    title: "Aesthetician",
-  },
-];
-
 export default function ProviderList() {
+  const [error, setError] = React.useState(null);
+  const [providers, setProviders] = React.useState([])
+
+  React.useEffect(() => {
+    const admin = JSON.parse(sessionStorage.getItem("admin")) || {}; // Buraya taşındı
+    if(!admin)return;
+    const fetchProviders = async () => {
+      if (!admin || !admin.CompanyID) {
+        return;
+      }
+
+      setError(null);
+      try {
+        const response = await fetch(
+          `http://localhost:8080/getproviderbycompany?companyID=${admin.CompanyID}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Providers did not catch");
+        }
+        const data = await response.json();
+        setProviders(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchProviders();
+  }, []);
+
   
   const navigate = useNavigate()
 
@@ -80,12 +61,13 @@ export default function ProviderList() {
       <Button color="secondary" onClick={goBack} >Back</Button>
       <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
       <h3 style={{marginLeft:"35%"}}>Service Providers</h3>
+      {error&&<h5> {error} </h5>}
       {providers.map((provider) => (
         <ListItem key={provider.key} style={{ marginTop: "5px"}}>
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
-          <ListItemText primary={provider.name} secondary={provider.title} />
+          <ListItemText primary={provider.Name} />
           <Button color="secondary" variant="contained" onClick={goDetails}>See Details</Button>
         </ListItem>
       ))}

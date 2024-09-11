@@ -39,7 +39,7 @@ export default function SuperUserTableCompany() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const response = await fetch('http://localhost:8080/superuser/companies', {
           method: 'GET',
           headers: {
