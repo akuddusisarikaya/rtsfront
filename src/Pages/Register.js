@@ -9,7 +9,6 @@ export default function Register() {
   // Kullanıcıdan alınan verileri tutmak için state
   const [user, setUser] = React.useState({
     name: "",
-    surname: "",
     email: "",
     phone: "",
     password: "",
@@ -42,7 +41,47 @@ export default function Register() {
       return;
     }
 
-    // Backend'e istek gönder
+    if(!(user.name)){
+      setSnackbar({
+        open: true,
+        message:"Name valid did not catch!",
+        severity:"error",
+      })
+      return
+    }
+    if(!(user.email)){
+      setSnackbar({
+        open: true,
+        message:"Email valid did not catch!",
+        severity:"error",
+      })
+      return
+    }
+    if(!(user.phone)){
+      setSnackbar({
+        open: true,
+        message:"Phone valid did not catch!",
+        severity:"error",
+      })
+      return
+    }
+    if(!(user.password)){
+      setSnackbar({
+        open: true,
+        message:"Password valid did not catch!",
+        severity:"error",
+      })
+      return
+    }
+    if(user.password.length < 8 ){
+      setSnackbar({
+        open:true,
+        message:"Password must be longer than 8 characters",
+        severity:"error",
+      })
+      return
+    }
+
     try {
       const response = await fetch("http://localhost:8080/user", {
         method: "POST",
@@ -52,8 +91,8 @@ export default function Register() {
         body: JSON.stringify({
           name: user.name,
           email: user.email,
-          passwordHash: user.password, // Parola hash'lemesi backend'de yapılacak
-          role: "Customer", // Varsayılan olarak "customer" rolü
+          passwordHash: user.password, 
+          role: "Customer", 
           phone: user.phone
         }),
       });
@@ -120,15 +159,6 @@ export default function Register() {
               className="registerTextField"
               id="name"
               label="Name"
-              onChange={handleChange}
-            />
-            <br></br>
-            <br></br>
-            <TextField
-              className="registerTextField"
-              required
-              id="surname"
-              label="Surname"
               onChange={handleChange}
             />
             <br></br>
