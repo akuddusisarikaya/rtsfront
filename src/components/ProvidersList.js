@@ -67,7 +67,7 @@ export default function ProviderList() {
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
-          <ListItemText primary={provider.Name} />
+          <ListItemText primary={provider.Name} secondary={`${provider.Phone}  /  ${provider.Email}`} />
           <Button color="secondary" variant="contained" onClick={goDetails}>See Details</Button>
         </ListItem>
       ))}

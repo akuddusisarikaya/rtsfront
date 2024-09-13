@@ -22,7 +22,7 @@ const first = [
   { key: 1, name: "Dashboard", link: "/provider" },
   { key: 2, name: "Services & Pricing", link: "/providerservices" },
   { key: 3, name: "Appointments", link: "/providerappointment" },
-  { key: 4, name: "Reports & Analytics", link: "/providerreports" },
+  //{ key: 4, name: "Reports & Analytics", link: "/providerreports" },
 ];
 const second = [
   { key: 1, name: "Profile", link: "/providerprofile" },

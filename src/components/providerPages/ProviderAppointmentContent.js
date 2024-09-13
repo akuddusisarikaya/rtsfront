@@ -5,15 +5,29 @@ import Box from "@mui/material/Box";
 import DateChoise from "../DateChoise";
 import SmallAppointments from "../SmallAppointments";
 import { useMediaQuery } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
+export default function ProviderAppointmentContent() {
+  const isMobile = useMediaQuery("(max-width:768px)");
 
-export default function ProviderAppointmentContent(){
+  const nav = useNavigate();
+  const editApps = () => {
+    nav("/providerworkingdates");
+  };
 
-    const isMobile = useMediaQuery("(max-width:768px)");
-
-    return(
-        <Box>
-            {isMobile ? (
+  return (
+    <Box>
+      <Button
+        color="secondary"
+        variant="contained"
+        onClick={editApps}
+        style={{ marginLeft: "10%" }}
+      >
+        {" "}
+        Edit Appointments
+      </Button>
+      {isMobile ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper className="itemStyles">
@@ -40,6 +54,6 @@ export default function ProviderAppointmentContent(){
           </Grid>
         </Grid>
       )}
-        </Box>
-    )
+    </Box>
+  );
 }

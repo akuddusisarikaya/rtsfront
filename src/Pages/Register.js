@@ -132,7 +132,7 @@ export default function Register() {
 
   // Geri butonuna tıklama işlemi
   const backClick = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   return (

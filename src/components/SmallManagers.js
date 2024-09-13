@@ -56,7 +56,7 @@ export default function SmallManagers() {
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
-          <ListItemText primary={manager.Name}/>
+          <ListItemText primary={manager.Name} secondary={`${manager.Phone} / ${manager.Email}`}/>
         </ListItem>
       ))}
       <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>

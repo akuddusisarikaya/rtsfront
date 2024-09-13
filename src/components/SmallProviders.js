@@ -59,7 +59,7 @@ export default function SmallProviders() {
           <ListItemAvatar>
             <Avatar />
           </ListItemAvatar>
-          <ListItemText primary={provider.Name} />
+          <ListItemText primary={provider.Name} secondary={`${provider.Phone}  /  ${provider.Email}`}/>
         </ListItem>
       ))}
       <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>

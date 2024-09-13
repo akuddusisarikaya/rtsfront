@@ -69,7 +69,7 @@ export default function ManagersList() {
             <ListItemAvatar>
               <Avatar />
             </ListItemAvatar>
-            <ListItemText primary={manager.Name} />
+            <ListItemText primary={manager.Name} secondary={`${manager.Phone} / ${manager.Email}`} />
             <Button color="secondary" onClick={editPerson} variant="contained">
               See Details
             </Button>

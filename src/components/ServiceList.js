@@ -22,24 +22,26 @@ export default function ServiceList() {
       setIsProvider(true);
       setSelectedProvider(provider);
     }
-  }, [provider]);
+  }, []);
 
   const handleProviderChange = (e) => {
     setSelectedProvider(e.target.value);
   };
 
   React.useEffect(() => {
-    const admin = JSON.parse(sessionStorage.getItem("admin")) || {}; // Buraya taşındı
-    if(!admin)return;
+    const admin = JSON.parse(sessionStorage.getItem("admin"));
+    const provider = JSON.parse(sessionStorage.getItem("provider"))
+    let role = {}
+    if(!admin){
+      role = admin
+    }else {
+      role = provider
+    }
     const fetchProviders = async () => {
-      if (!admin || !admin.CompanyID) {
-        return;
-      }
-
       setError(null);
       try {
         const response = await fetch(
-          `http://localhost:8080/getproviderbycompany?companyID=${admin.CompanyID}`,
+          `http://localhost:8080/getproviderbycompany?companyID=${role.CompanyID}`,
           {
             method: "GET",
             headers: {
@@ -105,7 +107,6 @@ export default function ServiceList() {
         Back
       </Button>
       <br />
-      {error && <h5>{error}</h5>}
       <br />
       {isProvider ? (
         <Button variant="contained" color="secondary" onClick={()=> {nav("/provideraddservice")}} > Add Service</Button>

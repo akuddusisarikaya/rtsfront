@@ -33,7 +33,7 @@ export default function ProviderAppointmentsOfDay() {
   const [error, setError] = React.useState(null);
   const provider = JSON.parse(sessionStorage.getItem("provider"));
   const nav = useNavigate();
-  const todayInIstanbul = dayjs().tz(TIMEZONE).format('YYYY-MM-DD')
+  //const todayInIstanbul = dayjs().tz(TIMEZONE).format('YYYY-MM-DD')
 
   const handleDateChange = (newdate) => {
     setSelectedDate(newdate)
@@ -111,8 +111,8 @@ export default function ProviderAppointmentsOfDay() {
                         appointment.StartTime
                       )} - ${formedTime(appointment.EndTime)}`}
                       secondary={`Status: ${
-                        appointment.activate
-                          ? `Active Customer: ${appointment.CustomerEmail}`
+                        appointment.Activate
+                          ? `Active Customer: ${appointment.CustomerName}`
                           : "Inactive"
                       }`}
                     />

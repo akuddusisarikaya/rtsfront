@@ -16,17 +16,8 @@ function Homepage() {
     const appointmentButtonClick = () => {
         navigate('/appointment')
     }
-    const goAdmin = () => {
-        navigate('/adminlogin')
-    }
     const goPrices = () => {
         navigate('/prices')
-    }
-    const goProvider = () => {
-        navigate("/providerlogin")
-    }
-    const goManager = () => {
-        navigate("/managerlogin")
     }
 
     return(
@@ -61,21 +52,6 @@ function Homepage() {
             <br></br>
             <br></br>
             <Button variant="contained" color="secondary" className="buttonHP" onClick={goPrices}> Prices</Button>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Button variant="contained" color="secondary" className="buttonHP" onClick={goAdmin}> Admin</Button>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Button variant="contained" color="secondary" className="buttonHP" onClick={goProvider}> Provider</Button>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Button variant="contained" color="secondary" className="buttonHP" onClick={goManager}> Manager</Button>
             <br></br>
             <br></br>
             <br></br>
