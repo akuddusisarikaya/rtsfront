@@ -27,8 +27,8 @@ export default function SmallAppointments({ size }) {
     return dayjs(time).tz(TIMEZONE).format("HH:mm");
   };
   const formedDate = (time) => {
-    return dayjs(time).tz(TIMEZONE).format("DD/MM/YYYY")
-  }
+    return dayjs(time).tz(TIMEZONE).format("DD/MM/YYYY");
+  };
 
   React.useEffect(() => {
     const fetchAppointments = async () => {
@@ -81,19 +81,25 @@ export default function SmallAppointments({ size }) {
     <Box className={listClassSize}>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         <h3>Appointments</h3>
-        {appointments.slice(0, 5).map((appointment) => (
-          <ListItem key={appointment.ID}>
-            <ListItemAvatar>
-              <Avatar />
-            </ListItemAvatar>
-            <ListItemText
-              primary={`${appointment.ProviderEmail}- ${formedDate(appointment.Date)}`}
-              secondary={`${formedTime(appointment.StartTime)}-${formedTime(
-                appointment.EndTime
-              )}`}
-            />
-          </ListItem>
-        ))}
+        {appointments !== null ? (
+          appointments.slice(0, 5).map((appointment) => (
+            <ListItem key={appointment.ID}>
+              <ListItemAvatar>
+                <Avatar />
+              </ListItemAvatar>
+              <ListItemText
+                primary={`${appointment.ProviderEmail}- ${formedDate(
+                  appointment.Date
+                )}`}
+                secondary={`${formedTime(appointment.StartTime)}-${formedTime(
+                  appointment.EndTime
+                )}`}
+              />
+            </ListItem>
+          ))
+        ) : (
+          <Box />
+        )}
         <Button color="secondary" variant="contained" onClick={detailClick}>
           See Others
         </Button>

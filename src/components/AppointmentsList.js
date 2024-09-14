@@ -23,18 +23,93 @@ export default function AppointmentsList() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const navigate = useNavigate();
+  const admin = JSON.parse(sessionStorage.getItem("admin"));
+  const [emails, setEmails] = React.useState([]);
 
   const formedTime = (time) => {
     return dayjs(time).tz(TIMEZONE).format("HH:mm");
   };
 
+  // Admin mevcutsa, şirket ID'si ile providerların e-posta adreslerini çek
   React.useEffect(() => {
-    const fetchAppointments = async () => {
+    if (!admin) return;
+
+    const fetchEmails = async () => {
       try {
-        const email = sessionStorage.getItem("email");
+        const company = admin.CompanyID;
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:8080/admin/getallproviderapp?email=${email}`,
+          `http://localhost:8080/admin/getprovidersemails?companyID=${company}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) throw new Error("Data did not catch");
+        const data = await response.json();
+        setEmails(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchEmails();
+  }, [admin]);
+
+  // E-posta adreslerine göre randevuları çek
+  React.useEffect(() => {
+    const fetchAppointmentsByEmails = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+
+        // Tüm e-posta adresleri için randevuları çek
+        const appointmentPromises = emails.map(async (email) => {
+          const response = await fetch(
+            `http://localhost:8080/admin/getallproviderapp?email=${email}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch appointments");
+          }
+
+          return response.json();
+        });
+
+        // Tüm randevuları birleştir
+        const allAppointments = await Promise.all(appointmentPromises);
+        setAppointments(allAppointments.flat()); // Tüm randevuları düz bir diziye çevir
+      } catch (error) {
+        setError("An error occurred while fetching data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (emails.length > 0) {
+      fetchAppointmentsByEmails();
+    }
+  }, [emails]);
+
+  // Eğer admin yoksa mevcut davranış
+  React.useEffect(() => {
+    if (admin) return; // Admin varsa bu bölümü atla
+
+    const fetchAppointments = async () => {
+      try {
+        const provider = JSON.parse(sessionStorage.getItem("provider"))
+        const token = sessionStorage.getItem("token");
+        const response = await fetch(
+          `http://localhost:8080/provider/getallproviderapp?email=${provider.Email}`,
           {
             method: "GET",
             headers: {
@@ -58,7 +133,7 @@ export default function AppointmentsList() {
     };
 
     fetchAppointments();
-  }, []);
+  }, []); // Admin yoksa çalış
 
   const goBack = () => {
     navigate(-1);
@@ -86,24 +161,32 @@ export default function AppointmentsList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {appointments.length > 0 ? (
+            {appointments !== null ? (
               appointments.map((appointment) => (
                 <TableRow key={appointment.ID}>
-                  <TableCell align="center">{appointment.ProviderEmail}</TableCell>
-                  <TableCell align="center">{new Date(appointment.Date).toLocaleDateString()}</TableCell>
-                  <TableCell align="center">{formedTime(appointment.StartTime)}</TableCell>
-                  <TableCell align="center">{formedTime(appointment.EndTime)}</TableCell>
-                  {appointment.CustomerEmail !== null ? (
-                    <TableCell align="center">{appointment.CustomerEmail}</TableCell>
-                  ):(
-                    <div/>
-                  )}
-                  <TableCell align="center">{appointment.Activate ? 'Active' : 'Inactive'}</TableCell>
+                  <TableCell align="center">
+                    {appointment.ProviderEmail}
+                  </TableCell>
+                  <TableCell align="center">
+                    {new Date(appointment.Date).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell align="center">
+                    {formedTime(appointment.StartTime)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {formedTime(appointment.EndTime)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {appointment.CustomerEmail || "N/A"}
+                  </TableCell>
+                  <TableCell align="center">
+                    {appointment.Activate ? "Active" : "Inactive"}
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} align="center">
+                <TableCell colSpan={6} align="center">
                   No Appointments Available
                 </TableCell>
               </TableRow>

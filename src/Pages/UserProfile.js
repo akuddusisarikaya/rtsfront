@@ -87,7 +87,6 @@ class UserProfile extends Component {
         });
       });
     } catch (error) {
-      this.setState({ error: "Verification data could not be fetched" });
     }
   };
 
@@ -182,7 +181,7 @@ class UserProfile extends Component {
           <TextField label="Name" value={userData?.Name || ""} disabled />
           <br />
           <br />
-          <TextField label="Email" value={userData?.Email || ""} disabled />
+          <TextField label={emailButton? "Email" : "Verificated Email" } value={userData?.Email || ""} disabled />
           <br />
           <br />
           <TextField label="Phone" value={userData?.Phone || ""} disabled />
