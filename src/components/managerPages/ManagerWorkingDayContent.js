@@ -40,7 +40,7 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-export default function ProviderWorkingDatesContent() {
+export default function ManagerWorkingDayContent() {
   const nav = useNavigate();
   const isMobile = useMediaQuery("(max-width:768px)");
   const [selectedDate, setSelectedDate] = React.useState(dayjs());
@@ -121,7 +121,7 @@ export default function ProviderWorkingDatesContent() {
       try {
         const formattedDate = selectedDate.format("YYYY-MM-DD");
         const response = await fetch(
-          `http://localhost:8080/provider/getappointments?email=${user.email}&date=${formattedDate}`,
+          `http://localhost:8080/manager/getappointments?email=${user.email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {
@@ -156,7 +156,7 @@ export default function ProviderWorkingDatesContent() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/provider/addproviderapp",
+        "http://localhost:8080/manager/addproviderapp",
         {
           method: "POST",
           headers: {
@@ -210,27 +210,24 @@ export default function ProviderWorkingDatesContent() {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:8080/provider/addappauto",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            ProviderEmail: user.email,
-            ProviderName: user.name,
-            CompanyName: user.company_name,
-            CompanyID: user.company_id,
-            Weekdays: weekdays,
-            ShiftStart: shiftStart.format("HH:mm"),
-            ShiftEnd: shiftEnd.format("HH:mm"),
-            Period: parseInt(period),
-            Activate: false,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:8080/manager/addappauto", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ProviderEmail: user.email,
+          ProviderName: user.name,
+          CompanyName: user.company_name,
+          CompanyID: user.company_id,
+          Weekdays: weekdays,
+          ShiftStart: shiftStart.format("HH:mm"),
+          ShiftEnd: shiftEnd.format("HH:mm"),
+          Period: parseInt(period),
+          Activate: false,
+        }),
+      });
       if (response.ok) {
         setSnackbar({
           open: true,
@@ -259,7 +256,7 @@ export default function ProviderWorkingDatesContent() {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/provider/deleteapp?id=${id}`,
+        `http://localhost:8080/manager/deleteapp?id=${id}`,
         {
           method: "DELETE",
           headers: {
@@ -299,23 +296,24 @@ export default function ProviderWorkingDatesContent() {
       {loading && <Typography>Loading...</Typography>}
       {error && <Typography color="error">{error}</Typography>}
       <Button
-        fullWidth
         onClick={handleAddButton}
         color="secondary"
         variant="contained"
+        fullWidth
       >
         {isCardOpen ? "Close" : "Add Appointment"}
       </Button>
       <br />
       <br />
       <Button
-        fullWidth
         color="secondary"
         variant="contained"
         onClick={handleAutoAddButton}
+        fullWidth
       >
         {autoAddButton ? "Close" : "Add Appointments Automaticly"}
       </Button>
+      <br />
       {isCardOpen && (
         <Card sx={{ marginTop: 2 }}>
           <CardContent>
@@ -369,7 +367,7 @@ export default function ProviderWorkingDatesContent() {
             </Box>
             <br/>
             <Button
-              fullWidth
+            fullWidth
               onClick={handleSubmit}
               color="secondary"
               variant="contained"
@@ -384,6 +382,7 @@ export default function ProviderWorkingDatesContent() {
           <CardContent>
             <Typography variant="h6">Select Weekdays</Typography>
             <SelectWeekdays handleWeekdays={handleDays} value={weekdays} />
+            <br/>
             {isMobile ? (
               <Grid
                 container
@@ -423,25 +422,18 @@ export default function ProviderWorkingDatesContent() {
                 </Grid>
               </Grid>
             )}
-            <br />
-            <Typography variant="h6">Period:</Typography>
+            <br/>
             <TextField
-              fullWidth
+             fullWidth
               type="number"
               label="Period (minutes)"
               onChange={(e) => setPeriod(e.target.value)}
             />
-            <br />
-            <br />
-            <Button
-              fullWidth
-              color="secondary"
-              variant="contained"
-              onClick={handleAuto}
-            >
+            <br/>
+            <br/>
+            <Button fullWidth color="secondary" variant="contained" onClick={handleAuto}>
               OK
             </Button>
-            <br />
           </CardContent>
         </Card>
       )}

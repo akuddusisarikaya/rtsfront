@@ -20,11 +20,13 @@ export default function ProviderServiceContent() {
       <Box>
         <Box>
           <br></br>
-          <Button onClick={addService} variant="contained" color="secondary" style={{margin: "5%", width:"30%"}}>
+          <Button onClick={addService} variant="contained" color="secondary" fullWidth>
             Add Service{" "}
           </Button>
         </Box>
       </Box>
+      <br/>
+      <br/>
       <Box>
         {isMobile ? (
           <Grid container spacing={2}>

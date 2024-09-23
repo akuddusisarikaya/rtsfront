@@ -14,6 +14,9 @@ import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import ManagerDrawer from "./managerPages/ManagerDrawer";
+import AdminDrawer from "./adminPages/AdminDrawer";
+import ProviderDrawer from "./providerPages/ProviderDrawer";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 const TIMEZONE = "Europe/Istanbul";
@@ -23,23 +26,24 @@ export default function AppointmentsList() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const navigate = useNavigate();
-  const admin = JSON.parse(sessionStorage.getItem("admin"));
+  const user = JSON.parse(sessionStorage.getItem("user"));
   const [emails, setEmails] = React.useState([]);
+  const role = user.role.toLowerCase();
+  let appointmentList = [];
 
   const formedTime = (time) => {
     return dayjs(time).tz(TIMEZONE).format("HH:mm");
   };
 
-  // Admin mevcutsa, şirket ID'si ile providerların e-posta adreslerini çek
   React.useEffect(() => {
-    if (!admin) return;
+    if (role === "provider") return;
 
     const fetchEmails = async () => {
       try {
-        const company = admin.CompanyID;
+        const company = user.company_id;
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:8080/admin/getprovidersemails?companyID=${company}`,
+          `http://localhost:8080/${role}/getproviders?companyId=${company}`,
           {
             method: "GET",
             headers: {
@@ -48,27 +52,28 @@ export default function AppointmentsList() {
             },
           }
         );
-        if (!response.ok) throw new Error("Data did not catch");
+        if (!response.ok) throw new Error("Failed to fetch providers");
         const data = await response.json();
-        setEmails(data);
+        const emailList = data.map((provider) => provider.email);
+        setEmails(emailList);
       } catch (error) {
         setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchEmails();
-  }, [admin]);
+  }, []);
 
-  // E-posta adreslerine göre randevuları çek
   React.useEffect(() => {
-    const fetchAppointmentsByEmails = async () => {
-      try {
-        const token = sessionStorage.getItem("token");
-
-        // Tüm e-posta adresleri için randevuları çek
-        const appointmentPromises = emails.map(async (email) => {
+    if (role === "provider") return;
+    const fetchAppointments = async () => {
+      const token = sessionStorage.getItem("token");
+      for (let email of emails) {
+        try {
           const response = await fetch(
-            `http://localhost:8080/admin/getallproviderapp?email=${email}`,
+            `http://localhost:8080/${role}/getallproviderapp?email=${email}`,
             {
               method: "GET",
               headers: {
@@ -77,39 +82,33 @@ export default function AppointmentsList() {
               },
             }
           );
-
-          if (!response.ok) {
-            throw new Error("Failed to fetch appointments");
+          if (response.ok) {
+            const data = await response.json();
+            if (data !== null) {
+              if (data.length > 0) {
+                appointmentList = [...appointmentList, ...data];
+              } else continue;
+            } else continue;
           }
-
-          return response.json();
-        });
-
-        // Tüm randevuları birleştir
-        const allAppointments = await Promise.all(appointmentPromises);
-        setAppointments(allAppointments.flat()); // Tüm randevuları düz bir diziye çevir
-      } catch (error) {
-        setError("An error occurred while fetching data.");
-      } finally {
-        setLoading(false);
+          setAppointments(appointmentList);
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
       }
+      setAppointments(appointmentList);
     };
+    fetchAppointments();
+  }, [emails, role]);
 
-    if (emails.length > 0) {
-      fetchAppointmentsByEmails();
-    }
-  }, [emails]);
-
-  // Eğer admin yoksa mevcut davranış
   React.useEffect(() => {
-    if (admin) return; // Admin varsa bu bölümü atla
-
+    if (role === "manager" || role === "admin") return;
     const fetchAppointments = async () => {
       try {
-        const provider = JSON.parse(sessionStorage.getItem("provider"))
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:8080/provider/getallproviderapp?email=${provider.Email}`,
+          `http://localhost:8080/provider/getallproviderapp?email=${user.email}`,
           {
             method: "GET",
             headers: {
@@ -118,22 +117,22 @@ export default function AppointmentsList() {
             },
           }
         );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
+        if (!response.ok) throw new Error("appointments did not catch");
         const data = await response.json();
         setAppointments(data);
       } catch (error) {
-        setError("An error occurred while fetching data.");
-      } finally {
-        setLoading(false);
+        setError(error.message);
+      }finally{
+        setLoading(false)
       }
     };
-
     fetchAppointments();
-  }, []); // Admin yoksa çalış
+  },[]);
+  
+
+  const handleDetail = (e) => {
+    navigate(`/adminappointmentdetail/${e.target.value}`)
+  }
 
   const goBack = () => {
     navigate(-1);
@@ -144,56 +143,67 @@ export default function AppointmentsList() {
 
   return (
     <Box>
-      <br />
-      <Button color="secondary" onClick={goBack}>
-        Back
-      </Button>
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Provider Email</TableCell>
-              <TableCell align="center">Date</TableCell>
-              <TableCell align="center">StartTime</TableCell>
-              <TableCell align="center">EndTime</TableCell>
-              <TableCell align="center">CustomerEmail</TableCell>
-              <TableCell align="center">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {appointments !== null ? (
-              appointments.map((appointment) => (
-                <TableRow key={appointment.ID}>
-                  <TableCell align="center">
-                    {appointment.ProviderEmail}
-                  </TableCell>
-                  <TableCell align="center">
-                    {new Date(appointment.Date).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell align="center">
-                    {formedTime(appointment.StartTime)}
-                  </TableCell>
-                  <TableCell align="center">
-                    {formedTime(appointment.EndTime)}
-                  </TableCell>
-                  <TableCell align="center">
-                    {appointment.CustomerEmail || "N/A"}
-                  </TableCell>
-                  <TableCell align="center">
-                    {appointment.Activate ? "Active" : "Inactive"}
+      {role === "manager" && <ManagerDrawer/>}
+      {role === "admin" && <AdminDrawer/>}
+      {role === "provider" && <ProviderDrawer/>}
+      <Box className="dashboardNotMobile">
+        <br />
+        <Button color="secondary" onClick={goBack}>
+          Back
+        </Button>
+        <TableContainer style={{ width: "120%" }} component={Paper}>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">Provider Name</TableCell>
+                <TableCell align="center">Date</TableCell>
+                <TableCell align="center">StartTime</TableCell>
+                <TableCell align="center">EndTime</TableCell>
+                <TableCell align="center">Customer Name</TableCell>
+                <TableCell align="center">Status</TableCell>
+                <TableCell align="center">Detail</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {appointments !== null ? (
+                appointments.map((appointment, index) =>
+                  appointment ? (
+                    <TableRow key={index}>
+                      <TableCell align="center">
+                        {appointment.provider_name}
+                      </TableCell>
+                      <TableCell align="center">
+                        {new Date(appointment.date).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell align="center">
+                        {formedTime(appointment.start_time)}
+                      </TableCell>
+                      <TableCell align="center">
+                        {formedTime(appointment.end_time)}
+                      </TableCell>
+                      <TableCell align="center">
+                        {appointment.customer_name || "noCustomer"}
+                      </TableCell>
+                      <TableCell align="center">
+                        {appointment.activate ? "Active" : "Inactive"}
+                      </TableCell>
+                      <TableCell>
+                        <Button onClick={handleDetail} value={appointment.id}>Detail</Button>
+                      </TableCell>
+                    </TableRow>
+                  ) : null
+                )
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} align="center">
+                    No Appointments Available
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={6} align="center">
-                  No Appointments Available
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </Box>
   );
 }

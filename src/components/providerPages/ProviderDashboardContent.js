@@ -21,7 +21,7 @@ export default function ProviderDashboardContent() {
         color="secondary"
         variant="contained"
         onClick={editApps}
-        style={{ marginLeft: "10%" }}
+        fullWidth
       >
         {" "}
         Edit Appointments

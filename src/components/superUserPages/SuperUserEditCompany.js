@@ -8,7 +8,7 @@ export default function SuperUserEditCompany() {
     adminName: '',
     address: '',
     phone: '',
-    adminId : '',
+    adminId: '',
     managersNumber: 0,
     providersNumber: 0,
     services: [],
@@ -32,28 +32,25 @@ export default function SuperUserEditCompany() {
     setLoading(true);
     setError(null);
     try {
-      const token = sessionStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/superuser/companyget?name=${searchName}`, {
+      const response = await fetch(`http://localhost:8080/getcompanybyname?name=${searchName}`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
 
       if (!response.ok) throw new Error('Şirket bulunamadı');
       const data = await response.json();
-
       // Gelen veriyi state'e doğru bir formatta ekleyin
       setCompany({
-        name: data.Name,
-        adminName: data.AdminName,
-        address: data.Address,
-        phone: data.Phone,
-        adminId : data.AdminId,
-        managersNumber: data.ManagersNumber,
-        providersNumber: data.ProvidersNumber,
-        services: data.Services,
+        name: data.name,
+        adminName: data.adminName,
+        address: data.address,
+        phone: data.phone,
+        adminId: data.adminId,
+        managersNumber: data.managersNumber,
+        providersNumber: data.providersNumber,
+        services: data.services,
       });
     } catch (error) {
       setError('Şirket arama hatası: ' + error.message);
@@ -62,15 +59,16 @@ export default function SuperUserEditCompany() {
       setLoading(false);
     }
   };
+
   const goBack = () => {
-    nav(-1)
-  }
+    nav(-1);
+  };
 
   // Şirket güncelleme işlemi
   const handleSubmit = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/superuser/company/update?name=${searchName}`, {
+      const response = await fetch(`http://localhost:8080/superuser/companyupdate?name=${searchName}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -78,24 +76,25 @@ export default function SuperUserEditCompany() {
         },
         body: JSON.stringify(company),
       });
-
+      console.log(company)
       if (!response.ok) throw new Error('Şirket güncellenemedi');
       alert('Şirket başarıyla güncellendi!');
-      nav('/superuser');
+      nav(-1);
     } catch (error) {
       console.error('Şirket güncelleme hatası:', error);
       alert('Şirket güncellenirken bir hata oluştu.');
     }
   };
+
   const handleKeyForSearch = (e) => {
-    if(e.key === "Enter" ){
-        handleSearch();
+    if (e.key === 'Enter') {
+      handleSearch();
     }
-  }
- 
+  };
+
   return (
     <Box sx={{ maxWidth: 500, margin: 'auto', padding: 2 }}>
-        <Button onClick={goBack} color='secondary'>BACK</Button>
+      <Button onClick={goBack} color='secondary'>BACK</Button>
       <h2>Edit Company</h2>
       <Box display="flex" alignItems="center" marginBottom={2}>
         <TextField
@@ -123,9 +122,9 @@ export default function SuperUserEditCompany() {
       <TextField
         id="adminId"
         label="Admin ID"
-        variant='outlined'
+        variant="outlined"
         fullWidth
-        margin='normal'
+        margin="normal"
         value={company.adminId}
         onChange={handleChange}
       />

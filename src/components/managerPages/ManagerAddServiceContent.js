@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import { Card, Button, TextField } from "@mui/material";
 
-export default function ProviderAddServiceContent() {
+export default function ManagerAddServiceContent() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -24,6 +24,7 @@ export default function ProviderAddServiceContent() {
   };
 
   const handleSubmit = async () => {
+    nav(0)
     if (!service || service.length < 3) {
       setError("Please enter a valid service name.");
       return;
@@ -37,11 +38,11 @@ export default function ProviderAddServiceContent() {
 
     setLoading(true);
     setError(null);
-
+    
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/provider/updateuser?id=${user.id}`,
+        `http://localhost:8080/manager/updateuser?id=${user._id}`,
         {
           method: "PUT",
           headers: {
@@ -55,7 +56,7 @@ export default function ProviderAddServiceContent() {
       if (!response.ok) {
         throw new Error("Failed to add service. Please try again.");
       } else {
-        alert('Service added successfully!');
+        alert("Service added successfully!");
         nav(0);
       }
     } catch (error) {
@@ -85,7 +86,11 @@ export default function ProviderAddServiceContent() {
           value={service}
           onChange={handleService}
           error={!!error && service.length < 3}
-          helperText={!!error && service.length < 3 ? "Service name must be at least 3 characters." : ""}
+          helperText={
+            !!error && service.length < 3
+              ? "Service name must be at least 3 characters."
+              : ""
+          }
         />
         <br />
         <br />

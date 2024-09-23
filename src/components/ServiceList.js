@@ -5,175 +5,198 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { Button, Box, TextField, MenuItem } from "@mui/material";
+import Card from "@mui/material/Card";
+import ProviderDrawer from "./providerPages/ProviderDrawer";
+import ManagerDrawer from "./managerPages/ManagerDrawer";
+import AdminDrawer from "./adminPages/AdminDrawer";
 
 export default function ServiceList() {
-  const [error, setError] = React.useState(null);
   const nav = useNavigate();
-  const provider = JSON.parse(sessionStorage.getItem("provider"));
+  const [error, setError] = React.useState(null);
+  const [user, setUser] = React.useState(
+    JSON.parse(sessionStorage.getItem("user"))
+  );
   const [isProvider, setIsProvider] = React.useState(false);
-  const [selectedProvider, setSelectedProvider] = React.useState({});
-  const [providers, setProviders] = React.useState([]);
-  const providerServices = selectedProvider.Services || [];
-
-  React.useEffect(() => {
-    if (!provider) {
-      setIsProvider(false);
-    } else {
-      setIsProvider(true);
-      setSelectedProvider(provider);
-    }
-  }, []);
-
-  const handleProviderChange = (e) => {
-    setSelectedProvider(e.target.value);
+  const [provider, setProvider] = React.useState({});
+  const [providerList, setProviderList] = React.useState([]);
+  const role = user.role.toLowerCase();
+  const handleProvider = (e) => {
+    const selectedProvider = providerList.find(
+      (prov) => prov.id === e.target.value
+    );
+    setProvider(selectedProvider);
   };
 
   React.useEffect(() => {
-    const admin = JSON.parse(sessionStorage.getItem("admin"));
-    const provider = JSON.parse(sessionStorage.getItem("provider"))
-    let role = {}
-    if(!admin){
-      role = admin
-    }else {
-      role = provider
-    }
-    const fetchProviders = async () => {
-      setError(null);
-      try {
-        const response = await fetch(
-          `http://localhost:8080/getproviderbycompany?companyID=${role.CompanyID}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Providers did not catch");
-        }
-        const data = await response.json();
-        setProviders(data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-    fetchProviders();
-  }, []); // admin bağımlılıkları kaldırıldı
+    if (role === "provider") {
+      setIsProvider(true);
 
-  const handleService = async (e) => {
-    const serviceIndex = e.currentTarget.value; // Butonun değerini doğrudan kullanıyoruz.
-    setError(null);
+      const fetchData = async () => {
+        try {
+          const token = sessionStorage.getItem("token");
+          const response = await fetch(
+            `http://localhost:8080/provider/getuserbyemail?email=${user.email}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!response.ok) throw new Error("Error fetching data");
+          const data = await response.json();
+          setProvider(data);
+          setUser(data);
+        } catch (error) {
+          setError(error.message);
+        }
+      };
+      fetchData();
+    } else {
+      setIsProvider(false);
+      const fetchData = async () => {
+        try {
+          const token = sessionStorage.getItem("token");
+          const response = await fetch(
+            `http://localhost:8080/${role}/getproviders?companyId=${user.company_id}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!response.ok) throw new Error("Error fetching data");
+          const data = await response.json();
+          setProviderList(data);
+        } catch (error) {
+          setError(error.message);
+        }
+      };
+      fetchData();
+    }
+  }, [user]);
+
+  const removeByIndex = (arr, index) => {
+    return arr.slice(0, index).concat(arr.slice(index + 1));
+  };
+
+  const handleAddService = () => {
+    if(role === "provider"){
+      nav("/provideraddservice")
+    } else if(role === "manager"){
+      nav("/manageraddservice")
+    }
+  }
+
+  const handleDelete = async (e) => {
+    const index = e.target.value;
+    const newServices = removeByIndex(provider.services, index);
+    const token = sessionStorage.getItem("token");
     try {
-      const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:8080/provider/deleteservice?providerID=${selectedProvider.ID}&index=${serviceIndex}`,
+        `http://localhost:8080/${role}/updateuser?id=${provider.id}`,
         {
-          method: "DELETE",
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({ services: newServices }),
         }
       );
-      if (!response.ok) {
-        throw new Error("Services did not delete");
-      } else {
-        // Başarıyla silindiğinde, silinen öğeyi arayüzden de kaldırın
-        const updatedServices = providerServices.filter((_, index) => index !== parseInt(serviceIndex));
-        setSelectedProvider({ ...selectedProvider, Services: updatedServices });
-      }
+      if (!response.ok) throw new Error("Service did not delete");
+      setProvider({ ...provider, services: newServices });
     } catch (error) {
       setError(error.message);
     }
   };
 
-  let services = [];
-  try {
-    services = JSON.parse(sessionStorage.getItem("services")) || [];
-  } catch (error) {
-    console.error("Failed to parse services:", error);
-  }
-
   return (
     <Box>
-      <br />
-      <Button
-        color="secondary"
-        onClick={() => {
-          nav(-1);
-        }}
-      >
-        Back
-      </Button>
-      <br />
-      <br />
-      {isProvider ? (
-        <Button variant="contained" color="secondary" onClick={()=> {nav("/provideraddservice")}} > Add Service</Button>
-      ) : (
-        <TextField select onChange={handleProviderChange}>
-          {providers !== null ? (
-            providers.map((prov, index) => (
-              <MenuItem key={index} value={prov}>
-                {prov.Name}
-              </MenuItem>
-            ))
-          ) : (
-            <MenuItem disabled>No Providers Available</MenuItem>
-          )}
-        </TextField>
-      )}
-      <h3 style={{ marginLeft: "35%" }}>Services</h3>
-      {isProvider ? (
-        <Box />
-      ) : (
-        <Box>
-          <h5>{selectedProvider.Name}</h5>
-          <List>
-            {providerServices.map((serv, index) => (
-              <ListItem key={index}>
-                <ListItemText primary={serv} />
-                <Button
-                  color="secondary"
-                  value={index}
-                  onClick={handleService}
-                  variant="contained"
-                >
-                  Delete
-                </Button>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      )}
-      <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
-        {services.length > 0 ? (
-          services.map((service, index) => (
-            <ListItem
-              key={index}
-              style={{
-                marginTop: "5px",
-              }}
-            >
-              <ListItemText primary={service.service} />
-              <Button
-                color="secondary"
-                value={index}
-                onClick={handleService}
-                variant="contained"
-              >
-                Delete
-              </Button>
-            </ListItem>
-          ))
+      {role === "provider" && <ProviderDrawer />}
+      {role === "manager" && <ManagerDrawer />}
+      {role === "admin" && <AdminDrawer />}
+      <Box className="dashboardNotMobile">
+        <br />
+        {error && <h4 style={{ color: "red" }}>{error}</h4>}
+        <Button
+          color="secondary"
+          onClick={() => {
+            nav(-1);
+          }}
+        >
+          Back
+        </Button>
+        <h3>Service List</h3>
+        {isProvider ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => nav("/provideraddservice")}
+            fullWidth
+          >
+            Add Service
+          </Button>
         ) : (
-          <Box>
-            <p style={{ textAlign: "center", color: "grey" }}>
-              No services available.
-            </p>
-          </Box>
+         <Box>
+          <Button fullWidth color="secondary" variant="contained" onClick={handleAddService}>
+            Add Service
+          </Button>
+          <br />
+          <br />
+           <TextField
+            select
+            label="Select Provider"
+            value={provider.id || ""}
+            onChange={handleProvider}
+            fullWidth
+          >
+            {providerList.length > 0 ? (
+              providerList.map(
+                (prov) =>
+                  (prov.role === "Provider" || prov.role === "Manager") && (
+                    <MenuItem key={prov.id} value={prov.id}>
+                      {prov.name}
+                    </MenuItem>
+                  )
+              )
+            ) : (
+              <MenuItem disabled>No Providers Found</MenuItem>
+            )}
+          </TextField>
+         </Box>
         )}
-      </List>
+        <br />
+        <br />
+        <Card>
+          <List>
+            {provider.services && provider.services.length > 0 ? (
+              provider.services.map((service, index) =>
+                service !== "BoşServis - ₺000" ? (
+                  <ListItem key={index}>
+                    <ListItemText primary={service} />
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      onClick={handleDelete}
+                      value={index}
+                    >
+                      Delete
+                    </Button>
+                  </ListItem>
+                ) : (
+                  <br/>
+                )
+              )
+            ) : (
+              <Box>No services available</Box>
+            )}
+          </List>
+        </Card>
+      </Box>
     </Box>
   );
 }

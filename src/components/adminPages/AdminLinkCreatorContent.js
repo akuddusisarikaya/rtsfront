@@ -9,8 +9,8 @@ export default function AdminLinkCreatorContent() {
   const goBack = () => {
     nav(-1);
   };
-  const admin = JSON.parse(sessionStorage.getItem("admin"));
-  const companyID = admin.CompanyID;
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const companyID = user.company_id;
 
   const [generatedLink, setGeneratedLink] = React.useState(""); // Oluşturulan bağlantı
 

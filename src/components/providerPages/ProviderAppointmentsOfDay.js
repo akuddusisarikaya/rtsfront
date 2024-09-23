@@ -19,7 +19,7 @@ import timezone from "dayjs/plugin/timezone";
 import { useNavigate } from "react-router-dom";
 dayjs.extend(utc);
 dayjs.extend(timezone);
-const TIMEZONE = "Europe/Istanbul";
+//const TIMEZONE = "Europe/Istanbul";
 
 export default function ProviderAppointmentsOfDay() {
   const [selectedDate, setSelectedDate] = React.useState(null);
@@ -31,9 +31,8 @@ export default function ProviderAppointmentsOfDay() {
   });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
-  const provider = JSON.parse(sessionStorage.getItem("provider"));
+  const user = JSON.parse(sessionStorage.getItem("user"));
   const nav = useNavigate();
-  //const todayInIstanbul = dayjs().tz(TIMEZONE).format('YYYY-MM-DD')
 
   const handleDateChange = (newdate) => {
     setSelectedDate(newdate)
@@ -42,7 +41,7 @@ export default function ProviderAppointmentsOfDay() {
     setSnackbar({ ...snackbar, open: false });
   };
   const formedTime = (time) => {
-    return dayjs(time).tz(TIMEZONE).format("HH:mm");
+    return dayjs(time).utc().format("HH:mm");
   };
   const goBack = () => {
     nav(-1)
@@ -60,7 +59,7 @@ export default function ProviderAppointmentsOfDay() {
       try {
         const formattedDate = selectedDate.format("YYYY-MM-DD");
         const token = sessionStorage.getItem("token");
-        const email = provider.Email;
+        const email = user.email;
 
         const response = await fetch(
           `http://localhost:8080/provider/getappointments?email=${email}&date=${formattedDate}`,
@@ -83,7 +82,7 @@ export default function ProviderAppointmentsOfDay() {
       }
     };
     fetchAppointments();
-  }, [selectedDate, provider.Email]);
+  }, [selectedDate]);
 
   return (
     <Box className="appoftoday">
@@ -105,14 +104,14 @@ export default function ProviderAppointmentsOfDay() {
             <List>
               {appointments.length > 0 ? (
                 appointments.map((appointment) => (
-                  <ListItem key={appointment.ID} >
+                  <ListItem key={appointment.id} >
                     <ListItemText
                       primary={`Appointment: ${formedTime(
-                        appointment.StartTime
-                      )} - ${formedTime(appointment.EndTime)}`}
+                        appointment.start_time
+                      )} - ${formedTime(appointment.end_time)}`}
                       secondary={`Status: ${
-                        appointment.Activate
-                          ? `Active Customer: ${appointment.CustomerName}`
+                        appointment.activate
+                          ? `Active - Customer: ${appointment.customer_name}`
                           : "Inactive"
                       }`}
                     />

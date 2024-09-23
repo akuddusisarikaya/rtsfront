@@ -2,7 +2,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import AdminLogin from "./Pages/adminPages/AdminLogin"
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Homepage from "./Pages/Homepage";
@@ -20,12 +19,12 @@ import AdminUserManProviders from "./Pages/adminPages/AdminUserManProviders";
 import AdminUserManManagers from "./Pages/adminPages/AdminUserManManagers";
 import AdminManageAppointments from "./Pages/adminPages/AdminManageAppointments";
 import AdminManCustomers from "./Pages/adminPages/AdminManCustomers";
-import AdminUserDetail from "./Pages/adminPages/AdminUserDetail";
+//import AdminUserDetail from "./Pages/adminPages/AdminUserDetail";
 import AdminUserDetailEdit from "./Pages/adminPages/AdminUserDetailEdit";
 import AdminAddNewProvider from "./Pages/adminPages/AdminAddNewProvider";
 import AdminServiceDetail from "./Pages/adminPages/AdminServiceDetail";
 import AdminServiceEdit from "./Pages/adminPages/AdminServiceEdit";
-import AdminAppointmentDetail from "./Pages/adminPages/AdminAppointmetDetail";
+//import AdminAppointmentDetail from "./Pages/adminPages/AdminAppointmetDetail";
 import AdminAppointmentEdit from "./Pages/adminPages/AdminAppointmentEdit";
 import AdminPaymentList from "./Pages/zzexpectedDevPages/AdminPaymentList";
 import AdminAddAppointment from "./Pages/adminPages/AdminAddAppointment";
@@ -47,7 +46,6 @@ import ProviderProfile from "./Pages/providerPages/ProviderProfile";
 import SuperUserLogin from "./Pages/superuserPages/SuperUserLogin";
 import SuperuserCompanyEdit from "./Pages/superuserPages/SuperuserCompanyEdit";
 import SuperUserAdminEdit from "./Pages/superuserPages/SuperuserAdminEdit";
-import AdminAddNewManager from "./Pages/adminPages/AdminAddNewManager";
 import ProviderLogin from "./Pages/providerPages/ProviderLogin";
 import ProviderWorkingDates from "./Pages/providerPages/ProviderWorkingDates";
 import ManagerLogin from "./Pages/ManagerLogin";
@@ -56,6 +54,17 @@ import AdminLinkCreator from "./Pages/adminPages/AdminLinkCreator";
 import ProviderAddService from "./Pages/providerPages/ProviderAddService";
 import ProviderServiceList from "./Pages/providerPages/ProviderServiceList";
 import AdminAppOfDay from "./Pages/adminPages/AdminAppOfDay";
+import EditUser from "./components/EditUser";
+import ManagerDashboard from "./Pages/managerPages/ManagerDashboard";
+import ManagerUser from "./Pages/managerPages/ManagerUser";
+import ManagerServices from "./Pages/managerPages/ManagerServices";
+import ManagerAppointments from "./Pages/managerPages/ManagerAppointments";
+import ManagerProfile from "./Pages/managerPages/ManagerProfile";
+import AppointmentDetail from "./components/AppointmentDetail";
+import UserDetail from "./components/UserDetail";
+import ManagerWorkingDays from "./Pages/managerPages/ManagerWorkingDays";
+import ManagerAppOfDay from "./Pages/managerPages/ManagerAppOfDay";
+import ManagerAddService from "./Pages/managerPages/ManagerAddService";
 
 function App() {
 
@@ -65,34 +74,33 @@ function App() {
         <Route exact path="/" element={<Homepage />} />
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="/adminlogin" element={< AdminLogin />} />
         <Route exact path="/admin" element={<AdminDashboard />} />
         <Route exact path="/appointment" element = { <Appointment/>}/>
         <Route exact path="/appointment/:companyID" element={<Appointment />} />
         <Route exact path="/resetpassword" element={<PasswordReset />} />
         <Route exact path="/adminusermanage" element={<AdminUserManage />} />
+        <Route exact path="/edituser/:userEmail" element={<EditUser />} />
         <Route exact path="/adminservicesandprice" element={<AdminServicesAndPrices />} />
         <Route exact path="/adminappointments" element={<AdminAppointments />} />
         {/*<Route exact path="/adminpayments" element={<AdminPayments />} />*/} 
         {/*<Route exact path="/adminreports" element={<AdminReports />} />*/}
         <Route exact path="/adminsettings" element={<AdminSettings />} />
         <Route exact path="/adminprofile" element={<AdminProfile />} />
-        <Route exact path="/adminproviderslist" element={<AdminUserManProviders />} />
-        <Route exact path="/adminmanagerslist" element={<AdminUserManManagers />} />
-        <Route exact path="/adminmanappointments" element={<AdminManageAppointments />} />
+        <Route exact path="/providerslist" element={<AdminUserManProviders />} />
+        <Route exact path="/managerlist" element={<AdminUserManManagers/>} />
+        <Route exact path="/appointmentlist" element={<AdminManageAppointments />} />
         <Route exact path="/adminmancustomers" element={<AdminManCustomers />} />
-        <Route exact path="/adminuserdetail" element={<AdminUserDetail />} />
+        <Route exact path="/adminuserdetail/:userEmail" element={<UserDetail />} />
         <Route exact path="/adminuserdetailedit" element={<AdminUserDetailEdit />} />
-        <Route exact path="/adminaddnewprovider" element={<AdminAddNewProvider />} />
-        <Route exact path="adminaddnewmanager" element={<AdminAddNewManager/>} /> 
+        <Route exact path="/newprovider" element={<AdminAddNewProvider />} />
         <Route exact path="/adminservicedetails" element={<AdminServiceDetail />} />
         <Route exact path="/adminserviceedit" element={<AdminServiceEdit />} />
-        <Route exact path="/adminappointmentdetail:appointmentId" element={<AdminAppointmentDetail />} />
+        <Route exact path="/adminappointmentdetail/:appointmentId" element={<AppointmentDetail/>} />
         <Route exact path="/adminappointmentedit" element={<AdminAppointmentEdit />} />
         <Route exact path="/adminpaymentlist" element={<AdminPaymentList />} />
         <Route exact path="/adminaddappointment" element={<AdminAddAppointment />} />
-        <Route exact path="/adminservicelist" element={<AdminServiceList/>} />
-        <Route exact path="/adminaddservice" element={<AdminAddService/>} />
+        <Route exact path="/servicelist" element={<AdminServiceList/>} />
+        <Route exact path="/addservice" element={<AdminAddService/>} />
         <Route exact path="/prices" element={<Prices/>} />
         <Route exact path="/numberver" element={<NumberVer/>} />
         <Route exact path="/emailver" element={<EmailVer/>} />
@@ -117,6 +125,14 @@ function App() {
         <Route exact path="/provideraddservice" element={<ProviderAddService />} />
         <Route exact path="/providerservicelist" element={<ProviderServiceList />} />
         <Route exact path="/appofdayadmin" element={<AdminAppOfDay />} />
+        <Route exact path="/manager" element={<ManagerDashboard />} />
+        <Route exact path="/manageruser" element={<ManagerUser/>}/>
+        <Route exact path="/managerservices" element={<ManagerServices/>}/>
+        <Route exact path="/managerappointments" element={<ManagerAppointments />} />
+        <Route exact path="/managerprofile" element={<ManagerProfile />} />
+        <Route exact path="/managerworkdays" element={<ManagerWorkingDays />} />
+        <Route exact path="/managerappofday" element={<ManagerAppOfDay />} />
+        <Route exact path="/manageraddservice" element={<ManagerAddService/>}/>
       </Routes>
     </Router>
   );

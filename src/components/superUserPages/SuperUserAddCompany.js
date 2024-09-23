@@ -6,15 +6,14 @@ export default function SuperUserAddCompany() {
   const [company, setCompany] = useState({
     name: '',
     adminName: '',
-    address: '',
+    address: '',  
     phone: '',
     managersNumber: 0,
     providersNumber: 0,
     services: [],
   });
-  const nav = useNavigate()
+  const nav = useNavigate();
 
-  // Form input değişikliklerini yönetmek için
   const handleChange = (e) => {
     const { id, value } = e.target;
     setCompany((prevCompany) => ({
@@ -23,20 +22,23 @@ export default function SuperUserAddCompany() {
     }));
   };
 
-  // Company ekleme işlemi
+
   const handleSubmit = async () => {
+    const token = sessionStorage.getItem("token");
+    console.log(company);
     try {
-      const response = await fetch('http://localhost:8080/superuser/companies', {
+      const response = await fetch('http://localhost:8080/superuser/createcompany', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(company),
       });
 
       if (!response.ok) throw new Error('Şirket eklenemedi');
       alert('Şirket başarıyla eklendi!');
-      nav('/superuser');
+      nav(-1);
     } catch (error) {
       console.error('Şirket ekleme hatası:', error);
       alert('Şirket eklenirken bir hata oluştu.');
@@ -56,7 +58,7 @@ export default function SuperUserAddCompany() {
         onChange={handleChange}
       />
       <TextField
-        id="adminName"
+        id="adminName" 
         label="Admin Name"
         variant="outlined"
         fullWidth
@@ -65,7 +67,7 @@ export default function SuperUserAddCompany() {
         onChange={handleChange}
       />
       <TextField
-        id="address"
+        id="address" 
         label="Address"
         variant="outlined"
         fullWidth

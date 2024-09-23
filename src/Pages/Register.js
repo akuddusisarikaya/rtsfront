@@ -83,7 +83,7 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/user", {
+      const response = await fetch("http://localhost:8080/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,8 +91,8 @@ export default function Register() {
         body: JSON.stringify({
           name: user.name,
           email: user.email,
-          passwordHash: user.password, 
-          role: "Customer", 
+          password: user.password, 
+          role: "User", 
           phone: user.phone
         }),
       });

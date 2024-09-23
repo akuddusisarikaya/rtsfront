@@ -7,59 +7,68 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box"
 
 export default function SmallManagers() {
-
   const [error, setError] = React.useState(null);
-  const [managers, setManagers] = React.useState([]);
+  const [providers, setProviders] = React.useState([]);
+  const user = JSON.parse(sessionStorage.getItem("user"))
 
   React.useEffect(() => {
-    const admin = JSON.parse(sessionStorage.getItem("admin"));
-    if (!admin) return;
-    const fetchManagers = async () => {
+    const role = user.role.toLowerCase()
+    const fetchData = async () => {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:8080/admin/getmanagerbycompany?companyID=${admin.CompanyID}`,
+          `http://localhost:8080/${role}/getproviders?companyId=${user.company_id}`,
           {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
             },
           }
         );
-        if (!response.ok) {
-          throw new Error("Managers did not catch");
-        }
+        if (!response.ok) throw new Error("Error fetching data");
         const data = await response.json();
-        setManagers(data);
-        console.log(managers);
+        setProviders(data);
       } catch (error) {
         setError(error.message);
       }
     };
-    fetchManagers();
-  },[]);
+    fetchData();
+  }, []);
+
   const navigate = useNavigate();
 
   const detailClick = () => {
-    navigate('/adminmanagerslist')
-  }
+    navigate("/managerlist");
+  };
 
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <h3>Managers</h3>
-      {error&& <h5>{error}</h5>}
-      {managers.slice(0,5).map((manager) => (
-        <ListItem key={manager.key}>
-          <ListItemAvatar>
-            <Avatar />
-          </ListItemAvatar>
-          <ListItemText primary={manager.Name} secondary={`${manager.Phone} / ${manager.Email}`}/>
-        </ListItem>
-      ))}
-      <Button color="secondary" variant="contained" onClick={detailClick}>See Others</Button>
+      {error && <h5>{error}</h5>}
+      {providers !== null ? (
+        providers.slice(0, 5).map((provider) => (
+          provider.role === "Manager"&&
+          <ListItem key={provider.key}>
+            <ListItemAvatar>
+              <Avatar />
+            </ListItemAvatar>
+            <ListItemText
+              primary={provider.name}
+              secondary={`${provider.phone}  /  ${provider.email}`}
+            />
+          </ListItem>
+        ))
+      ) : (
+        <Box />
+      )}
+      <br/>
+      <Button fullWidth color="secondary" variant="contained" onClick={detailClick}>
+        See Others
+      </Button>
     </List>
   );
 }

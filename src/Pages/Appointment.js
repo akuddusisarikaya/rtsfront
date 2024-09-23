@@ -45,52 +45,74 @@ export default function Appointment() {
   const [appointments, setAppointments] = React.useState([]);
   const [companies, setCompanies] = React.useState([]);
   const [selectedCompany, setSelectedCompany] = React.useState({});
-  const [selectedAppointment, setSelectedAppointment] = React.useState("");
+  const [selectedAppointment, setSelectedAppointment] = React.useState({});
   const user = React.useMemo(() => JSON.parse(sessionStorage.getItem("user")), []);
 
-  // Şirketleri çekme işlemi
+  const formedTime = (time) => dayjs(time).tz(TIMEZONE).format("HH:mm");
+
+  // Fetch companies or providers based on companyID
   React.useEffect(() => {
-    if (!companyID) {
-      const fetchCompanies = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-          const response = await fetch("http://localhost:8080/getallcompanies", {
+    const fetchCompanies = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch("http://localhost:8080/getcompanies", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+        if (!response.ok) throw new Error("Failed to fetch companies");
+        const data = await response.json();
+        setCompanies(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchProviderInfo = async (id) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(
+          `http://localhost:8080/getproviders?companyId=${id}`,
+          {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-          });
-          if (!response.ok) {
-            throw new Error("Failed to fetch companies");
           }
-          const data = await response.json();
-          setCompanies(data);
-        } catch (error) {
-          setError(error.message);
-        } finally {
-          setLoading(false);
-        }
-      };
+        );
+        if (!response.ok) throw new Error("Failed to fetch providers");
+        const data = await response.json();
+        setProviderInfo(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!companyID) {
       fetchCompanies();
+    } else {
+      fetchProviderInfo(companyID);
     }
   }, [companyID]);
 
-  // Sağlayıcı bilgilerini çekme işlemi
+  // Fetch provider info when selected company changes
   React.useEffect(() => {
-    if (selectedCompany.ID) {
+    if (selectedCompany.id) {
       const fetchProviderInfo = async () => {
         setLoading(true);
         setError(null);
         try {
           const response = await fetch(
-            `http://localhost:8080/getproviderbycompany?companyID=${selectedCompany.ID}`,
+            `http://localhost:8080/getproviders?companyId=${selectedCompany.id}`,
             {
               method: "GET",
               headers: { "Content-Type": "application/json" },
             }
           );
-          if (!response.ok) {
-            throw new Error("Failed to fetch providers");
-          }
+          if (!response.ok) throw new Error("Failed to fetch providers");
           const data = await response.json();
           setProviderInfo(data);
         } catch (error) {
@@ -101,26 +123,24 @@ export default function Appointment() {
       };
       fetchProviderInfo();
     }
-  }, [selectedCompany.ID]);
+  }, [selectedCompany.id]);
 
-  // Randevuları çekme işlemi
+  // Fetch appointments when provider or date changes
   React.useEffect(() => {
-    if (selectedProvider.Email && selectedDate) {
+    if (selectedProvider.email && selectedDate) {
       const fetchAppointments = async () => {
         setLoading(true);
         setError(null);
         try {
           const formattedDate = selectedDate.format("YYYY-MM-DD");
           const response = await fetch(
-            `http://localhost:8080/getprovidersapp?providerEmail=${selectedProvider.Email}&date=${formattedDate}`,
+            `http://localhost:8080/getproviderappall?providerEmail=${selectedProvider.email}&date=${formattedDate}`,
             {
               method: "GET",
               headers: { "Content-Type": "application/json" },
             }
           );
-          if (!response.ok) {
-            throw new Error("Failed to fetch appointments");
-          }
+          if (!response.ok) throw new Error("Failed to fetch appointments");
           const data = await response.json();
           setAppointments(data);
         } catch (error) {
@@ -131,46 +151,63 @@ export default function Appointment() {
       };
       fetchAppointments();
     }
-  }, [selectedProvider, selectedDate])
+  }, [selectedProvider, selectedDate]);
 
-  const formedTime = (time) => {
-    return dayjs(time).tz(TIMEZONE).format("HH:mm");
-  };
-
-  // Form girdisi değişimini yönetme
+  // Form input change handler
   const handleInputChange = React.useCallback((event) => {
     const { id, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   }, []);
 
-  // Sağlayıcı değişimini yönetme
+  // Handle provider change
   const handleProviderChange = (event) => {
     setSelectedProvider(event.target.value);
   };
 
-  // Şirket değişimini yönetme
+  // Handle company change
   const handleCompanyChange = (event) => {
     setSelectedCompany(event.target.value);
   };
 
-  // Servis değişimini yönetme
+  // Handle service change
   const handleServiceChange = (event) => setSelectedServices(event.target.value);
 
-  const handleSelectedAppointment = (e) => setSelectedAppointment(e.target.value);
+  // Handle appointment selection
+  const handleSelectedAppointment = (e) => {
+    const selectedAppId = e.target.value;
+    const selectedApp = appointments.find(app => app.id === selectedAppId); 
+    setSelectedAppointment(selectedApp); 
+  };
 
+  // Handle date selection
   const handleSelectedDate = (newDate) => setSelectedDate(newDate);
 
-  const handleSubmit = async () => {
-    const appointmentDetails = {
-      customer_name: user ? user.Name : formData.name,
-      customer_email: user ? user.Email : formData.email,
-      Services: selectedServices,
-      Activate: true,
-    };
+  // Validate required fields
+  const validateFields = () => {
+    const requiredFields = [selectedAppointment, formData.name, formData.email];
+    return requiredFields.every((field) => field && field.length > 0);
+  };
 
+  // Handle form submission
+  const handleSubmit = async () => {
+    /*if (!validateFields()) {
+      setSnackbar({
+        open: true,
+        message: "All fields must be filled correctly.",
+        severity: "error",
+      });
+      return;
+    }*/
+
+    const appointmentDetails = {
+      customer_name: user ? user.name : formData.name,
+      customer_email: user ? user.email : formData.email,
+      services: selectedServices,
+      activate: true,
+    };
     try {
       const response = await fetch(
-        `http://localhost:8080/updateapp?appointmentID=${selectedAppointment}`,
+        `http://localhost:8080/activateapp?appointmentID=${selectedAppointment.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -179,19 +216,28 @@ export default function Appointment() {
       );
 
       if (response.ok) {
-        setSnackbar({ open: true, message: "Appointment created successfully!", severity: "success" });
+        setSnackbar({
+          open: true,
+          message: "Appointment created successfully!",
+          severity: "success",
+        });
+        // Navigate back only if submission is successful
+        await wait(2000);
+        navigate(-1);
       } else {
-        setSnackbar({ open: true, message: "Failed to create appointment.", severity: "error" });
+        setSnackbar({
+          open: true,
+          message: "Failed to create appointment.",
+          severity: "error",
+        });
       }
     } catch {
-      setSnackbar({ open: true, message: "An error occurred while creating the appointment.", severity: "error" });
+      setSnackbar({
+        open: true,
+        message: "An error occurred while creating the appointment.",
+        severity: "error",
+      });
     }
-  };
-
-  const submitAndBack = async () => {
-    await handleSubmit();
-    wait(2000)
-    navigate(-1);
   };
 
   return (
@@ -249,8 +295,8 @@ export default function Appointment() {
                   onChange={handleCompanyChange}
                 >
                   {companies.map((company) => (
-                    <MenuItem key={company.ID} value={company}>
-                      {company.Name}
+                    <MenuItem key={company.id} value={company}>
+                      {company.name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -261,15 +307,15 @@ export default function Appointment() {
             <TextField
               required
               select
-              className="appointmentTextField"
-              id="provider"
-              label="Select Service Provider"
               value={selectedProvider}
+              className="appointmentTextField"
+              label="Select Service Provider"
               onChange={handleProviderChange}
             >
               {providerInfo.map((provider) => (
-                <MenuItem key={provider.ID} value={provider}>
-                  {provider.Name}
+                provider.role !== "SuperUser" &&
+                <MenuItem key={provider.id} value={provider}>
+                  {provider.name}
                 </MenuItem>
               ))}
             </TextField>
@@ -288,7 +334,7 @@ export default function Appointment() {
                 renderValue: (selected) => selected.join(", "),
               }}
             >
-              {selectedProvider.Services?.map((service) => (
+              {selectedProvider.services?.map((service) => (
                 <MenuItem key={service.key} value={service}>
                   {service}
                 </MenuItem>
@@ -302,22 +348,25 @@ export default function Appointment() {
             <br />
             <br />
             <FormControl>
-              <RadioGroup value={selectedAppointment} onChange={handleSelectedAppointment}>
-                { appointments!==null? (appointments.map((appointment) => (
-                  <FormControlLabel
-                    key={appointment.ID}
-                    value={appointment.ID}
-                    control={<Radio />}
-                    label={`${formedTime(appointment.StartTime)}-${formedTime(appointment.EndTime)}`}
-                  />
-                ))):(
+              <RadioGroup value={selectedAppointment.id} onChange={handleSelectedAppointment}>
+                {appointments !== null ? (
+                  appointments.map((appointment) => (
+                    <FormControlLabel
+                      key={appointment.id}
+                      value={appointment.id}
+                      control={<Radio />}
+                      label={`${formedTime(appointment.start_time)}-${formedTime(appointment.end_time)}`}
+                    />
+                  ))
+                ):(
                   <Box/>
-                )}
+                )
+                }
               </RadioGroup>
             </FormControl>
             <br />
             <br />
-            <Button color="secondary" variant="contained" className="appointmentButton" onClick={submitAndBack}>
+            <Button color="secondary" variant="contained" className="appointmentButton" onClick={handleSubmit}>
               Done
             </Button>
           </div>

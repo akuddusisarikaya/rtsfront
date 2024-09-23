@@ -1,30 +1,47 @@
 import * as React from "react";
+import "../../App.css";
+import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
 import DateChoise from "../DateChoise";
 import SmallAppointments from "../SmallAppointments";
-import { useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
 
-export default function ProviderAppointmentContent() {
-  const isMobile = useMediaQuery("(max-width:768px)");
 
-  const nav = useNavigate();
-  const editApps = () => {
-    nav("/providerworkingdates");
+export default function ManagerAppointmentContent(){
+    const nav = useNavigate();
+
+  const addAppointment = () => {
+    nav("/adminaddappointment");
   };
 
+  const editApps = () => {
+    nav("/managerworkdays")
+  }
+
+  const isMobile = useMediaQuery("(max-width:768px)");
+
   return (
-    <Box>
-      <Button
+    <Box sx={{ width: "100%" }}>
+      <br/>
+      {isMobile&&<br/>}<Button
         color="secondary"
+        fullWidth
         variant="contained"
         onClick={editApps}
-        fullWidth
       >
-        Edit Appointments
+        Edit Appointment
+      </Button>
+      <br/>
+      <br/>
+       <Button
+        color="secondary"
+        fullWidth
+        variant="contained"
+        onClick={addAppointment}
+      >
+        Add Appointment
       </Button>
       <br/>
       <br/>
@@ -40,6 +57,7 @@ export default function ProviderAppointmentContent() {
               <SmallAppointments />
             </Paper>
           </Grid>
+          <Button variant="contained"> Add Appointment</Button>
         </Grid>
       ) : (
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>

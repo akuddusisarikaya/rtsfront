@@ -22,7 +22,7 @@ import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export default function AdminAppOfDayContent() {
+export default function ManagerAppOfDayContent() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const role = user.role.toLowerCase();
   const token = sessionStorage.getItem("token");
@@ -56,11 +56,15 @@ export default function AdminAppOfDayContent() {
     setSelectedProvider(e.target.value);
   };
 
+  const goEdit = () => {
+    nav("/managerworkdays")
+  }
+
   React.useEffect(() => {
-    if(role === "provider") return;
+    if (role === "provider") return;
     const fetchProviders = async () => {
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
       try {
         const response = await fetch(
           `http://localhost:8080/${role}/getproviders?companyId=${user.company_id}`,
@@ -79,8 +83,8 @@ export default function AdminAppOfDayContent() {
         setProviders(data);
       } catch (error) {
         setError(error.message);
-      }finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     };
     fetchProviders();
@@ -121,23 +125,30 @@ export default function AdminAppOfDayContent() {
 
   return (
     <Box className="appoftoday">
-      <Button color="secondary" onClick={goBack} style={{ margin: "2%" }}>
-        Back
-      </Button>
+      <Button color="secondary" onClick={goBack} style={{margin:"2%"}} >Back</Button>
+      <Button color="secondary" variant="contained" onClick={goEdit} style={{marginLeft:"60%"}} > Edit</Button>
       <NewDatePicker onDateChange={handleDateChange} />
-     
-      <TextField select style={{width:"30%"}} label="Provider" variant="outlined"  onChange={handleProviderChange}>
+
+      <TextField
+        select
+        style={{ width: "30%" }}
+        label="Provider"
+        variant="outlined"
+        onChange={handleProviderChange}
+      >
         {providers !== null ? (
-          providers.map((prov, index) => (
-            (prov.role === "Provider" || prov.role === "Manager") && 
-            <MenuItem key={index} value={prov}>
-              {prov.name}
-            </MenuItem>
-          ))
+          providers.map(
+            (prov, index) =>
+              (prov.role === "Provider" || prov.role === "Manager") && (
+                <MenuItem key={index} value={prov}>
+                  {prov.name}
+                </MenuItem>
+              )
+          )
         ) : (
           <MenuItem disabled>No Providers Available</MenuItem>
         )}
-      </TextField> 
+      </TextField>
       {loading && <Typography>Loading...</Typography>}
       {error && <Typography color="error">{error}</Typography>}
       <Card sx={{ marginTop: 2 }}>
@@ -153,14 +164,14 @@ export default function AdminAppOfDayContent() {
             <List>
               {appointments.length > 0 ? (
                 appointments.map((appointment) => (
-                  <ListItem key={appointment.id}>
+                  <ListItem key={appointment.ID}>
                     <ListItemText
                       primary={`Appointment: ${formedTime(
                         appointment.start_time
                       )} - ${formedTime(appointment.end_time)}`}
                       secondary={`Status: ${
                         appointment.activate
-                          ? `Active - Customer: ${appointment. customer_email}`
+                          ? `Active Customer: ${appointment.customer_email}`
                           : "Inactive"
                       }`}
                     />

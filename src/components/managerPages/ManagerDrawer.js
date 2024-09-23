@@ -18,24 +18,22 @@ import { Button } from "@mui/material";
 const drawerWidth = 260;
 
 const first = [
-  { key: 0, name: "ADMİN PANEL", link: "/admin" },
-  { key: 1, name: "Dashboard", link: "/admin" },
-  { key: 2, name: "User Management", link: "/adminusermanage" },
-  { key: 3, name: "Services & Pricing", link: "/adminservicesandprice" },
-  { key: 4, name: "Appointments", link: "/adminappointments" },
-  //{ key: 5, name: "Payments", link: "/adminpayments" },
-  //{ key: 6, name: "Reports & Analytics", link: "/adminreports" },
+  { key: 0, name: "MANAGER PANEL", link: "/manager" },
+  { key: 1, name: "User Management", link: "/manageruser" },
+  { key: 2, name: "Services & Pricing", link: "/managerservices" },
+  { key: 3, name: "Appointments", link: "/managerappointments" },
+  //{ key: 4, name: "Payments", link: "/adminpayments" },
+  //{ key: 5, name: "Reports & Analytics", link: "/adminreports" },
 ];
 const second = [
-  { key: 1, name: "Settings", link: "/adminsettings" },
-  { key: 2, name: "Profile", link: "/adminprofile" },
+  { key: 1, name: "Profile", link: "/managerprofile" },
 ];
 
-AdminDrawer.propTypes = {
+ManagerDrawer.propTypes = {
   window: PropTypes.func,
 };
 
-export default function AdminDrawer(props) {
+export default function ManagerDrawer(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 

@@ -8,10 +8,7 @@ import AdminDrawer from "../../components/adminPages/AdminDrawer";
 export default function AdminUserDetailEdit() {
   return (
     <Box>
-      <AdminDrawer/>
-      <Box className="dashboardNotMobile">
         <AddNewProvider/>
-      </Box>
       <Footer />
     </Box>
   );

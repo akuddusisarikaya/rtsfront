@@ -19,7 +19,7 @@ import { Button } from "@mui/material";
 const drawerWidth = 260;
 
 const first = [
-  { key: 1, name: "Dashboard", link: "/provider" },
+  { key: 1, name: "PROVIDER DASHBOARD", link: "/provider" },
   { key: 2, name: "Services & Pricing", link: "/providerservices" },
   { key: 3, name: "Appointments", link: "/providerappointment" },
   //{ key: 4, name: "Reports & Analytics", link: "/providerreports" },
@@ -54,9 +54,7 @@ export default function ProviderDrawer() {
 
   const goHome = () => {
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("email");
-    sessionStorage.removeItem("provider");
-    sessionStorage.removeItem("services"); 
+    sessionStorage.removeItem("user");
     navigate("/");
   };
 

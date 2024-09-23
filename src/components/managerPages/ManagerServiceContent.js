@@ -1,30 +1,28 @@
 import * as React from "react";
+import "../../App.css";
+import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
 import DateChoise from "../DateChoise";
-import SmallAppointments from "../SmallAppointments";
-import { useMediaQuery } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import SmallServices from "../SmallServices";
 import { Button } from "@mui/material";
-
-export default function ProviderAppointmentContent() {
+import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
+export default function ManagerServiceContent() {
   const isMobile = useMediaQuery("(max-width:768px)");
-
   const nav = useNavigate();
-  const editApps = () => {
-    nav("/providerworkingdates");
+  const addService = () => {
+    nav("/manageraddservice");
   };
-
   return (
     <Box>
       <Button
         color="secondary"
         variant="contained"
-        onClick={editApps}
+        onClick={addService}
         fullWidth
       >
-        Edit Appointments
+        Add Service
       </Button>
       <br/>
       <br/>
@@ -32,25 +30,25 @@ export default function ProviderAppointmentContent() {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper className="itemStyles">
-              <DateChoise />
+              <DateChoise size="large" />
             </Paper>
           </Grid>
           <Grid item xs={12}>
             <Paper className="itemStyles">
-              <SmallAppointments />
+              <SmallServices size="large" />
             </Paper>
           </Grid>
         </Grid>
       ) : (
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid container spacing={2}>
           <Grid item xs={6}>
             <Paper className="itemStyles">
-              <DateChoise />
+              <DateChoise size="large" />
             </Paper>
           </Grid>
           <Grid item xs={6}>
             <Paper className="itemStyles">
-              <SmallAppointments />
+              <SmallServices size="large" />
             </Paper>
           </Grid>
         </Grid>

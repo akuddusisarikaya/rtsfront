@@ -5,22 +5,27 @@ import Card from "@mui/material/Card";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export default function AdminProfileContent() {
-  const nav = useNavigate()
-  const user = JSON.parse(sessionStorage.getItem("user"))
+export default function ManagerProfileContent() {
+  const nav = useNavigate();
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   const goLinkCreat = () => {
-    nav("/adminlinkcreate")
-  }
+    nav("/adminlinkcreate");
+  };
 
   return (
     <Box>
-      <h3 style={{ textAlign:"center" }}>Admin Profile</h3>
+      <h3 style={{ textAlign:"center" }}>Manager Profile</h3>
       <br/>
       <br/>
-       <Button color="secondary" variant="contained" onClick={goLinkCreat} fullWidth> Create Link </Button>
-       <br />
-       <br />
+      <Button
+        color="secondary"
+        variant="contained"
+        onClick={goLinkCreat}
+        fullWidth
+      >Create Link</Button>
+      <br/>
+      <br/>
       <Card className="adminProfileCard">
         <br />
         <h5>Name:</h5>

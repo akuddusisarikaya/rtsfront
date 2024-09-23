@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 
 export default function DateChoise() {
   const [selectedDate, setSelectedDate] = React.useState(dayjs());
-  const admin = JSON.parse(sessionStorage.getItem("admin"))
+  const user = JSON.parse(sessionStorage.getItem("user"))
 
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
@@ -19,9 +19,13 @@ export default function DateChoise() {
   const nav = useNavigate()
 
   const goAppointments = () => {
-    if(!admin){
+    console.log(user.role)
+
+    if(user.role === "Provider"){
       nav('/appofday')
-    }else{
+    } else if(user.role === "Manager"){
+      nav("/managerappofday")
+    } else if (user.role === "Admin"){
       nav("/appofdayadmin")
     }
 

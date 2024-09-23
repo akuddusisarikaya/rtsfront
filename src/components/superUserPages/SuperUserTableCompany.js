@@ -14,14 +14,14 @@ import { useNavigate } from 'react-router-dom';
 // Company koleksiyonu için kolon yapısı
 const columns = [
   { id: 'ID', label: 'ID', minWidth: 170 },
-  { id: 'Name', label: 'Company Name', minWidth: 170 },
-  { id: 'AdminName', label: 'Admin Name', minWidth: 170 },
-  { id: 'Address', label: 'Address', minWidth: 200 },
-  { id: 'Phone', label: 'Phone', minWidth: 150 },
-  { id: 'AdminID', label: 'AdminID', minWidth: 170 },
-  { id: 'ManagersNumber', label: 'Managers Number', minWidth: 150, align: 'right' },
-  { id: 'ProvidersNumber', label: 'Providers Number', minWidth: 150, align: 'right' },
-  { id: 'CreatedAt', label: 'Created At', minWidth: 170, align: 'right', format: (value) => new Date(value).toLocaleString() },
+  { id: 'name', label: 'Company Name', minWidth: 170 },
+  { id: 'adminName', label: 'Admin Name', minWidth: 170 },
+  { id: 'address', label: 'Address', minWidth: 200 },
+  { id: 'phone', label: 'Phone', minWidth: 150 },
+  { id: 'adminID', label: 'AdminID', minWidth: 170 },
+  { id: 'managersNumber', label: 'Managers Number', minWidth: 150, align: 'right' },
+  { id: 'providersNumber', label: 'Providers Number', minWidth: 150, align: 'right' },
+  { id: 'createdAt', label: 'Created At', minWidth: 170, align: 'right', format: (value) => new Date(value).toLocaleString() },
 ];
 
 export default function SuperUserTableCompany() {
@@ -40,7 +40,7 @@ export default function SuperUserTableCompany() {
     const fetchData = async () => {
       try {
         const token = sessionStorage.getItem('token');
-        const response = await fetch('http://localhost:8080/superuser/companies', {
+        const response = await fetch('http://localhost:8080/getcompanies', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`, // Token'ı header'a ekle
@@ -49,6 +49,7 @@ export default function SuperUserTableCompany() {
         }); // Company koleksiyonuna istek
         if (!response.ok) throw new Error('Veriler alınamadı');
         const result = await response.json();
+        console.log(result)
         setData(result || []); // Gelen veriyi state'e kaydet, eğer null gelirse boş dizi ata
       } catch (error) {
         console.error("Veri çekme hatası:", error);

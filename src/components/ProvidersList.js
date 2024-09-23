@@ -8,71 +8,108 @@ import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
+import Card from "@mui/material/Card";
+import AdminDrawer from "./adminPages/AdminDrawer";
+import ManagerDrawer from "./managerPages/ManagerDrawer";
 
 export default function ProviderList() {
+  const [detailOpen, setDetailOpen] = React.useState(false);
+  const navigate = useNavigate();
   const [error, setError] = React.useState(null);
-  const [providers, setProviders] = React.useState([])
+  const [providers, setProviders] = React.useState([]);
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const role = user.role.toLowerCase();
 
   React.useEffect(() => {
-    const admin = JSON.parse(sessionStorage.getItem("admin")) || {}; // Buraya taşındı
-    if(!admin)return;
-    const fetchProviders = async () => {
-      if (!admin || !admin.CompanyID) {
-        return;
-      }
-
-      setError(null);
-      try {
-        const response = await fetch(
-          `http://localhost:8080/getproviderbycompany?companyID=${admin.CompanyID}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Providers did not catch");
+    if (user.role === "Admin" || user.role === "Manager") {
+      const fetchData = async () => {
+        try {
+          const token = sessionStorage.getItem("token");
+          const response = await fetch(
+            `http://localhost:8080/${role}/getproviders?companyId=${user.company_id}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!response.ok) throw new Error("Error fetching data");
+          const data = await response.json();
+          setProviders(data);
+        } catch (error) {
+          setError(error.message);
         }
-        const data = await response.json();
-        setProviders(data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-    fetchProviders();
+      };
+      fetchData();
+    }
   }, []);
-
-  
-  const navigate = useNavigate()
 
   const goBack = () => {
     navigate(-1);
   };
-  const goDetails = () =>{
-    navigate('/adminuserdetail')
-  }
 
-  
   return (
     <Box>
-      <br></br>
-      <Button color="secondary" onClick={goBack} >Back</Button>
-      <List sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}>
-      <h3 style={{marginLeft:"35%"}}>Service Providers</h3>
-      {error&&<h5> {error} </h5>}
-      {providers.map((provider) => (
-        <ListItem key={provider.key} style={{ marginTop: "5px"}}>
-          <ListItemAvatar>
-            <Avatar />
-          </ListItemAvatar>
-          <ListItemText primary={provider.Name} secondary={`${provider.Phone}  /  ${provider.Email}`} />
-          <Button color="secondary" variant="contained" onClick={goDetails}>See Details</Button>
-        </ListItem>
-      ))}
-    </List>
+      {role === "admin" ? <AdminDrawer/> : <ManagerDrawer/>}
+      <Box className="dashboardNotMobile">
+        <br></br>
+        <Button color="secondary" onClick={goBack}>
+          Back
+        </Button>
+        <List
+          sx={{ width: "100%", maxWidth: 1000, bgcolor: "background.paper" }}
+        >
+          <h3 style={{ marginLeft: "35%" }}>Service Providers</h3>
+          {error && <h5> {error} </h5>}
+          {providers.map(
+            (provider) =>
+              provider.role === "Provider" && (
+                <Box>
+                  <ListItem key={provider.key} style={{ marginTop: "5px" }}>
+                    <ListItemAvatar>
+                      <Avatar />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={provider.name}
+                      secondary={`${provider.phone}  /  ${provider.email}`}
+                    />
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      onClick={() => {
+                        setDetailOpen(!detailOpen);
+                      }}
+                    >
+                      {detailOpen ? "Close" : "See Details"}
+                    </Button>
+                  </ListItem>
+                  {detailOpen && (
+                    <Card>
+                      <ListItem>
+                        <ListItemText primary={`Name: ${provider.name}`} />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText primary={`Email: ${provider.email}`} />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText primary={`Phone: ${provider.phone}`} />
+                        <Button
+                          onClick={() => {
+                            navigate(`/edituser/${provider.email}`);
+                          }}
+                        >
+                          Edit Provider
+                        </Button>
+                      </ListItem>
+                    </Card>
+                  )}
+                </Box>
+              )
+          )}
+        </List>
+      </Box>
     </Box>
-    
   );
 }

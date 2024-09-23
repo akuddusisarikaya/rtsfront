@@ -8,10 +8,7 @@ import AdminDrawer from "../../components/adminPages/AdminDrawer";
 export default function AdminUserManManagers() {
   return (
     <Box>
-      <AdminDrawer/>
-      <Box className="dashboardNotMobile">
         <ManagersList />
-      </Box>
       <Footer/>
     </Box>
   );

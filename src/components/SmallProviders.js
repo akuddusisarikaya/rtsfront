@@ -12,65 +12,61 @@ import Box from "@mui/material/Box"
 export default function SmallProviders() {
   const [error, setError] = React.useState(null);
   const [providers, setProviders] = React.useState([]);
+  const user = JSON.parse(sessionStorage.getItem("user"))
 
   React.useEffect(() => {
-    const admin = JSON.parse(sessionStorage.getItem("admin")) || {}; // Buraya taşındı
-    if (!admin) return;
-    const fetchProviders = async () => {
-      if (!admin || !admin.CompanyID) {
-        return;
-      }
-
-      setError(null);
+    const fetchData = async () => {
       try {
+        const role = user.role.toLowerCase();
+        const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:8080/getproviderbycompany?companyID=${admin.CompanyID}`,
+          `http://localhost:8080/${role}/getproviders?companyId=${user.company_id}`,
           {
             method: "GET",
             headers: {
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
         );
-        if (!response.ok) {
-          throw new Error("Providers did not catch");
-        }
+        if (!response.ok) throw new Error("Error fetching data");
         const data = await response.json();
         setProviders(data);
       } catch (error) {
         setError(error.message);
       }
     };
-    fetchProviders();
+    fetchData();
   }, []);
 
   const navigate = useNavigate();
 
   const detailClick = () => {
-    navigate("/adminproviderslist");
+    navigate("/providerslist");
   };
 
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <h3>Service Providers</h3>
       {error && <h5>{error}</h5>}
       {providers !== null ? (
         providers.slice(0, 5).map((provider) => (
+          provider.role === "Provider"&&
           <ListItem key={provider.key}>
             <ListItemAvatar>
               <Avatar />
             </ListItemAvatar>
             <ListItemText
-              primary={provider.Name}
-              secondary={`${provider.Phone}  /  ${provider.Email}`}
+              primary={provider.name}
+              secondary={`${provider.phone}  /  ${provider.email}`}
             />
           </ListItem>
         ))
       ) : (
         <Box />
       )}
-
-      <Button color="secondary" variant="contained" onClick={detailClick}>
+      <br/>
+      <Button fullWidth color="secondary" variant="contained" onClick={detailClick}>
         See Others
       </Button>
     </List>
