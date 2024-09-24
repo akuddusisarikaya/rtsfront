@@ -76,8 +76,8 @@ export default function SmallServices() {
   return (
     <Box>
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-        <h3>Service</h3>
         {error && <h5>{error}</h5>}
+        <h3>Service</h3>
         {isProvider ? (
           provider.services !== null ? (
             provider.services.map((service, index) =>
@@ -86,7 +86,7 @@ export default function SmallServices() {
                   <ListItemText>{service}</ListItemText>
                 </ListItem>
               ) : (
-                <br/>
+                <br />
               )
             )
           ) : (
@@ -101,7 +101,7 @@ export default function SmallServices() {
                     <ListItemText>{service}</ListItemText>
                   </ListItem>
                 ) : (
-                  <br/>
+                  <br />
                 )
               )
             ) : (
@@ -111,8 +111,13 @@ export default function SmallServices() {
         ) : (
           <h3>{error}</h3>
         )}
-        <br/>
-        <Button fullWidth color="secondary" variant="contained" onClick={detailClick}>
+        <br />
+        <Button
+          fullWidth
+          color="secondary"
+          variant="contained"
+          onClick={detailClick}
+        >
           See Others
         </Button>
       </List>

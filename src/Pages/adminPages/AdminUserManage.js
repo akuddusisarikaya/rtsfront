@@ -1,6 +1,7 @@
 import * as React from "react";
 import "../../App.css";
 import Box from "@mui/material/Box";
+import AdminDrawer from "../../components/adminPages/AdminDrawer"
 import AdminUserContent from "../../components/adminPages/AdminUserContent";
 import { Button } from "@mui/material";
 import Footer from "../../components/Footer";
@@ -15,18 +16,22 @@ function AdminUserManage() {
 
   return (
     <Box>
+      <AdminDrawer/>
+      <Box className="dashboardNotMobile">
+      <br />
+      <br />
       <Button
         color="secondary"
         onClick={addProvider}
         variant="contained"
-        style={{ marginLeft: "25%", marginTop: "10%", width: "50%" }}
+        fullWidth
       >
-        {" "}
         Add / Edit User{" "}
       </Button>
       <br />
       <br />
-      <AdminUserContent />
+        <AdminUserContent/>
+      </Box>
       <Footer />
     </Box>
   );

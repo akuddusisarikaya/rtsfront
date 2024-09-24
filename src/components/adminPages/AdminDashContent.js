@@ -23,7 +23,10 @@ export default function AdminDashContent() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Button color="secondary" variant="contained" onClick={goLinkCreat} style={{marginLeft:"65%", marginTop:"5%" }}> Create Link </Button>
+      <br/>
+      <Button color="secondary" variant="contained" onClick={goLinkCreat} fullWidth> Create Link </Button>
+      <br/>
+      <br/>
       {isMobile ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>

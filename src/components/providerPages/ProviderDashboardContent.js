@@ -7,6 +7,8 @@ import SmallAppointments from "../SmallAppointments";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
+import SmallServices from "../SmallServices";
+import SmallServicesForProvider from "./SmallServicesForProvider";
 
 export default function ProviderDashboardContent() {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -17,6 +19,8 @@ export default function ProviderDashboardContent() {
   };
   return (
     <Box>
+      <br />
+      <br />
       <Button
         color="secondary"
         variant="contained"
@@ -26,6 +30,8 @@ export default function ProviderDashboardContent() {
         {" "}
         Edit Appointments
       </Button>
+      <br />
+      <br />
       {isMobile ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -38,17 +44,27 @@ export default function ProviderDashboardContent() {
               <SmallAppointments size="small" />
             </Paper>
           </Grid>
+          <Grid item xs={12}>
+            <Paper className="itemStyles">
+              <SmallServicesForProvider />
+            </Paper>
+          </Grid>
         </Grid>
       ) : (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Paper className="itemStyles">
-              <DateChoise size="large" />
+              <DateChoise />
             </Paper>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Paper className="itemStyles">
-              <SmallAppointments size="large" />
+              <SmallAppointments />
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className="itemStyles">
+              <SmallServicesForProvider />
             </Paper>
           </Grid>
         </Grid>

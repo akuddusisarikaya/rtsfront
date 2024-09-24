@@ -15,16 +15,19 @@ export default function AdminServiceContent() {
   };
   return (
     <Box>
+      <br />
+      <br />
+      <Button
+        color="secondary"
+        variant="contained"
+        onClick={addService}
+        fullWidth
+      >
+        Add Service
+      </Button>
+      <br />
+      <br />
       <Grid container spacing={2}>
-        <Button
-          color="secondary"
-          variant="contained"
-          onClick={addService}
-          style={{ marginTop: "5%", marginLeft: "30%", width: "50%" }}
-        >
-          {" "}
-          Add Service
-        </Button>
         <Grid item xs={12}>
           <Paper className="itemStyles">
             <DateChoise size="large" />

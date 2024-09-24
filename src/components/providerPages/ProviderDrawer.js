@@ -147,7 +147,7 @@ export default function ProviderDrawer() {
           open
         >
           {drawer}
-          <Button color="secondary" variant="contained" onClick={goHome} style={{borderRadius:"2cap"}}> LogOut</Button>
+          <Button color="secondary" variant="contained" onClick={goHome} style={{borderRadius:"0"}}> LogOut</Button>
         </Drawer>
       </Box>
     </Box>

@@ -7,6 +7,8 @@ import DateChoise from "../DateChoise";
 import SmallAppointments from "../SmallAppointments";
 import { useNavigate } from "react-router-dom";
 import { Button, useMediaQuery } from "@mui/material";
+import DownloadICSByCompany from "../DownloadICSByCompany"
+import DownloadICSByEmail from "../DownlodaICSByEmail"
 
 export default function AdminApointmentsContent() {
   const nav = useNavigate();
@@ -19,14 +21,18 @@ export default function AdminApointmentsContent() {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <br/>
+      <br/>
       <Button
         color="secondary"
-        style={{ margin: "10%", width: "30%" }}
+        fullWidth
         variant="contained"
         onClick={addAppointment}
       >
         Add Appointment
       </Button>
+      <br/>
+      <br/>
       {isMobile ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -55,6 +61,13 @@ export default function AdminApointmentsContent() {
           </Grid>
         </Grid>
       )}
+      <br/>
+      <br/>
+      <DownloadICSByCompany/>
+      <br/>
+      <DownloadICSByEmail/>
+      <br/>
+      <br/>
     </Box>
   );
 }

@@ -38,7 +38,7 @@ export default function SmallServicesForProvider({ size }) {
           </ListItem>
         ))}
         <br></br>
-        <Button color="secondary" variant="contained" onClick={goList}>
+        <Button fullWidth color="secondary" variant="contained" onClick={goList}>
           See Others
         </Button>
       </List>

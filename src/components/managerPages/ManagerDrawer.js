@@ -163,7 +163,7 @@ export default function ManagerDrawer(props) {
           <Button
             color="secondary"
             variant="contained"
-            style={{ borderRadius: "2cap" }}
+            style={{ borderRadius: "0" }}
             onClick={goHome}
           >
             LogOut

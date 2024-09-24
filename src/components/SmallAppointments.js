@@ -162,10 +162,11 @@ export default function SmallAppointments({ size }) {
           <Box />
         )}
         <br/>
-        <Button fullWidth color="secondary" variant="contained" onClick={detailClick}>
+        
+      </List>
+      <Button fullWidth color="secondary" variant="contained" onClick={detailClick}>
           See Others
         </Button>
-      </List>
     </Box>
   );
 }

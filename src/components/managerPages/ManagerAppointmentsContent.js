@@ -7,6 +7,8 @@ import DateChoise from "../DateChoise";
 import SmallAppointments from "../SmallAppointments";
 import { useNavigate } from "react-router-dom";
 import { Button, useMediaQuery } from "@mui/material";
+import DownloadICSByCompany from "../DownloadICSByCompany";
+import DownloadICSByEmail from "../DownlodaICSByEmail";
 
 
 export default function ManagerAppointmentContent(){
@@ -73,6 +75,13 @@ export default function ManagerAppointmentContent(){
           </Grid>
         </Grid>
       )}
+      <br/>
+      <br/>
+      <DownloadICSByCompany/>
+      <br/>
+      <DownloadICSByEmail/>
+      <br/>
+      <br/>
     </Box>
   );
 }

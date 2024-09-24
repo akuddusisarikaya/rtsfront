@@ -19,7 +19,7 @@ const drawerWidth = 260;
 
 const first = [
   { key: 0, name: "ADMİN PANEL", link: "/admin" },
-  { key: 1, name: "Dashboard", link: "/admin" },
+  //{ key: 1, name: "Dashboard", link: "/admin" },
   { key: 2, name: "User Management", link: "/adminusermanage" },
   { key: 3, name: "Services & Pricing", link: "/adminservicesandprice" },
   { key: 4, name: "Appointments", link: "/adminappointments" },
@@ -165,7 +165,7 @@ export default function AdminDrawer(props) {
           <Button
             color="secondary"
             variant="contained"
-            style={{ borderRadius: "2cap" }}
+            style={{ borderRadius: "0" }}
             onClick={goHome}
           >
             LogOut
