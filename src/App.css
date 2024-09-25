@@ -506,3 +506,13 @@
     padding-bottom: 5%;
   }
 }
+
+.adminTextField{
+  width: 40%;
+}
+
+@media(max-width: 768px) {
+  .adminTextField{
+    width: 80%;
+  }
+}

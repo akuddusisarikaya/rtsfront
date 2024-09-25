@@ -7,8 +7,10 @@ import DateChoise from "../DateChoise";
 import SmallAppointments from "../SmallAppointments";
 import { useNavigate } from "react-router-dom";
 import { Button, useMediaQuery } from "@mui/material";
-import DownloadICSByCompany from "../DownloadICSByCompany"
-import DownloadICSByEmail from "../DownlodaICSByEmail"
+import DownloadICSByCompany from "../DownloadICSByCompany";
+import DownloadICSByEmail from "../DownlodaICSByEmail";
+import SendICSByCompany from "../SendICSByCompany";
+import SendICSByEmail from "../SendICSByEmail";
 
 export default function AdminApointmentsContent() {
   const nav = useNavigate();
@@ -17,12 +19,26 @@ export default function AdminApointmentsContent() {
     nav("/adminaddappointment");
   };
 
+  const editAppoinntment = () => {
+    nav("/adminworkdays");
+  };
+
   const isMobile = useMediaQuery("(max-width:768px)");
 
   return (
     <Box sx={{ width: "100%" }}>
-      <br/>
-      <br/>
+      <br />
+      <br />
+      <Button
+        color="secondary"
+        variant="contained"
+        fullWidth
+        onClick={editAppoinntment}
+      >
+        Edit Own Appointments
+      </Button>
+      <br />
+      <br />
       <Button
         color="secondary"
         fullWidth
@@ -31,8 +47,8 @@ export default function AdminApointmentsContent() {
       >
         Add Appointment
       </Button>
-      <br/>
-      <br/>
+      <br />
+      <br />
       {isMobile ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -61,13 +77,19 @@ export default function AdminApointmentsContent() {
           </Grid>
         </Grid>
       )}
+      <br />
+      <br />
+      <DownloadICSByCompany />
+      <br />
+      <DownloadICSByEmail />
+      <br />
+      <br />
       <br/>
       <br/>
-      <DownloadICSByCompany/>
-      <br/>
-      <DownloadICSByEmail/>
+      <SendICSByCompany/>
       <br/>
       <br/>
+      <SendICSByEmail/>
     </Box>
   );
 }

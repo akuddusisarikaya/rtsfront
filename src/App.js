@@ -65,6 +65,7 @@ import UserDetail from "./components/UserDetail";
 import ManagerWorkingDays from "./Pages/managerPages/ManagerWorkingDays";
 import ManagerAppOfDay from "./Pages/managerPages/ManagerAppOfDay";
 import ManagerAddService from "./Pages/managerPages/ManagerAddService";
+import AdminWorkingDay from "./Pages/adminPages/AdminWorkingDays";
 
 function App() {
 
@@ -133,6 +134,7 @@ function App() {
         <Route exact path="/managerworkdays" element={<ManagerWorkingDays />} />
         <Route exact path="/managerappofday" element={<ManagerAppOfDay />} />
         <Route exact path="/manageraddservice" element={<ManagerAddService/>}/>
+        <Route exact path="/adminworkdays" element={<AdminWorkingDay />} />
       </Routes>
     </Router>
   );
