@@ -146,7 +146,7 @@ export default function AppointmentsList() {
       {role === "manager" && <ManagerDrawer/>}
       {role === "admin" && <AdminDrawer/>}
       {role === "provider" && <ProviderDrawer/>}
-      <Box className="dashboardNotMobile">
+      <Box className="appListBox">
         <br />
         <Button color="secondary" onClick={goBack}>
           Back

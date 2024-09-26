@@ -27,7 +27,7 @@ const first = [
   //{ key: 6, name: "Reports & Analytics", link: "/adminreports" },
 ];
 const second = [
-  { key: 1, name: "Settings", link: "/adminsettings" },
+  //{ key: 1, name: "Settings", link: "/adminsettings" },
   { key: 2, name: "Profile", link: "/adminprofile" },
 ];
 
@@ -98,6 +98,18 @@ export default function AdminDrawer(props) {
           </ListItem>
         ))}
       </List>
+      <List>
+        <ListItem>
+          <Button
+            color="secondary"
+            variant="contained"
+            fullWidth
+            onClick={goHome}
+          >
+            Log Out
+          </Button>
+        </ListItem>
+      </List>
     </div>
   );
   return (
@@ -162,14 +174,6 @@ export default function AdminDrawer(props) {
           open
         >
           {drawer}
-          <Button
-            color="secondary"
-            variant="contained"
-            style={{ borderRadius: "0" }}
-            onClick={goHome}
-          >
-            LogOut
-          </Button>
         </Drawer>
       </Box>
     </Box>

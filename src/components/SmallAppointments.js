@@ -3,8 +3,7 @@ import "../App.css";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
+
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -28,7 +27,7 @@ export default function SmallAppointments({ size }) {
   let appointmentList = [];
 
   const formedTime = (time) => {
-    return dayjs(time).utc().format("HH:mm");
+    return dayjs(time).format("HH:mm");
   };
   const formedDate = (time) => {
     return dayjs(time).tz(TIMEZONE).format("DD/MM/YYYY");
@@ -84,12 +83,12 @@ export default function SmallAppointments({ size }) {
           if (response.ok) {
             const data = await response.json();
             if (data !== null) {
-              if(data.length > 0){
+              if (data.length > 0) {
                 appointmentList = [...appointmentList, ...data];
               } else continue;
-            }else continue;
+            } else continue;
           }
-          setAppointments(appointmentList)
+          setAppointments(appointmentList);
         } catch (error) {
           setError(error.message);
         } finally {
@@ -98,9 +97,8 @@ export default function SmallAppointments({ size }) {
       }
       setAppointments(appointmentList);
     };
-      fetchAppointments();
-  }, [emails,role]);
-  
+    fetchAppointments();
+  }, [emails, role]);
 
   React.useEffect(() => {
     if (role === "manager" || role === "admin") return;
@@ -122,12 +120,12 @@ export default function SmallAppointments({ size }) {
         setAppointments(data);
       } catch (error) {
         setError(error.message);
-      }finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     };
     fetchAppointments();
-  },[]);
+  }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -145,28 +143,32 @@ export default function SmallAppointments({ size }) {
         {appointments !== null ? (
           appointments.slice(0, 5).map((appointment) => (
             <ListItem key={appointment.id}>
-              <ListItemAvatar>
-                <Avatar />
-              </ListItemAvatar>
               <ListItemText
+                sx={{textAlign:"center"}}
                 primary={`${appointment.provider_name}- ${formedDate(
                   appointment.date
                 )}`}
-                secondary={`${formedTime(appointment.start_time)}-${formedTime(
-                  appointment.end_time
-                )}`}
+                secondary={`${formedTime(
+                  appointment.start_time
+                )} - ${formedTime(appointment.end_time)} - ${
+                  appointment.activate ? "Active" : "Inactive"
+                } - ${appointment.customer_name}`}
               />
             </ListItem>
           ))
         ) : (
           <Box />
         )}
-        <br/>
-        
+        <br />
       </List>
-      <Button fullWidth color="secondary" variant="contained" onClick={detailClick}>
-          See Others
-        </Button>
+      <Button
+        fullWidth
+        color="secondary"
+        variant="contained"
+        onClick={detailClick}
+      >
+        See Others
+      </Button>
     </Box>
   );
 }

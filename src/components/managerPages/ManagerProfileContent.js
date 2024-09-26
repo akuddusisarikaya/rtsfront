@@ -2,12 +2,18 @@ import * as React from "react";
 import "../../App.css";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, List, ListItem, ListItemText, Typography, CardContent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default function ManagerProfileContent() {
   const [error, setError] = React.useState(null)
   const nav = useNavigate()
+  const [appointments, setAppointments] = React.useState([])
   const user = JSON.parse(sessionStorage.getItem("user"))
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
   const [isEdit, setIsEdit] = React.useState(false)
@@ -16,6 +22,10 @@ export default function ManagerProfileContent() {
   const [email, setEmail] = React.useState(user.email)
   const [phone, setPhone] = React.useState(user.phone)
   const [updateUser, setUpdateUser] = React.useState({})
+
+  const formedTime = (time) => {
+    return dayjs(time).utc().format("HH:mm");
+  };
 
   const handleName = (e) => {
     setAdminName(e.target.value)
@@ -71,8 +81,8 @@ export default function ManagerProfileContent() {
   }
 
   return (
-    <Box>
-      <h3 style={{ textAlign:"center" }}>Admin Profile</h3>
+    <Box className="profileContent">
+      <h3 style={{ textAlign:"center" }}>Manager Profile</h3>
       <br/>
       {error&&<h5>{error}</h5>}
       <br/>
@@ -97,6 +107,41 @@ export default function ManagerProfileContent() {
         <Button color="secondary" variant="contained" onClick={handleClick}>{isEdit ? "Save" : "Edit"}</Button>
         <br />
         <br />
+      </Card>
+      <Card className="appCardForUserProfile">
+        {appointments === null ? (
+          <CardContent>
+            <Typography>
+              No appointments 
+            </Typography>
+          </CardContent>
+        ) : (
+          <CardContent>
+            <Typography variant="h6">Appointments:</Typography>
+            <List>
+              {appointments.length > 0 ? (
+                appointments.map((appointment) => (
+                  <ListItem key={appointment.id}>
+                    <ListItemText
+                      primary={`Appointment: ${formedTime(
+                        appointment.start_time
+                      )} - ${formedTime(appointment.end_time)}`}
+                      secondary={`Status: ${
+                        appointment.activate
+                          ? `Active - Provider: ${appointment.provider_name} - ${appointment.company_name} `
+                          : "Inactive"
+                      }`}
+                    />
+                  </ListItem>
+                ))
+              ) : (
+                <Typography>
+                  No appointments
+                </Typography>
+              )}
+            </List>
+          </CardContent>
+        )}
       </Card>
     </Box>
   );

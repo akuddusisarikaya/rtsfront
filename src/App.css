@@ -104,7 +104,7 @@
 .dashboardNotMobile {
   margin-left: 20%;
   margin-right: 5%;
-  margin-top: 7%;
+  margin-top: 5%;
 }
  @media (max-width : 1300px){
   .dashboardNotMobile{
@@ -118,6 +118,7 @@
     margin-left: 32%;
     margin-right: 5%;
     margin-top: 7%;
+    padding-top: 7%;
   }
  }
  @media (max-width : 800px){
@@ -125,6 +126,7 @@
     margin-left: 40%;
     margin-right: 5%;
     margin-top: 15%;
+    padding-top: 10%;
   }
  }
 
@@ -238,11 +240,13 @@
 }
 
 .appointmentBox{
-  padding-left: 35%;
+  padding-top: 10%;
+  padding-left: 15%;
 }
 
 @media (max-width:768px){
   .appointmentBox{
+    padding-top: 20%;
     padding-left: 5%;
   }
 }
@@ -257,7 +261,7 @@
 }
 
 .appointmentButton{
-  width: 25%;
+  width: 45%;
 }
 @media (max-width:768px){
   .appointmentButton{
@@ -514,5 +518,46 @@
 @media(max-width: 768px) {
   .adminTextField{
     width: 80%;
+  }
+}
+
+.appListBox{
+  margin-left: 15%;
+  margin-top: 5%;
+  margin-right: 5%;
+}
+
+@media(max-width: 768px){
+  .appListBox{
+    margin-left: 5%;
+    margin-top: 5%;
+    margin-right: 20%;
+  }
+}
+
+.logOutButton{
+  background-color: silver;
+}
+
+.profileContent{
+  margin-top: 15%;
+}
+
+@media(max-width: 768px){
+  .profileContent{
+  margin-top: 25%;
+}
+}
+
+
+.appCardForUserProfile{
+  margin-top: 10%;
+  margin-bottom: 10%;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+@media(max-width: 768px){
+  .appCardForUserProfile{
+    margin: 5%
   }
 }

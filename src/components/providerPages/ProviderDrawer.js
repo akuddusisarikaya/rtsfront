@@ -19,14 +19,12 @@ import { Button } from "@mui/material";
 const drawerWidth = 260;
 
 const first = [
-  { key: 1, name: "PROVIDER DASHBOARD", link: "/provider" },
+  { key: 1, name: "PROVIDER PANEL", link: "/provider" },
   { key: 2, name: "Services & Pricing", link: "/providerservices" },
   { key: 3, name: "Appointments", link: "/providerappointment" },
   //{ key: 4, name: "Reports & Analytics", link: "/providerreports" },
 ];
-const second = [
-  { key: 1, name: "Profile", link: "/providerprofile" },
-];
+const second = [{ key: 1, name: "Profile", link: "/providerprofile" }];
 
 ProviderDrawer.propTypes = {
   window: PropTypes.func,
@@ -61,7 +59,15 @@ export default function ProviderDrawer() {
   const drawer = (
     <div>
       <Toolbar>
-        <Button variant="contained" color="secondary" onClick={()=> {navigate('/provider')}}>CARMESOFT S.A.M.</Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            navigate("/provider");
+          }}
+        >
+          CARMESOFT S.A.M.
+        </Button>
       </Toolbar>
       <Divider />
       <List>
@@ -82,6 +88,18 @@ export default function ProviderDrawer() {
             </ListItemButton>
           </ListItem>
         ))}
+      </List>
+      <List>
+        <ListItem>
+          <Button
+            color="secondary"
+            variant="contained"
+            fullWidth
+            onClick={goHome}
+          >
+            Log Out
+          </Button>
+        </ListItem>
       </List>
     </div>
   );
@@ -147,7 +165,6 @@ export default function ProviderDrawer() {
           open
         >
           {drawer}
-          <Button color="secondary" variant="contained" onClick={goHome} style={{borderRadius:"0"}}> LogOut</Button>
         </Drawer>
       </Box>
     </Box>

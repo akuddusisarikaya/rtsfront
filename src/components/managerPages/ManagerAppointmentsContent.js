@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, useMediaQuery } from "@mui/material";
 import DownloadICSByCompany from "../DownloadICSByCompany";
 import DownloadICSByEmail from "../DownlodaICSByEmail";
-import SendICSByCompany from "../SendICSByCompany";
-import SendICSByEmail from "../SendICSByEmail";
+//import SendICSByCompany from "../SendICSByCompany";
+//import SendICSByEmail from "../SendICSByEmail";
 
 export default function ManagerAppointmentContent(){
     const nav = useNavigate();
@@ -60,7 +60,6 @@ export default function ManagerAppointmentContent(){
               <SmallAppointments />
             </Paper>
           </Grid>
-          <Button variant="contained"> Add Appointment</Button>
         </Grid>
       ) : (
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -83,10 +82,10 @@ export default function ManagerAppointmentContent(){
       <DownloadICSByEmail/>
       <br/>
       <br/>
-      <SendICSByCompany/>
+      {/*<SendICSByCompany/>*/}
       <br/>
       <br/>
-      <SendICSByEmail/>
+      {/*<SendICSByEmail/>*/}
     </Box>
   );
 }

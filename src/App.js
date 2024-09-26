@@ -66,6 +66,7 @@ import ManagerWorkingDays from "./Pages/managerPages/ManagerWorkingDays";
 import ManagerAppOfDay from "./Pages/managerPages/ManagerAppOfDay";
 import ManagerAddService from "./Pages/managerPages/ManagerAddService";
 import AdminWorkingDay from "./Pages/adminPages/AdminWorkingDays";
+import MakeApointmentOutside from "./Pages/MakeApointmentOutside"
 
 function App() {
 
@@ -76,7 +77,7 @@ function App() {
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/admin" element={<AdminDashboard />} />
-        <Route exact path="/appointment" element = { <Appointment/>}/>
+        <Route exact path="/appointment" element = {<MakeApointmentOutside/>}/>
         <Route exact path="/appointment/:companyID" element={<Appointment />} />
         <Route exact path="/resetpassword" element={<PasswordReset />} />
         <Route exact path="/adminusermanage" element={<AdminUserManage />} />

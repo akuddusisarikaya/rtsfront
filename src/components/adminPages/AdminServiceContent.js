@@ -7,16 +7,16 @@ import DateChoise from "../DateChoise";
 import SmallServices from "../SmallServices";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
 
 export default function AdminServiceContent() {
+  const isMobile = useMediaQuery("(max-width:768px)");
   const nav = useNavigate();
   const addService = () => {
     nav("/addservice");
   };
   return (
     <Box>
-      <br />
-      <br />
       <Button
         color="secondary"
         variant="contained"
@@ -28,12 +28,12 @@ export default function AdminServiceContent() {
       <br />
       <br />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={isMobile ? 12 : 6}>
           <Paper className="itemStyles">
             <DateChoise size="large" />
           </Paper>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={isMobile ? 12 : 6}>
           <Paper className="itemStyles">
             <SmallServices size="large" />
           </Paper>

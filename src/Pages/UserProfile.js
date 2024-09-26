@@ -1,5 +1,6 @@
 import * as React from "react";
 import "../App.css";
+import { List, ListItem, ListItemText, Typography, CardContent } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -7,10 +8,16 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import EmailVerification from "../components/EmailVerification";
 import NumberVerification from "../components/NumberVerification";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default function UserProfile() {
   const [error, setError] = React.useState(null);
   const navigate = useNavigate();
+  const [appointments, setAppointments] = React.useState([])
   const user = JSON.parse(sessionStorage.getItem("user"));
   const [edit, setEdit] = React.useState(true);
   const [newUser, setNewUser] = React.useState({
@@ -18,8 +25,16 @@ export default function UserProfile() {
     email: user.email || "",
     phone: user.phone || "",
   });
-  const [emailButton, setEmailButton] = React.useState(!user?.EmailVerification);
-  const [numberButton, setNumberButton] = React.useState(!user?.PhoneVerification);
+  const [emailButton, setEmailButton] = React.useState(
+    !user?.EmailVerification
+  );
+  const [numberButton, setNumberButton] = React.useState(
+    !user?.PhoneVerification
+  );
+
+  const formedTime = (time) => {
+    return dayjs(time).utc().format("HH:mm");
+  };
 
   const handleNumberVer = () => {
     setNumberButton((prev) => !prev);
@@ -42,9 +57,33 @@ export default function UserProfile() {
     navigate("/");
   };
 
+  React.useEffect(()=>{
+    const fetchAppointments = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+      const response = await fetch(
+        `http://localhost:8080/protected/getuserapp?email=${user.email}`,{
+          method:"GET",
+          headers:{
+            "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+          }
+        }
+      )
+      if(!response.ok) throw new Error("Appointments did not catch");
+      const data = await response.json();
+      setAppointments(data)
+      console.log(data)
+      } catch (error) {
+        setError(error.message)
+      }
+    }
+    fetchAppointments();
+  },[])
+
   const handleSave = async () => {
     const token = sessionStorage.getItem("token");
-  
+
     try {
       const response = await fetch(
         `http://localhost:8080/protected/updateuser?id=${user._id}`,
@@ -52,7 +91,7 @@ export default function UserProfile() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(newUser),
         }
@@ -60,17 +99,17 @@ export default function UserProfile() {
 
       if (!response.ok) {
         // Try to parse error message from response
-        let errorMessage = 'User did not update';
+        let errorMessage = "User did not update";
         try {
           const errorData = await response.json();
           errorMessage = errorData.message || errorMessage;
         } catch (parseError) {
-          setError(error.message)
+          setError(error.message);
         }
-  
+
         throw new Error(errorMessage);
       }
-  
+
       const updatedUser = await response.json();
       sessionStorage.setItem("user", JSON.stringify(updatedUser));
       setError(null); // Clear error state if successful
@@ -78,7 +117,6 @@ export default function UserProfile() {
       setError(error.message);
     }
   };
-  
 
   const toggleEditMode = () => {
     if (!edit) {
@@ -112,6 +150,41 @@ export default function UserProfile() {
         Log out
       </Button>
       <br />
+      <Card className="appCardForUserProfile">
+        {appointments === null ? (
+          <CardContent>
+            <Typography>
+              No appointments 
+            </Typography>
+          </CardContent>
+        ) : (
+          <CardContent>
+            <Typography variant="h6">Appointments:</Typography>
+            <List>
+              {appointments.length > 0 ? (
+                appointments.map((appointment) => (
+                  <ListItem key={appointment.id}>
+                    <ListItemText
+                      primary={`Appointment: ${formedTime(
+                        appointment.start_time
+                      )} - ${formedTime(appointment.end_time)}`}
+                      secondary={`Status: ${
+                        appointment.activate
+                          ? `Active - Provider: ${appointment.provider_name} - ${appointment.company_name} `
+                          : "Inactive"
+                      }`}
+                    />
+                  </ListItem>
+                ))
+              ) : (
+                <Typography>
+                  No appointments
+                </Typography>
+              )}
+            </List>
+          </CardContent>
+        )}
+      </Card>
       <br />
       <Card className="userProfileCard">
         <br />

@@ -3,19 +3,17 @@ import "../App.css";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box"
+import Box from "@mui/material/Box";
 
 export default function SmallManagers() {
   const [error, setError] = React.useState(null);
   const [providers, setProviders] = React.useState([]);
-  const user = JSON.parse(sessionStorage.getItem("user"))
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   React.useEffect(() => {
-    const role = user.role.toLowerCase()
+    const role = user.role.toLowerCase();
     const fetchData = async () => {
       try {
         const token = sessionStorage.getItem("token");
@@ -50,23 +48,28 @@ export default function SmallManagers() {
       <h3>Managers</h3>
       {error && <h5>{error}</h5>}
       {providers !== null ? (
-        providers.slice(0, 5).map((provider) => (
-          provider.role === "Manager"&&
-          <ListItem key={provider.key}>
-            <ListItemAvatar>
-              <Avatar />
-            </ListItemAvatar>
-            <ListItemText
-              primary={provider.name}
-              secondary={`${provider.phone}  /  ${provider.email}`}
-            />
-          </ListItem>
-        ))
+        providers.slice(0, 5).map(
+          (provider) =>
+            provider.role === "Manager" && (
+              <ListItem key={provider.key}>
+                <ListItemText
+                  sx={{ textAlign: "center" }}
+                  primary={provider.name}
+                  secondary={`${provider.phone}  /  ${provider.email}`}
+                />
+              </ListItem>
+            )
+        )
       ) : (
         <Box />
       )}
-      <br/>
-      <Button fullWidth color="secondary" variant="contained" onClick={detailClick}>
+      <br />
+      <Button
+        fullWidth
+        color="secondary"
+        variant="contained"
+        onClick={detailClick}
+      >
         See Others
       </Button>
     </List>

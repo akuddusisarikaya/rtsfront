@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, useMediaQuery } from "@mui/material";
 import DownloadICSByCompany from "../DownloadICSByCompany";
 import DownloadICSByEmail from "../DownlodaICSByEmail";
-import SendICSByCompany from "../SendICSByCompany";
-import SendICSByEmail from "../SendICSByEmail";
+//import SendICSByCompany from "../SendICSByCompany";
+//import SendICSByEmail from "../SendICSByEmail";
 
 export default function AdminApointmentsContent() {
   const nav = useNavigate();
@@ -86,10 +86,10 @@ export default function AdminApointmentsContent() {
       <br />
       <br/>
       <br/>
-      <SendICSByCompany/>
+      {/*<SendICSByCompany/>*/}
       <br/>
       <br/>
-      <SendICSByEmail/>
+      {/*<SendICSByEmail/>*/}
     </Box>
   );
 }

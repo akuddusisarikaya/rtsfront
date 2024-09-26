@@ -165,6 +165,8 @@ export default function ProviderWorkingDatesContent() {
           },
           body: JSON.stringify({
             providerEmail: user.email,
+            providerName: user.name,
+            providerPhone: user.phone,
             companyName: user.company_name,
             companyID: user.company_id,
             date: selectedDate.format("YYYY-MM-DD"),
@@ -221,6 +223,7 @@ export default function ProviderWorkingDatesContent() {
           body: JSON.stringify({
             ProviderEmail: user.email,
             ProviderName: user.name,
+            ProviderPhone : user.phone,
             CompanyName: user.company_name,
             CompanyID: user.company_id,
             Weekdays: weekdays,

@@ -8,7 +8,7 @@ import { useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import DownloadICSByEmail from "../DownlodaICSByEmail";
-import SendICSByEmail from "../SendICSByEmail";
+//import SendICSByEmail from "../SendICSByEmail";
 
 export default function ProviderAppointmentContent() {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -62,7 +62,7 @@ export default function ProviderAppointmentContent() {
       <DownloadICSByEmail/>
       <br/>
       <br/>
-      <SendICSByEmail/>
+      {/*<SendICSByEmail/>*/}
     </Box>
   );
 }

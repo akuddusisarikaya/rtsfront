@@ -25,9 +25,7 @@ const first = [
   //{ key: 4, name: "Payments", link: "/adminpayments" },
   //{ key: 5, name: "Reports & Analytics", link: "/adminreports" },
 ];
-const second = [
-  { key: 1, name: "Profile", link: "/managerprofile" },
-];
+const second = [{ key: 1, name: "Profile", link: "/managerprofile" }];
 
 ManagerDrawer.propTypes = {
   window: PropTypes.func,
@@ -70,7 +68,7 @@ export default function ManagerDrawer(props) {
           color="secondary"
           variant="contained"
           onClick={() => {
-            navigate("/admin");
+            navigate("/manager");
           }}
         >
           CARMESOFT S.A.M.
@@ -95,6 +93,18 @@ export default function ManagerDrawer(props) {
             </ListItemButton>
           </ListItem>
         ))}
+      </List>
+      <List>
+        <ListItem>
+          <Button
+            color="secondary"
+            variant="contained"
+            fullWidth
+            onClick={goHome}
+          >
+            Log Out
+          </Button>
+        </ListItem>
       </List>
     </div>
   );
@@ -160,14 +170,6 @@ export default function ManagerDrawer(props) {
           open
         >
           {drawer}
-          <Button
-            color="secondary"
-            variant="contained"
-            style={{ borderRadius: "0" }}
-            onClick={goHome}
-          >
-            LogOut
-          </Button>
         </Drawer>
       </Box>
     </Box>

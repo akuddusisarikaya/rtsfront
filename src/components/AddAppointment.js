@@ -1,99 +1,209 @@
-import React, { useEffect, useState } from "react";
+import * as React from "react";
 import "../App.css";
+import { styled } from "@mui/material/styles";
 import dayjs from "dayjs";
-import { Box, Button, TextField, MenuItem } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { Box, Button, TextField, MenuItem, useMediaQuery } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
+import NewDatePicker from "./NewDatePicker";
+import NewTimePicker from "./NewTimePicker";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
-const providers = [
-  {
-    key: 0,
-    name: "---Select a Provider---",
-  },
-  {
-    key: 1,
-    name: "Adam Smith",
-  },
-  {
-    key: 2,
-    name: "Alice Lincoln",
-  },
-  {
-    key: 3,
-    name: "Joe Deer",
-  },
-];
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
-const services = [
-  {
-    key: 1,
-    name: "Service#1",
-    price: "$100",
-  },
-  {
-    key: 2,
-    name: "Service#2",
-    price: "$50",
-  },
-  {
-    key: 3,
-    name: "Service#3",
-    price: "$200",
-  },
-  {
-    key: 4,
-    name: "Service#4",
-    price: "$350",
-  },
-];
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  ...theme.applyStyles("dark", {
+    backgroundColor: "#1A2027",
+  }),
+}));
 
-function Appointment() {
-  const [currentTime, setCurrentTime] = useState(dayjs());
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [selectedServices, setSelectedServices] = useState([]);
-
-  useEffect(() => {
-    const timerId = setInterval(() => {
-      setCurrentTime(dayjs());
-    }, 1000);
-    return () => clearInterval(timerId);
-  }, []);
-
+export default function AddAppointment() {
+  const isMobile = useMediaQuery("(max-width:768px)");
+  const [error, setError] = React.useState(null);
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const role = user.role.toLowerCase();
+  const [providers, setProviders] = React.useState([]);
+  const [customerName, setCustomerName] = React.useState("");
+  const [customerEmail, setCustomerEmail] = React.useState("");
+  const [customerPhone, setCustomerPhone] = React.useState("");
+  const [selectedStartTime, setSelectedStartTime] = React.useState(dayjs());
+  const [selectedEndTime, setSelectedEndTime] = React.useState(dayjs());
+  const [selectedDate, setSelectedDate] = React.useState(dayjs());
+  const [selectedProvider, setSelectedProvider] = React.useState({});
+  const [selectedServices, setSelectedServices] = React.useState([]);
   const navigate = useNavigate();
 
   const backClick = () => {
     navigate(-1);
   };
 
+  const handleCustomerName = (e) => {
+    setCustomerName(e.target.value);
+  };
+
+  const handleCustomerEmail = (e) => {
+    setCustomerEmail(e.target.value);
+  };
+
+  const handleCustomerPhone = (e) => {
+    setCustomerPhone(e.target.value);
+  };
+
+  const handleSelectedStartTime = (newTime) => {
+    setSelectedStartTime(newTime);
+  };
+
+  const handleSelectedEndTime = (newTime) => {
+    setSelectedEndTime(newTime);
+  };
+
+  const handleSelectedDate = (newDate) => {
+    setSelectedDate(newDate);
+  };
+
+  const handleSelectedProvider = (e) => {
+    setSelectedProvider(JSON.parse(e.target.value));
+  };
+
   const handleServiceChange = (event) => {
-    setSelectedServices(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    setSelectedServices(typeof value === "string" ? value.split(",") : value);
+  };
+
+  React.useEffect(() => {
+    if (role === "provider") {
+      setSelectedProvider(user);
+      return;
+    }
+    const fetchProviders = async () => {
+      const token = sessionStorage.getItem("token");
+      try {
+        const response = await fetch(
+          `http://localhost:8080/${role}/getproviders?companyId=${user.company_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) throw new Error("Providers did not catch");
+        const data = await response.json();
+        setProviders(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchProviders();
+  }, []);
+
+  const sumbitAppointment = async () => {
+    if (role === "provider") {
+      if (customerName === null || customerName.length < 3) {
+        setError("Customer Name not valid");
+        return;
+      } else if (customerEmail === null || customerEmail.length < 8) {
+        setError("Customer Email not valid");
+        return;
+      } else if (customerPhone === null || customerPhone.length < 9) {
+        setError("Customer Phone not valid");
+        return;
+      }
+      try {
+        const token = sessionStorage.getItem("token");
+        const response = await fetch(
+          `http://localhost:8080/provider/createapp`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              provider_name: user.name,
+              provider_email: user.email,
+              provider_phone: user.phone,
+              customer_name: customerName,
+              customer_email: customerEmail,
+              customer_phone: customerPhone,
+              company_name: user.company_name,
+              company_id: user.company_id,
+              date: selectedDate,
+              start_time: selectedStartTime,
+              end_time: selectedEndTime,
+              services: selectedServices,
+              activate: true,
+            }),
+          }
+        );
+        if (!response.ok) throw new Error("Appoinment did not add");
+      } catch (error) {
+        setError(error.message);
+      }
+    } else {
+      try {
+        console.log(selectedProvider);
+        const token = sessionStorage.getItem("token");
+        const response = await fetch(
+          `http://localhost:8080/${role}/createapp`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              provider_name: selectedProvider.name,
+              provider_email: selectedProvider.email,
+              provider_phone: selectedProvider.phone,
+              customer_name: customerName,
+              customer_email: customerEmail,
+              customer_phone: customerPhone,
+              company_name: selectedProvider.company_name,
+              company_id: selectedProvider.company_id,
+              date: selectedDate,
+              start_time: selectedStartTime,
+              end_time: selectedEndTime,
+              services: selectedServices,
+              activate: true,
+            }),
+          }
+        );
+        if (!response.ok) throw new Error("Appoinment did not add");
+      } catch (error) {
+        setError(error.message);
+      }
+    }
   };
 
   return (
-    <div>
-      <br />
-      <Button color="secondary" onClick={backClick}>BACK</Button>
-      <div className="appointmentBox">
+    <Box>
+      <Box className="appointmentBox">
+        <Button color="secondary" onClick={backClick}>
+          BACK
+        </Button>
         <h1 style={{ marginTop: "5%" }}>Appointment</h1>
         <br />
+        {error && <h5>{error}</h5>}
         <Box component="form" autoComplete="off">
-          <div>
+          <Box>
             <TextField
               required
               id="name"
               label="Name"
               className="appointmentTextField"
-            />
-            <br />
-            <br />
-            <TextField
-              required
-              id="surname"
-              label="Surname"
-              className="appointmentTextField"
+              onChange={handleCustomerName}
             />
             <br />
             <br />
@@ -103,33 +213,40 @@ function Appointment() {
               type="email"
               label="E-mail"
               className="appointmentTextField"
+              onChange={handleCustomerEmail}
             />
             <br />
             <br />
             <TextField
               required
               id="phone"
-              label="Phone Number"
+              label="Phone"
               className="appointmentTextField"
+              onChange={handleCustomerPhone}
             />
-            <br />
-            <br />
-            <TextField
-              required
-              select
-              className="appointmentTextField"
-              id="provider"
-              label="Select Service Provider"
-              SelectProps={{
-                native: true,
-              }}
-            >
-              {providers.map((option) => (
-                <option key={option.key} value={option.name}>
-                  {option.name}
-                </option>
-              ))}
-            </TextField>
+            {role !== "provider" && (
+              <Box>
+                <br />
+                <br />
+                <TextField
+                  required
+                  select
+                  value={selectedProvider}
+                  className="appointmentTextField"
+                  label="Select Service Provider"
+                  onChange={handleSelectedProvider}
+                >
+                  {providers.map(
+                    (provider) =>
+                      provider.role !== "SuperUser" && (
+                        <MenuItem key={provider.id} value={provider}>
+                          {provider.name}
+                        </MenuItem>
+                      )
+                  )}
+                </TextField>
+              </Box>
+            )}
             <br />
             <br />
             <TextField
@@ -137,7 +254,7 @@ function Appointment() {
               select
               className="appointmentTextField"
               id="services"
-              label="Select services"
+              label="Select Services"
               SelectProps={{
                 multiple: true,
                 value: selectedServices,
@@ -145,44 +262,63 @@ function Appointment() {
                 renderValue: (selected) => selected.join(", "),
               }}
             >
-              {services.map((service) => (
-                <MenuItem key={service.key} value={service.name}>
-                  {`${service.name} - ${service.price}`}
+              {selectedProvider.services?.map((service) => (
+                <MenuItem key={service.key} value={service}>
+                  {service !== "BoşServis - ₺000" && service}
                 </MenuItem>
               ))}
             </TextField>
             <br />
+            <Grid
+              container
+              rowSpacing={1}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            >
+              <Grid item xs={isMobile ? 12 : 6}></Grid>
+              <Grid item xs={isMobile ? 12 : 6}>
+                <Item>
+                  <h4>Select Date</h4>
+                  <NewDatePicker
+                    onDateChange={handleSelectedDate}
+                  ></NewDatePicker>
+                </Item>
+              </Grid>
+            </Grid>
             <br />
-            <div>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Date"
-                  value={selectedDate}
-                  onChange={(newValue) => setSelectedDate(newValue)}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-                <br></br>
-                <br></br>
-                <TimePicker
-                  label="Time"
-                  value={currentTime}
-                  onChange={(newValue) => setSelectedDate(newValue)}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </div>
+            <Grid
+              container
+              rowSpacing={1}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            >
+              <Grid item xs={isMobile ? 12 : 6}>
+                <Item>
+                  <h4>Start Time:</h4>
+                  <NewTimePicker onTimeChange={handleSelectedStartTime} />
+                </Item>
+              </Grid>
+              <Grid item xs={isMobile ? 12 : 6}>
+                <Item>
+                  <h4>End Time:</h4>
+                  <NewTimePicker onTimeChange={handleSelectedEndTime} />
+                </Item>
+              </Grid>
+            </Grid>
             <br />
             <br />
-            <Button color="secondary" variant="contained" className="appointmentButton">
+            <Button
+              color="secondary"
+              variant="contained"
+              className="appointmentButton"
+              onClick={sumbitAppointment}
+            >
               Done
             </Button>
-          </div>
+          </Box>
           <br />
           <br />
           <br />
         </Box>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
-export default Appointment;

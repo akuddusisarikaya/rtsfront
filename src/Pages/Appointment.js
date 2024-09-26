@@ -336,7 +336,7 @@ export default function Appointment() {
             >
               {selectedProvider.services?.map((service) => (
                 <MenuItem key={service.key} value={service}>
-                  {service}
+                  {service !== "BoşServis - ₺000" && service}
                 </MenuItem>
               ))}
             </TextField>

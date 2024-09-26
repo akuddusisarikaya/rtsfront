@@ -3,8 +3,6 @@ import "../App.css";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box"
@@ -53,10 +51,8 @@ export default function SmallProviders() {
         providers.slice(0, 5).map((provider) => (
           provider.role === "Provider"&&
           <ListItem key={provider.key}>
-            <ListItemAvatar>
-              <Avatar />
-            </ListItemAvatar>
             <ListItemText
+              sx={{textAlign:"center"}}
               primary={provider.name}
               secondary={`${provider.phone}  /  ${provider.email}`}
             />
