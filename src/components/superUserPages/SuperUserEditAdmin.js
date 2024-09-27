@@ -3,31 +3,28 @@ import { TextField, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function SuperUserEditAdmin() {
-  const [company, setCompany] = React.useState({
-    id: "",
-    userID: "",
-    name: "",
-    email: "",
-    phone: "",
-    role: "",
-    companyName: "",
-    companyID : "",
-  });
   const [searchName, setSearchName] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   const nav = useNavigate();
+  const [company, setCompany] = React.useState({
+    id: "",
+    name: "",
+    email: "",
+    phone: "",
+    role: "",
+    company_name: "",
+    company_id : "",
+  });
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setCompany((prevCompany) => ({
-      ...prevCompany,
-      [id]:
-        id === "managersNumber" || id === "providersNumber"
-          ? parseInt(value)
-          : value,
+      ...prevCompany,  
+      [id]: value,      
     }));
   };
+
 
   const handleSearch = async () => {
     setLoading(true);
@@ -35,7 +32,7 @@ export default function SuperUserEditAdmin() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:8080/superuser/adminsget?email=${searchName}`,
+        `http://localhost:8080/superuser/getuserbyemail?email=${searchName}`,
         {
           method: "GET",
           headers: {
@@ -47,20 +44,18 @@ export default function SuperUserEditAdmin() {
 
       if (!response.ok) throw new Error("Şirket bulunamadı");
       const data = await response.json();
-
       setCompany({
-        id: data.ID,
-        userID: data.UserID,
-        name: data.Name,
-        email: data.Email,
-        phone: data.Phone,
-        role: data.Role,
-        companyName: data.CompanyName,
-        companyID: data.CompanyID
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        role: data.role,
+        company_name: data.company_name,
+        company_id: data.company_id
       });
     } catch (error) {
       setError("Admin searching error :" + error.message);
-      console.error("Admin searching error:", error);
+      setError("Admin searching error:", error);
     } finally {
       setLoading(false);
     }
@@ -73,7 +68,7 @@ export default function SuperUserEditAdmin() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:8080/superuser/admins/update?email=${searchName}`,
+        `http://localhost:8080/superuser/updateuser?id=${company.id}`,
         {
           method: "PUT",
           headers: {
@@ -86,9 +81,9 @@ export default function SuperUserEditAdmin() {
 
       if (!response.ok) throw new Error("Admin did not update");
       alert("Admin update success");
-      nav("/superuser");
+      nav("/superuserdash");
     } catch (error) {
-      console.error("Admin update error:", error);
+      setError("Admin update error:", error);
       alert("Something happen when Admin Update");
     }
   };
@@ -168,25 +163,25 @@ export default function SuperUserEditAdmin() {
         onChange={handleChange}
       />
       <TextField
-        id="CompanyName"
+        id="company_name"
         label="Company Name"
         variant="outlined"
         fullWidth
         margin="normal"
-        value={company.companyName}
+        value={company.company_name}
         onChange={handleChange}
       />
       <TextField
-        id="CompanyID"
+        id="company_id"
         label="Company ID"
         variant="outlined"
         fullWidth
         margin="normal"
-        value={company.companyID}
+        value={company.company_id}
         onChange={handleChange}
       />
       <Button variant="contained" color="secondary" onClick={handleSubmit}>
-        Save Company
+        Save Admin
       </Button>
     </Box>
   );

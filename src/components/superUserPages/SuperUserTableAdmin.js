@@ -12,20 +12,13 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
 const columns = [
-  { id: "ID", label: "ID", minWidth: 170 },
-  { id: "UserID", label: "UserID", minWidth: 170 },
-  { id: "CompanyID", label: "CompanyID", minWidth: 170 },
-  { id: "Name", label: "Name", minWidth: 170 },
-  { id: "Email", label: "Email", minWidth: 200 },
-  { id: "Role", label: "Role", minWidth: 100 },
-  { id: "Phone", label: "Phone", minWidth: 150 },
-  {
-    id: "CreatedAt",
-    label: "Created At",
-    minWidth: 170,
-    align: "right",
-    format: (value) => new Date(value).toLocaleString(),
-  },
+  { id: "_id", label: "ID", minWidth: 170 },
+  { id: "company_id", label: "CompanyID", minWidth: 170 },
+  { id:"company_name", label:"CompanyName", minWidth:170},
+  { id: "name", label: "Name", minWidth: 170 },
+  { id: "email", label: "Email", minWidth: 200 },
+  { id: "role", label: "Role", minWidth: 100 },
+  { id: "phone", label: "Phone", minWidth: 150 },
 ];
 
 export default function SuperUserTableAdmin() {
@@ -44,16 +37,16 @@ export default function SuperUserTableAdmin() {
     const fetchData = async () => {
       try {
         const token = sessionStorage.getItem("token");
-        const response = await fetch("http://localhost:8080/superuser/admins", {
+        const response = await fetch("http://localhost:8080/superuser/getadmins", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`, // Token'ı header'a ekle
+            Authorization: `Bearer ${token}`, 
             "Content-Type": "application/json",
           },
-        }); // Admin koleksiyonuna istek
+        }); 
         if (!response.ok) throw new Error("Veriler alınamadı");
         const result = await response.json();
-        setData(result || []); // Gelen veriyi state'e kaydet, eğer null gelirse boş dizi ata
+        setData(result || []); 
       } catch (error) {
         console.error("Veri çekme hatası:", error);
         setData([]); // Hata durumunda data'yı boş dizi olarak ayarla

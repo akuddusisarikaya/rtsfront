@@ -13,15 +13,14 @@ import { useNavigate } from 'react-router-dom';
 
 // Company koleksiyonu için kolon yapısı
 const columns = [
-  { id: 'ID', label: 'ID', minWidth: 170 },
+  { id: 'id', label: 'ID', minWidth: 170 },
   { id: 'name', label: 'Company Name', minWidth: 170 },
   { id: 'adminName', label: 'Admin Name', minWidth: 170 },
   { id: 'address', label: 'Address', minWidth: 200 },
   { id: 'phone', label: 'Phone', minWidth: 150 },
-  { id: 'adminID', label: 'AdminID', minWidth: 170 },
-  { id: 'managersNumber', label: 'Managers Number', minWidth: 150, align: 'right' },
-  { id: 'providersNumber', label: 'Providers Number', minWidth: 150, align: 'right' },
-  { id: 'createdAt', label: 'Created At', minWidth: 170, align: 'right', format: (value) => new Date(value).toLocaleString() },
+  { id: 'admin_id', label: 'AdminID', minWidth: 170 },
+  { id: 'managers_number', label: 'Managers Number', minWidth: 150, align: 'right' },
+  { id: 'providers_number', label: 'Providers Number', minWidth: 150, align: 'right' },
 ];
 
 export default function SuperUserTableCompany() {

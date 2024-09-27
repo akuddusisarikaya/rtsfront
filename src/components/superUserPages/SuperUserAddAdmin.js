@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
-import { TextField, Button, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import * as React from "react";
+import { TextField, Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function SuperUserAddAdmin() {
-  const [admin, setAdmin] = useState({
-    name: '',
-    email: '',
-    password: '',
-    phone: '',
-    companyName:'',
-    companyID:'112',
-    role: 'Admin', // Default olarak 'admin' rolü atanabilir
-    services: [],
+  const [error, setError] = React.useState(null);
+  const [admin, setAdmin] = React.useState({
+    id: "",
+    email: "",
+    company_name: "",
+    company_id: "",
+    role: "Admin",
   });
+  const [searchEmail, setSearchEmail] = React.useState("");
+
+  const handleSearchChange = (e) => {
+    setSearchEmail(e.target.value);
+  };
+
+  const handleKeyForSearch = (e) => {
+    if (e.key === "Enter") {
+      getAdmin();
+    }
+  };
 
   const nav = useNavigate();
 
-  // Form input değişikliklerini yönetmek için
   const handleChange = (e) => {
     const { id, value } = e.target;
     setAdmin((prevAdmin) => ({
@@ -25,38 +33,91 @@ export default function SuperUserAddAdmin() {
     }));
   };
 
+  const getAdmin = async () => {
+    if (!searchEmail) return;
+    setError(null);
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await fetch(
+        `http://localhost:8080/superuser/getuserbyemail?email=${searchEmail}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) throw new Error("User did not catch");
+      const data = await response.json();
+      if (data.role === "Admin") {
+        setError("This person already an Admin");
+      } else if (data.role === "SuperUser") {
+        setError("You can not view this person");
+      } else {
+        setAdmin({
+          id: data.id,
+          email: data.email,
+          company_name: data.company_name,
+          company_id: data.company_id,
+          role: data.role,
+        });
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   // Admin ekleme işlemi
   const handleSubmit = async () => {
-    const token = sessionStorage.getItem('token')
+    setError(null);
+    const token = sessionStorage.getItem("token");
     try {
-      const response = await fetch('http://localhost:8080/superuser/adminadd', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8080/superuser/adminadd", {
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(admin),
       });
 
-      if (!response.ok) throw new Error('Admin eklenemedi');
-      alert('Admin başarıyla eklendi!');
-      nav('/superuser'); // Başarıyla ekledikten sonra admin listesine geri dön
+      if (!response.ok) throw new Error("Admin eklenemedi");
+      alert("Admin başarıyla eklendi!");
+      nav("/superuserdash"); // Başarıyla ekledikten sonra admin listesine geri dön
     } catch (error) {
-      console.error('Admin ekleme hatası:', error);
-      alert('Admin eklenirken bir hata oluştu.');
+      setError(error.message);
     }
   };
 
   return (
-    <Box sx={{ maxWidth: 500, margin: 'auto', padding: 2 }}>
+    <Box sx={{ maxWidth: 500, margin: "auto", padding: 2 }}>
+      <br/>
+      <br/>
+      <Button color="secondary" onClick={()=> {nav(-1)}} >Back</Button>
+      <br/>
+      <h2>Search Admin</h2>
+      <TextField
+        label="Search Admin with email"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={searchEmail}
+        onChange={handleSearchChange}
+        onKeyPress={handleKeyForSearch}
+      />
+      <Button color="secondary" variant="contained" onClick={getAdmin}>
+        Get Admin
+      </Button>
+      {error && <h3>{error}</h3>}
       <h2>Add Admin</h2>
       <TextField
-        id="name"
+        id="id"
         label="Name"
         variant="outlined"
         fullWidth
         margin="normal"
-        value={admin.name}
+        value={admin.id}
         onChange={handleChange}
       />
       <TextField
@@ -69,34 +130,38 @@ export default function SuperUserAddAdmin() {
         onChange={handleChange}
       />
       <TextField
-        id="companyName"
+        id="company_name"
         label="Company Name"
-        variant='outlined'
-        fullWidth
-        margin='normal'
-        value={admin.companyName}
-        onChange={handleChange}
-      />
-      <TextField
-        id="password"
-        label="Password"
-        type="password"
         variant="outlined"
         fullWidth
         margin="normal"
-        value={admin.password}
+        value={admin.company_name}
         onChange={handleChange}
       />
       <TextField
-        id="phone"
-        label="Phone"
+        id="company_id"
+        label="Company Name"
         variant="outlined"
         fullWidth
         margin="normal"
-        value={admin.phone}
+        value={admin.company_id}
         onChange={handleChange}
       />
-      <Button variant="contained" color="secondary" onClick={handleSubmit} style={{ marginTop: '16px' }}>
+      <TextField
+        id="role"
+        label="Role"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={admin.role}
+        disabled
+      />
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={handleSubmit}
+        style={{ marginTop: "16px" }}
+      >
         Add Admin
       </Button>
     </Box>

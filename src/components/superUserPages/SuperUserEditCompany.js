@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
-import { TextField, Button, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { TextField, Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function SuperUserEditCompany() {
   const [company, setCompany] = useState({
-    name: '',
-    adminName: '',
-    address: '',
-    phone: '',
-    adminId: '',
-    managersNumber: 0,
-    providersNumber: 0,
+    id: "",
+    name: "",
+    admin_name: "",
+    address: "",
+    phone: "",
+    admin_id: "",
+    managers_number: 0,
+    providers_number: 0,
     services: [],
   });
-  const [searchName, setSearchName] = useState('');
+  const [searchName, setSearchName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const nav = useNavigate();
@@ -23,7 +24,10 @@ export default function SuperUserEditCompany() {
     const { id, value } = e.target;
     setCompany((prevCompany) => ({
       ...prevCompany,
-      [id]: id === 'managersNumber' || id === 'providersNumber' ? parseInt(value) : value,
+      [id]:
+        id === "managersNumber" || id === "providersNumber"
+          ? parseInt(value)
+          : value,
     }));
   };
 
@@ -32,29 +36,34 @@ export default function SuperUserEditCompany() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`http://localhost:8080/getcompanybyname?name=${searchName}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `http://localhost:8080/getcompanybyname?name=${searchName}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (!response.ok) throw new Error('Şirket bulunamadı');
+      if (!response.ok) throw new Error("Şirket bulunamadı");
       const data = await response.json();
+      console.log(data);
       // Gelen veriyi state'e doğru bir formatta ekleyin
       setCompany({
+        id: data.id,
         name: data.name,
-        adminName: data.adminName,
+        admin_name: data.admin_name,
         address: data.address,
         phone: data.phone,
-        adminId: data.adminId,
-        managersNumber: data.managersNumber,
-        providersNumber: data.providersNumber,
+        admin_id: data.admin_id,
+        managers_number: data.managers_number,
+        providers_number: data.providers_number,
         services: data.services,
       });
     } catch (error) {
-      setError('Şirket arama hatası: ' + error.message);
-      console.error('Şirket arama hatası:', error);
+      setError("Şirket arama hatası: " + error.message);
+      console.error("Şirket arama hatası:", error);
     } finally {
       setLoading(false);
     }
@@ -67,34 +76,39 @@ export default function SuperUserEditCompany() {
   // Şirket güncelleme işlemi
   const handleSubmit = async () => {
     try {
-      const token = sessionStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/superuser/companyupdate?name=${searchName}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(company),
-      });
-      console.log(company)
-      if (!response.ok) throw new Error('Şirket güncellenemedi');
-      alert('Şirket başarıyla güncellendi!');
+      const token = sessionStorage.getItem("token");
+      const response = await fetch(
+        `http://localhost:8080/superuser/companyupdate?name=${searchName}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(company),
+        }
+      );
+      console.log(company);
+      if (!response.ok) throw new Error("Şirket güncellenemedi");
+      alert("Şirket başarıyla güncellendi!");
       nav(-1);
     } catch (error) {
-      console.error('Şirket güncelleme hatası:', error);
-      alert('Şirket güncellenirken bir hata oluştu.');
+      console.error("Şirket güncelleme hatası:", error);
+      alert("Şirket güncellenirken bir hata oluştu.");
     }
   };
 
   const handleKeyForSearch = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
   return (
-    <Box sx={{ maxWidth: 500, margin: 'auto', padding: 2 }}>
-      <Button onClick={goBack} color='secondary'>BACK</Button>
+    <Box sx={{ maxWidth: 500, margin: "auto", padding: 2 }}>
+      <Button onClick={goBack} color="secondary">
+        BACK
+      </Button>
       <h2>Edit Company</h2>
       <Box display="flex" alignItems="center" marginBottom={2}>
         <TextField
@@ -105,11 +119,25 @@ export default function SuperUserEditCompany() {
           fullWidth
           onKeyPress={handleKeyForSearch}
         />
-        <Button variant="contained" color="secondary" onClick={handleSearch} disabled={loading}>
-          {loading ? 'Searching...' : 'Search'}
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleSearch}
+          disabled={loading}
+        >
+          {loading ? "Searching..." : "Search"}
         </Button>
       </Box>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {error && <div style={{ color: "red" }}>{error}</div>}
+      <TextField
+        fullWidth
+        id="id"
+        label="Comapany ID"
+        variant="outlined"
+        margin="normal"
+        value={company.id}
+        disabled  
+      />
       <TextField
         id="name"
         label="Company Name"
@@ -125,7 +153,7 @@ export default function SuperUserEditCompany() {
         variant="outlined"
         fullWidth
         margin="normal"
-        value={company.adminId}
+        value={company.admin_id}
         onChange={handleChange}
       />
       <TextField
@@ -134,7 +162,7 @@ export default function SuperUserEditCompany() {
         variant="outlined"
         fullWidth
         margin="normal"
-        value={company.adminName}
+        value={company.admin_name}
         onChange={handleChange}
       />
       <TextField
@@ -162,7 +190,7 @@ export default function SuperUserEditCompany() {
         variant="outlined"
         fullWidth
         margin="normal"
-        value={company.managersNumber}
+        value={company.managers_number}
         onChange={handleChange}
       />
       <TextField
@@ -172,7 +200,7 @@ export default function SuperUserEditCompany() {
         variant="outlined"
         fullWidth
         margin="normal"
-        value={company.providersNumber}
+        value={company.providers_number}
         onChange={handleChange}
       />
       <Button variant="contained" color="secondary" onClick={handleSubmit}>
