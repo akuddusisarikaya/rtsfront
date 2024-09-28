@@ -43,7 +43,6 @@ export default function SmallServices() {
   };
 
   React.useEffect(() => {
-    console.log(user);
     const fetchData = async () => {
       try {
         const token = sessionStorage.getItem("token");

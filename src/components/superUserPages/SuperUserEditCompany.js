@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { TextField, Button, Box } from "@mui/material";
+import * as React from "react";
+import "../../App.css";
+import { TextField, Button, Box, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function SuperUserEditCompany() {
-  const [company, setCompany] = useState({
+  const isMobile = useMediaQuery("(max-width:768px)");
+  const [company, setCompany] = React.useState({
     id: "",
     name: "",
     admin_name: "",
@@ -14,21 +16,24 @@ export default function SuperUserEditCompany() {
     providers_number: 0,
     services: [],
   });
-  const [searchName, setSearchName] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [searchName, setSearchName] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
   const nav = useNavigate();
 
-  // Form input değişikliklerini yönetmek için
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setCompany((prevCompany) => ({
-      ...prevCompany,
-      [id]:
-        id === "managersNumber" || id === "providersNumber"
-          ? parseInt(value)
-          : value,
-    }));
+    if (id === "managers_number" || id === "providers_number") {
+      setCompany((prevCompany) => ({
+        ...prevCompany,
+        [id]: Math.floor(value),
+      }));
+    } else {
+      setCompany((prevCompany) => ({
+        ...prevCompany,
+        [id]: value,
+      }));
+    }
   };
 
   // Şirket ismi ile arama yapma
@@ -48,7 +53,6 @@ export default function SuperUserEditCompany() {
 
       if (!response.ok) throw new Error("Şirket bulunamadı");
       const data = await response.json();
-      console.log(data);
       // Gelen veriyi state'e doğru bir formatta ekleyin
       setCompany({
         id: data.id,
@@ -63,7 +67,6 @@ export default function SuperUserEditCompany() {
       });
     } catch (error) {
       setError("Şirket arama hatası: " + error.message);
-      console.error("Şirket arama hatası:", error);
     } finally {
       setLoading(false);
     }
@@ -78,7 +81,7 @@ export default function SuperUserEditCompany() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:8080/superuser/companyupdate?name=${searchName}`,
+        `http://localhost:8080/superuser/updatecompany?id=${company.id}`,
         {
           method: "PUT",
           headers: {
@@ -88,12 +91,10 @@ export default function SuperUserEditCompany() {
           body: JSON.stringify(company),
         }
       );
-      console.log(company);
       if (!response.ok) throw new Error("Şirket güncellenemedi");
       alert("Şirket başarıyla güncellendi!");
       nav(-1);
     } catch (error) {
-      console.error("Şirket güncelleme hatası:", error);
       alert("Şirket güncellenirken bir hata oluştu.");
     }
   };
@@ -101,6 +102,25 @@ export default function SuperUserEditCompany() {
   const handleKeyForSearch = (e) => {
     if (e.key === "Enter") {
       handleSearch();
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await fetch(
+        `http://localhost:8080/superuser/deletecompany?id=${company.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`, // Token'ı header'a ekle
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) throw new Error("Şirket Silinmedi");
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -136,7 +156,7 @@ export default function SuperUserEditCompany() {
         variant="outlined"
         margin="normal"
         value={company.id}
-        disabled  
+        disabled
       />
       <TextField
         id="name"
@@ -148,7 +168,7 @@ export default function SuperUserEditCompany() {
         onChange={handleChange}
       />
       <TextField
-        id="adminId"
+        id="admin_id"
         label="Admin ID"
         variant="outlined"
         fullWidth
@@ -157,7 +177,7 @@ export default function SuperUserEditCompany() {
         onChange={handleChange}
       />
       <TextField
-        id="adminName"
+        id="admin_name"
         label="Admin Name"
         variant="outlined"
         fullWidth
@@ -184,7 +204,7 @@ export default function SuperUserEditCompany() {
         onChange={handleChange}
       />
       <TextField
-        id="managersNumber"
+        id="managers_number"
         label="Managers Number"
         type="number"
         variant="outlined"
@@ -194,7 +214,7 @@ export default function SuperUserEditCompany() {
         onChange={handleChange}
       />
       <TextField
-        id="providersNumber"
+        id="providers_number"
         label="Providers Number"
         type="number"
         variant="outlined"
@@ -206,6 +226,25 @@ export default function SuperUserEditCompany() {
       <Button variant="contained" color="secondary" onClick={handleSubmit}>
         Save Company
       </Button>
+      {isMobile ? (
+        <Button
+          sx={{marginTop:"10%"}}
+          variant="contained"
+          color="error"
+          onClick={handleDelete}
+        >
+          Delete Company
+        </Button>
+      ) : (
+        <Button
+          sx={{ marginLeft: "35%" }}
+          variant="contained"
+          color="error"
+          onClick={handleDelete}
+        >
+          Delete Company
+        </Button>
+      )}
     </Box>
   );
 }

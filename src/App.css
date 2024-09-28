@@ -561,3 +561,14 @@
     margin: 5%
   }
 }
+
+.deleteButtonCompany{
+  margin-left: 15%;
+}
+
+@media(max-width: 768px){
+  .deleteButtonCompany{
+    margin-left: 0;
+    margin: auto;
+  }
+}

@@ -15,18 +15,19 @@ import { useNavigate } from 'react-router-dom';
 const columns = [
   { id: 'id', label: 'ID', minWidth: 170 },
   { id: 'name', label: 'Company Name', minWidth: 170 },
-  { id: 'adminName', label: 'Admin Name', minWidth: 170 },
+  { id: 'admin_name', label: 'Admin Name', minWidth: 170 },
   { id: 'address', label: 'Address', minWidth: 200 },
   { id: 'phone', label: 'Phone', minWidth: 150 },
   { id: 'admin_id', label: 'AdminID', minWidth: 170 },
-  { id: 'managers_number', label: 'Managers Number', minWidth: 150, align: 'right' },
-  { id: 'providers_number', label: 'Providers Number', minWidth: 150, align: 'right' },
+  { id: 'managers_number', label: 'Managers Number', minWidth: 150},
+  { id: 'providers_number', label: 'Providers Number', minWidth: 150},
 ];
 
 export default function SuperUserTableCompany() {
   const [data, setData] = React.useState([]); // Başlangıç değeri boş dizi olmalı
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [selectedCompany, setSelectedCompany] = React.useState("");
 
   const nav = useNavigate();
 
@@ -48,7 +49,6 @@ export default function SuperUserTableCompany() {
         }); // Company koleksiyonuna istek
         if (!response.ok) throw new Error('Veriler alınamadı');
         const result = await response.json();
-        console.log(result)
         setData(result || []); // Gelen veriyi state'e kaydet, eğer null gelirse boş dizi ata
       } catch (error) {
         console.error("Veri çekme hatası:", error);
@@ -106,6 +106,7 @@ export default function SuperUserTableCompany() {
                         </TableCell>
                       );
                     })}
+                    
                   </TableRow>
                 ))
             ) : (

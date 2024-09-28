@@ -73,7 +73,6 @@ export default function UserProfile() {
       if(!response.ok) throw new Error("Appointments did not catch");
       const data = await response.json();
       setAppointments(data)
-      console.log(data)
       } catch (error) {
         setError(error.message)
       }

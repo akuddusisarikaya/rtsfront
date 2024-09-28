@@ -19,7 +19,6 @@ export default function DateChoise() {
   const nav = useNavigate()
 
   const goAppointments = () => {
-    console.log(user.role)
 
     if(user.role === "Provider"){
       nav('/appofday')

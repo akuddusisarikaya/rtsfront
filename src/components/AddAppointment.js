@@ -153,7 +153,6 @@ export default function AddAppointment() {
       }
     } else {
       try {
-        console.log(selectedProvider);
         const token = sessionStorage.getItem("token");
         const response = await fetch(
           `http://localhost:8080/${role}/createapp`,

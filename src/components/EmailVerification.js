@@ -31,7 +31,6 @@ export default function EmailVerification(params) {
         }
       );
       if(!response.ok) throw new Error("Error sending verification code");
-      console.log(response)
     } catch (error) {
       SetError(error)
     }
