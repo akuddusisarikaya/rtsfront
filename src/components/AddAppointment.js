@@ -70,7 +70,7 @@ export default function AddAppointment() {
   };
 
   const handleSelectedProvider = (e) => {
-    setSelectedProvider(JSON.parse(e.target.value));
+    setSelectedProvider(e.target.value);
   };
 
   const handleServiceChange = (event) => {

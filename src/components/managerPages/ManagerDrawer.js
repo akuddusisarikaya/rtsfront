@@ -14,6 +14,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 const drawerWidth = 260;
 
@@ -70,8 +73,10 @@ export default function ManagerDrawer(props) {
           onClick={() => {
             navigate("/manager");
           }}
+          startIcon={<HomeIcon/>}
+          fullWidth
         >
-          CARMESOFT S.A.M.
+          Manager Panel
         </Button>
       </Toolbar>
       <Divider />
@@ -101,7 +106,7 @@ export default function ManagerDrawer(props) {
             variant="contained"
             fullWidth
             onClick={goHome}
-          >
+          ><LogoutIcon/>
             Log Out
           </Button>
         </ListItem>
@@ -129,8 +134,8 @@ export default function ManagerDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            <Button variant="contained" onClick={goHome} color="secondary">
-              CARMESOFT S.A.M.
+            <Button variant="contained" color="secondary">
+              <CalendarTodayIcon/> Carme soft s.a.m.
             </Button>
           </Typography>
         </Toolbar>

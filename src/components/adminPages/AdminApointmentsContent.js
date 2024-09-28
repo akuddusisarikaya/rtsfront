@@ -61,7 +61,6 @@ export default function AdminApointmentsContent() {
               <SmallAppointments />
             </Paper>
           </Grid>
-          <Button variant="contained"> Add Appointment</Button>
         </Grid>
       ) : (
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
