@@ -20,7 +20,7 @@ export default function ManagerLogin() {
   // Giriş işlemi fonksiyonu
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:8080/managerlogin", {
+      const response = await fetch("http://18.185.69.244:8080/managerlogin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

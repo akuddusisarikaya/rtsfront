@@ -92,7 +92,7 @@ export default function AppointmentDetail() {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/getappbyid?appointmentID=${appointmentId}`,
+          `http://18.185.69.244:8080/getappbyid?appointmentID=${appointmentId}`,
           {
             method: "GET",
             headers: {
@@ -114,7 +114,7 @@ export default function AppointmentDetail() {
     };
 
     fetchAppointmentDetail();
-  }, [appointmentId]); // Use appointmentId from useParams
+  }, []);
 
   const handleSave = async () => {
     if (isEdit) {
@@ -131,7 +131,7 @@ export default function AppointmentDetail() {
       const token = sessionStorage.getItem("token");
       try {
         const response = await fetch(
-          `http://localhost:8080/${role}/editapp?appointmentID=${appointmentId}`,
+          `http://18.185.69.244:8080/${role}/editapp?appointmentID=${appointmentId}`,
           {
             method: "PUT",
             headers: {

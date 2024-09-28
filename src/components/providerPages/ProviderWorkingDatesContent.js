@@ -121,7 +121,7 @@ export default function ProviderWorkingDatesContent() {
       try {
         const formattedDate = selectedDate.format("YYYY-MM-DD");
         const response = await fetch(
-          `http://localhost:8080/provider/getappointments?email=${user.email}&date=${formattedDate}`,
+          `http://18.185.69.244:8080/provider/getappointments?email=${user.email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {
@@ -142,7 +142,7 @@ export default function ProviderWorkingDatesContent() {
     };
 
     fetchAppointments();
-  }, [selectedDate, token, user.email]);
+  }, [selectedDate]);
 
   const handleSubmit = async () => {
     if (!selectedDate || !selectedStartTime || !selectedEndTime) {
@@ -156,7 +156,7 @@ export default function ProviderWorkingDatesContent() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/provider/addproviderapp",
+        "http://18.185.69.244:8080/provider/addproviderapp",
         {
           method: "POST",
           headers: {
@@ -213,7 +213,7 @@ export default function ProviderWorkingDatesContent() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/provider/addappauto",
+        "http://18.185.69.244:8080/provider/addappauto",
         {
           method: "POST",
           headers: {
@@ -262,7 +262,7 @@ export default function ProviderWorkingDatesContent() {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/provider/deleteapp?id=${id}`,
+        `http://18.185.69.244:8080/provider/deleteapp?id=${id}`,
         {
           method: "DELETE",
           headers: {

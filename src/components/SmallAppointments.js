@@ -41,7 +41,7 @@ export default function SmallAppointments({ size }) {
         const company = user.company_id;
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:8080/${role}/getproviders?companyId=${company}`,
+          `http://18.185.69.244:8080/${role}/getproviders?companyId=${company}`,
           {
             method: "GET",
             headers: {
@@ -71,7 +71,7 @@ export default function SmallAppointments({ size }) {
       for (let email of emails) {
         try {
           const response = await fetch(
-            `http://localhost:8080/${role}/getallproviderapp?email=${email}`,
+            `http://18.185.69.244:8080/${role}/getallproviderapp?email=${email}`,
             {
               method: "GET",
               headers: {
@@ -98,7 +98,7 @@ export default function SmallAppointments({ size }) {
       setAppointments(appointmentList);
     };
     fetchAppointments();
-  }, [emails, role]);
+  }, [emails]);
 
   React.useEffect(() => {
     if (role === "manager" || role === "admin") return;
@@ -106,7 +106,7 @@ export default function SmallAppointments({ size }) {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:8080/provider/getallproviderapp?email=${user.email}`,
+          `http://18.185.69.244:8080/provider/getallproviderapp?email=${user.email}`,
           {
             method: "GET",
             headers: {

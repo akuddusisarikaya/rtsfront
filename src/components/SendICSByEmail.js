@@ -8,7 +8,7 @@ export default function SendICSByEmail() {
   const email = user.email;
   const downloadICS = () => {
     if (email) {
-      const fileUrl = `http://localhost:8080/${role}/sendappbyemail?email=${email}`;
+      const fileUrl = `http://18.185.69.244:8080/${role}/sendappbyemail?email=${email}`;
       const token = sessionStorage.getItem("token")
       fetch(fileUrl,
         {headers:{

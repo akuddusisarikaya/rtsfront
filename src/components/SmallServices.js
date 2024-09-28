@@ -47,7 +47,7 @@ export default function SmallServices() {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:8080/${role}/getproviders?companyId=${user.company_id}`,
+          `http://18.185.69.244:8080/${role}/getproviders?companyId=${user.company_id}`,
           {
             method: "GET",
             headers: {
@@ -64,7 +64,7 @@ export default function SmallServices() {
       }
     };
     fetchData();
-  }, [user, role]);
+  }, []);
 
   const detailClick = () => {
     navigate("/servicelist");

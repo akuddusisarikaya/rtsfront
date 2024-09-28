@@ -19,7 +19,7 @@ export default function UserDetail() {
       try {
         const token = sessionStorage.getItem("token")
         const response = await fetch(
-          `http://localhost:8080/${role}/getuserbyemail?email=${userEmail}`,
+          `http://18.185.69.244:8080/${role}/getuserbyemail?email=${userEmail}`,
           {
             method:"GET",
             headers:{
@@ -40,7 +40,7 @@ export default function UserDetail() {
       }
     }
     fetchUser();
-  },[user, userEmail])
+  },[])
 
   const goBack = () => {
     navigate(-1);

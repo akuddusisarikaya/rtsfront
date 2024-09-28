@@ -35,7 +35,7 @@ export default function ServiceList() {
         try {
           const token = sessionStorage.getItem("token");
           const response = await fetch(
-            `http://localhost:8080/provider/getuserbyemail?email=${user.email}`,
+            `http://18.185.69.244:8080/provider/getuserbyemail?email=${user.email}`,
             {
               method: "GET",
               headers: {
@@ -59,7 +59,7 @@ export default function ServiceList() {
         try {
           const token = sessionStorage.getItem("token");
           const response = await fetch(
-            `http://localhost:8080/${role}/getproviders?companyId=${user.company_id}`,
+            `http://18.185.69.244:8080/${role}/getproviders?companyId=${user.company_id}`,
             {
               method: "GET",
               headers: {
@@ -77,7 +77,7 @@ export default function ServiceList() {
       };
       fetchData();
     }
-  }, [user]);
+  }, []);
 
   const removeByIndex = (arr, index) => {
     return arr.slice(0, index).concat(arr.slice(index + 1));
@@ -97,7 +97,7 @@ export default function ServiceList() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/${role}/updateuser?id=${provider.id}`,
+        `http://18.185.69.244:8080/${role}/updateuser?id=${provider.id}`,
         {
           method: "PUT",
           headers: {

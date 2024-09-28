@@ -37,7 +37,7 @@ export default function ProviderProfileContent() {
       phone: phone,
       company_name: companyName
     })
-  },[adminName,email, phone, companyName])
+  },[])
 
   const handleClick = async () => {
     if(!isEdit){
@@ -49,7 +49,7 @@ export default function ProviderProfileContent() {
       const token = sessionStorage.getItem("token")
 
       const response = await fetch(
-        `http://localhost:8080/provider/updateuser?id=${user._id}`,
+        `http://18.185.69.244:8080/provider/updateuser?id=${user._id}`,
         {
           method:"PUT",
           headers: {

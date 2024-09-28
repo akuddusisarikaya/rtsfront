@@ -63,7 +63,7 @@ export default function AdminAppOfDayContent() {
       setError(null)
       try {
         const response = await fetch(
-          `http://localhost:8080/${role}/getproviders?companyId=${user.company_id}`,
+          `http://18.185.69.244:8080/${role}/getproviders?companyId=${user.company_id}`,
           {
             method: "GET",
             headers: {
@@ -84,7 +84,7 @@ export default function AdminAppOfDayContent() {
       }
     };
     fetchProviders();
-  }, [role]);
+  }, []);
 
   React.useEffect(() => {
     const fetchAppointments = async () => {
@@ -97,7 +97,7 @@ export default function AdminAppOfDayContent() {
         const email = selectedProvider.email;
 
         const response = await fetch(
-          `http://localhost:8080/${role}/getappointments?email=${email}&date=${formattedDate}`,
+          `http://18.185.69.244:8080/${role}/getappointments?email=${email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {

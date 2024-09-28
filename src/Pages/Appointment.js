@@ -56,7 +56,7 @@ export default function Appointment() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch("http://localhost:8080/getcompanies", {
+        const response = await fetch("http://18.185.69.244:8080/getcompanies", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -75,7 +75,7 @@ export default function Appointment() {
       setError(null);
       try {
         const response = await fetch(
-          `http://localhost:8080/getproviders?companyId=${id}`,
+          `http://18.185.69.244:8080/getproviders?companyId=${id}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -96,7 +96,7 @@ export default function Appointment() {
     } else {
       fetchProviderInfo(companyID);
     }
-  }, [companyID]);
+  }, []);
 
   // Fetch provider info when selected company changes
   React.useEffect(() => {
@@ -106,7 +106,7 @@ export default function Appointment() {
         setError(null);
         try {
           const response = await fetch(
-            `http://localhost:8080/getproviders?companyId=${selectedCompany.id}`,
+            `http://18.185.69.244:8080/getproviders?companyId=${selectedCompany.id}`,
             {
               method: "GET",
               headers: { "Content-Type": "application/json" },
@@ -123,7 +123,7 @@ export default function Appointment() {
       };
       fetchProviderInfo();
     }
-  }, [selectedCompany.id]);
+  }, []);
 
   // Fetch appointments when provider or date changes
   React.useEffect(() => {
@@ -134,7 +134,7 @@ export default function Appointment() {
         try {
           const formattedDate = selectedDate.format("YYYY-MM-DD");
           const response = await fetch(
-            `http://localhost:8080/getproviderappall?providerEmail=${selectedProvider.email}&date=${formattedDate}`,
+            `http://18.185.69.244:8080/getproviderappall?providerEmail=${selectedProvider.email}&date=${formattedDate}`,
             {
               method: "GET",
               headers: { "Content-Type": "application/json" },
@@ -207,7 +207,7 @@ export default function Appointment() {
     };
     try {
       const response = await fetch(
-        `http://localhost:8080/activateapp?appointmentID=${selectedAppointment.id}`,
+        `http://18.185.69.244:8080/activateapp?appointmentID=${selectedAppointment.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

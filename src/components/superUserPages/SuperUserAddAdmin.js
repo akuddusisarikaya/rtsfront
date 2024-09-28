@@ -39,7 +39,7 @@ export default function SuperUserAddAdmin() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/superuser/getuserbyemail?email=${searchEmail}`,
+        `http://18.185.69.244:8080/superuser/getuserbyemail?email=${searchEmail}`,
         {
           method: "GET",
           headers: {
@@ -73,13 +73,18 @@ export default function SuperUserAddAdmin() {
     setError(null);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:8080/superuser/adminadd", {
-        method: "POST",
+      const response = await fetch(`http://18.185.69.244:8080/superuser/updateuser?id=${admin.id}`, {
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(admin),
+        body: JSON.stringify({
+          company_id : admin.company_id,
+          company_name : admin.company_name,
+          role: "Admin",
+
+        }),
       });
 
       if (!response.ok) throw new Error("Admin eklenemedi");
@@ -114,6 +119,7 @@ export default function SuperUserAddAdmin() {
       <TextField
         id="id"
         label="Name"
+        disabled
         variant="outlined"
         fullWidth
         margin="normal"
@@ -123,6 +129,7 @@ export default function SuperUserAddAdmin() {
       <TextField
         id="email"
         label="Email"
+        disabled
         variant="outlined"
         fullWidth
         margin="normal"
@@ -140,7 +147,7 @@ export default function SuperUserAddAdmin() {
       />
       <TextField
         id="company_id"
-        label="Company Name"
+        label="Company ID"
         variant="outlined"
         fullWidth
         margin="normal"

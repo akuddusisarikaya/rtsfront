@@ -15,13 +15,10 @@ export default function SuperUserTab({ selectedTab, onTabChange }) {
     onTabChange(newValue); // SuperUser bileşenine sekme indeksini gönderir
   };
   const nav = useNavigate();
-  const goBack = () => {
-    nav(-1)
-  }
 
   const logOut = () =>{
     sessionStorage.removeItem('token')
-    goBack();
+    nav('/')
   }
 
   return (

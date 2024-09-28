@@ -62,7 +62,7 @@ export default function UserProfile() {
       try {
         const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:8080/protected/getuserapp?email=${user.email}`,{
+        `http://18.185.69.244:8080/protected/getuserapp?email=${user.email}`,{
           method:"GET",
           headers:{
             "Content-Type": "application/json",
@@ -85,7 +85,7 @@ export default function UserProfile() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/protected/updateuser?id=${user._id}`,
+        `http://18.185.69.244:8080/protected/updateuser?id=${user._id}`,
         {
           method: "PUT",
           headers: {

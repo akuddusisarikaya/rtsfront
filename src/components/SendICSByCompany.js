@@ -8,7 +8,7 @@ export default function SendICSByCompany() {
   const companyID = user.company_id;
   const downloadICS = () => {
     if (companyID) {
-      const fileUrl = `http://localhost:8080/${role}/sendappbycompany?companyId=${companyID}`;
+      const fileUrl = `http://18.185.69.244:8080/${role}/sendappbycompany?companyId=${companyID}`;
       const token = sessionStorage.getItem("token");
 
       fetch(fileUrl, {

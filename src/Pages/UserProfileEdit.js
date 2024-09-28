@@ -26,7 +26,7 @@ export default function UserProfileEdit() {
 
         // API isteği yapılarak kullanıcı profili alınır
         const token = sessionStorage.getItem('token');
-        const response = await fetch(`http://localhost:8080/protected/userprofile?email=${userEmail}`, {
+        const response = await fetch(`http://18.185.69.244:8080/protected/userprofile?email=${userEmail}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`, // Token'ı header'a ekle
@@ -47,13 +47,13 @@ export default function UserProfileEdit() {
     };
 
     fetchUserProfile();
-  }, [email, location.state]);
+  }, [email]);
 
   // Verileri kaydetme fonksiyonu
   const handleSave = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch("http://localhost:8080/protected/user", {
+      const response = await fetch("http://18.185.69.244:8080/protected/user", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

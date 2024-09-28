@@ -41,7 +41,7 @@ export default function ProviderAddServiceContent() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/provider/updateuser?id=${user._id}`,
+        `http://18.185.69.244:8080/provider/updateuser?id=${user._id}`,
         {
           method: "PUT",
           headers: {

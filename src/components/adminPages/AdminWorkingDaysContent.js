@@ -54,7 +54,6 @@ export default function AdminWorkingDayContent(){
     message: "",
     severity: "success",
   });
-  const token = sessionStorage.getItem("token");
   const user = JSON.parse(sessionStorage.getItem("user"));
   const [autoAddButton, setAutoAddButton] = React.useState(false);
   const [refreshKey, setRefreshKey] = React.useState(0);
@@ -112,6 +111,7 @@ export default function AdminWorkingDayContent(){
   };
 
   React.useEffect(() => {
+    const token = sessionStorage.getItem("token");
     const fetchAppointments = async () => {
       if (!selectedDate) return;
       setLoading(true);
@@ -120,7 +120,7 @@ export default function AdminWorkingDayContent(){
       try {
         const formattedDate = selectedDate.format("YYYY-MM-DD");
         const response = await fetch(
-          `http://localhost:8080/admin/getappointments?email=${user.email}&date=${formattedDate}`,
+          `http://18.185.69.244:8080/admin/getappointments?email=${user.email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {
@@ -141,7 +141,7 @@ export default function AdminWorkingDayContent(){
     };
 
     fetchAppointments();
-  }, [selectedDate, token, user.email]);
+  }, [selectedDate]);
 
   const handleSubmit = async () => {
     if (!selectedDate || !selectedStartTime || !selectedEndTime) {
@@ -154,8 +154,9 @@ export default function AdminWorkingDayContent(){
     }
 
     try {
+      const token = sessionStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:8080/admin/addproviderapp",
+        "http://18.185.69.244:8080/admin/addproviderapp",
         {
           method: "POST",
           headers: {
@@ -209,8 +210,9 @@ export default function AdminWorkingDayContent(){
     }
 
     try {
+      const token = sessionStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:8080/admin/addappauto",
+        "http://18.185.69.244:8080/admin/addappauto",
         {
           method: "POST",
           headers: {
@@ -256,9 +258,10 @@ export default function AdminWorkingDayContent(){
   };
 
   const handleDelete = async (id) => {
+    const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/admin/deleteapp?id=${id}`,
+        `http://18.185.69.244:8080/admin/deleteapp?id=${id}`,
         {
           method: "DELETE",
           headers: {

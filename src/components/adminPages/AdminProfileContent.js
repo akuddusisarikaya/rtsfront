@@ -48,14 +48,14 @@ export default function AdminProfileContent() {
       phone: phone,
       company_name: companyName
     })
-  },[adminName,email, phone, companyName])
+  },[])
 
   React.useEffect(()=>{
     const fetchAppointments = async () => {
       try {
         const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:8080/admin/getuserapp?email=${user.email}`,{
+        `http://18.185.69.244:8080/admin/getuserapp?email=${user.email}`,{
           method:"GET",
           headers:{
             "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export default function AdminProfileContent() {
       const token = sessionStorage.getItem("token")
 
       const response = await fetch(
-        `http://localhost:8080/admin/updateuser?id=${user._id}`,
+        `http://18.185.69.244:8080/admin/updateuser?id=${user._id}`,
         {
           method:"PUT",
           headers: {
