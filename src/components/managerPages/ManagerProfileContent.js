@@ -59,7 +59,7 @@ export default function ManagerProfileContent() {
       const token = sessionStorage.getItem("token")
 
       const response = await fetch(
-        `http://18.184.187.176:8080/manager/updateuser?id=${user._id}`,
+        `http://54.93.232.137:8080/manager/updateuser?id=${user._id}`,
         {
           method:"PUT",
           headers: {

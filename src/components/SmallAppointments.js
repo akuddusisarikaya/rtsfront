@@ -41,7 +41,7 @@ export default function SmallAppointments({ size }) {
         const company = user.company_id;
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://18.184.187.176:8080/${role}/getproviders?companyId=${company}`,
+          `http://54.93.232.137:8080/${role}/getproviders?companyId=${company}`,
           {
             method: "GET",
             headers: {
@@ -71,7 +71,7 @@ export default function SmallAppointments({ size }) {
       for (let email of emails) {
         try {
           const response = await fetch(
-            `http://18.184.187.176:8080/${role}/getallproviderapp?email=${email}`,
+            `http://54.93.232.137:8080/${role}/getallproviderapp?email=${email}`,
             {
               method: "GET",
               headers: {
@@ -106,7 +106,7 @@ export default function SmallAppointments({ size }) {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://18.184.187.176:8080/provider/getallproviderapp?email=${user.email}`,
+          `http://54.93.232.137:8080/provider/getallproviderapp?email=${user.email}`,
           {
             method: "GET",
             headers: {

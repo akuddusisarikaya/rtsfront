@@ -19,7 +19,7 @@ export default function UserDetail() {
       try {
         const token = sessionStorage.getItem("token")
         const response = await fetch(
-          `http://18.184.187.176:8080/${role}/getuserbyemail?email=${userEmail}`,
+          `http://54.93.232.137:8080/${role}/getuserbyemail?email=${userEmail}`,
           {
             method:"GET",
             headers:{

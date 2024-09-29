@@ -37,7 +37,7 @@ export default function SuperUserTableAdmin() {
     const fetchData = async () => {
       try {
         const token = sessionStorage.getItem("token");
-        const response = await fetch("http://18.184.187.176:8080/superuser/getadmins", {
+        const response = await fetch("http://54.93.232.137:8080/superuser/getadmins", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`, 
