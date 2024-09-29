@@ -42,7 +42,7 @@ export default function SuperUserEditCompany() {
     setError(null);
     try {
       const response = await fetch(
-        `https://18.185.69.244:8080/getcompanybyname?name=${searchName}`,
+        `http://18.184.187.176:8080/getcompanybyname?name=${searchName}`,
         {
           method: "GET",
           headers: {
@@ -81,7 +81,7 @@ export default function SuperUserEditCompany() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `https://18.185.69.244:8080/superuser/updatecompany?id=${company.id}`,
+        `http://18.184.187.176:8080/superuser/updatecompany?id=${company.id}`,
         {
           method: "PUT",
           headers: {
@@ -109,7 +109,7 @@ export default function SuperUserEditCompany() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `https://18.185.69.244:8080/superuser/deletecompany?id=${company.id}`,
+        `http://18.184.187.176:8080/superuser/deletecompany?id=${company.id}`,
         {
           method: "DELETE",
           headers: {

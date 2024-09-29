@@ -121,7 +121,7 @@ export default function ManagerWorkingDayContent() {
       try {
         const formattedDate = selectedDate.format("YYYY-MM-DD");
         const response = await fetch(
-          `https://18.185.69.244:8080/manager/getappointments?email=${user.email}&date=${formattedDate}`,
+          `http://18.184.187.176:8080/manager/getappointments?email=${user.email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {
@@ -156,7 +156,7 @@ export default function ManagerWorkingDayContent() {
 
     try {
       const response = await fetch(
-        "https://18.185.69.244:8080/manager/addproviderapp",
+        "http://18.184.187.176:8080/manager/addproviderapp",
         {
           method: "POST",
           headers: {
@@ -210,7 +210,7 @@ export default function ManagerWorkingDayContent() {
     }
 
     try {
-      const response = await fetch("https://18.185.69.244:8080/manager/addappauto", {
+      const response = await fetch("http://18.184.187.176:8080/manager/addappauto", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -256,7 +256,7 @@ export default function ManagerWorkingDayContent() {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://18.185.69.244:8080/manager/deleteapp?id=${id}`,
+        `http://18.184.187.176:8080/manager/deleteapp?id=${id}`,
         {
           method: "DELETE",
           headers: {

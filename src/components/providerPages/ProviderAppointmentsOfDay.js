@@ -62,7 +62,7 @@ export default function ProviderAppointmentsOfDay() {
         const email = user.email;
 
         const response = await fetch(
-          `https://18.185.69.244:8080/provider/getappointments?email=${email}&date=${formattedDate}`,
+          `http://18.184.187.176:8080/provider/getappointments?email=${email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {

@@ -18,7 +18,7 @@ export default function SmallProviders() {
         const role = user.role.toLowerCase();
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `https://18.185.69.244:8080/${role}/getproviders?companyId=${user.company_id}`,
+          `http://18.184.187.176:8080/${role}/getproviders?companyId=${user.company_id}`,
           {
             method: "GET",
             headers: {

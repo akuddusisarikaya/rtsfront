@@ -40,7 +40,7 @@ export default function SuperUserTableCompany() {
     const fetchData = async () => {
       try {
         const token = sessionStorage.getItem('token');
-        const response = await fetch('https://18.185.69.244:8080/getcompanies', {
+        const response = await fetch('http://18.184.187.176:8080/getcompanies', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`, // Token'ı header'a ekle
