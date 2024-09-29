@@ -22,7 +22,7 @@ export default function EmailVerification(params) {
     const userId = user.ID;
     try {
       const response = await fetch(
-        `http://18.185.69.244:8080/veremailCode?userID=${userId}&code=${code}`,
+        `https://18.185.69.244:8080/veremailCode?userID=${userId}&code=${code}`,
         {
           method: "POST",
           headers: {

@@ -55,7 +55,7 @@ export default function AdminProfileContent() {
       try {
         const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://18.185.69.244:8080/admin/getuserapp?email=${user.email}`,{
+        `https://18.185.69.244:8080/admin/getuserapp?email=${user.email}`,{
           method:"GET",
           headers:{
             "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export default function AdminProfileContent() {
       const token = sessionStorage.getItem("token")
 
       const response = await fetch(
-        `http://18.185.69.244:8080/admin/updateuser?id=${user._id}`,
+        `https://18.185.69.244:8080/admin/updateuser?id=${user._id}`,
         {
           method:"PUT",
           headers: {

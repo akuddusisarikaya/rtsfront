@@ -15,7 +15,7 @@ export default function DownloadICSByEmail() {
   }, []);
   const downloadICS = () => {
     if (email) {
-      const fileUrl = `http://18.185.69.244:8080/${role}/downloadappsbyemail?email=${email}`;
+      const fileUrl = `https://18.185.69.244:8080/${role}/downloadappsbyemail?email=${email}`;
       const token = sessionStorage.getItem("token")
       fetch(fileUrl,
         {headers:{

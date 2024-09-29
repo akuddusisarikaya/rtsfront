@@ -20,7 +20,7 @@ export default function ProviderLogin() {
   // Giriş işlemi fonksiyonu
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://18.185.69.244:8080/provider/login", {
+      const response = await fetch("https://18.185.69.244:8080/provider/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

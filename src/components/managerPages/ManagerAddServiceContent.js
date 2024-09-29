@@ -42,7 +42,7 @@ export default function ManagerAddServiceContent() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://18.185.69.244:8080/manager/updateuser?id=${user._id}`,
+        `https://18.185.69.244:8080/manager/updateuser?id=${user._id}`,
         {
           method: "PUT",
           headers: {

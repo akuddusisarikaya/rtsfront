@@ -83,7 +83,7 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch("http://18.185.69.244:8080/register", {
+      const response = await fetch("https://18.185.69.244:8080/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -92,7 +92,7 @@ export default function AppointmentDetail() {
 
       try {
         const response = await fetch(
-          `http://18.185.69.244:8080/getappbyid?appointmentID=${appointmentId}`,
+          `https://18.185.69.244:8080/getappbyid?appointmentID=${appointmentId}`,
           {
             method: "GET",
             headers: {
@@ -131,7 +131,7 @@ export default function AppointmentDetail() {
       const token = sessionStorage.getItem("token");
       try {
         const response = await fetch(
-          `http://18.185.69.244:8080/${role}/editapp?appointmentID=${appointmentId}`,
+          `https://18.185.69.244:8080/${role}/editapp?appointmentID=${appointmentId}`,
           {
             method: "PUT",
             headers: {

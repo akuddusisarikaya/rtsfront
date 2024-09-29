@@ -39,7 +39,7 @@ export default function SuperUserAddAdmin() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://18.185.69.244:8080/superuser/getuserbyemail?email=${searchEmail}`,
+        `https://18.185.69.244:8080/superuser/getuserbyemail?email=${searchEmail}`,
         {
           method: "GET",
           headers: {
@@ -73,7 +73,7 @@ export default function SuperUserAddAdmin() {
     setError(null);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await fetch(`http://18.185.69.244:8080/superuser/updateuser?id=${admin.id}`, {
+      const response = await fetch(`https://18.185.69.244:8080/superuser/updateuser?id=${admin.id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

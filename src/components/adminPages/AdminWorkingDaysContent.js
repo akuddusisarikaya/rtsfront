@@ -120,7 +120,7 @@ export default function AdminWorkingDayContent(){
       try {
         const formattedDate = selectedDate.format("YYYY-MM-DD");
         const response = await fetch(
-          `http://18.185.69.244:8080/admin/getappointments?email=${user.email}&date=${formattedDate}`,
+          `https://18.185.69.244:8080/admin/getappointments?email=${user.email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {
@@ -156,7 +156,7 @@ export default function AdminWorkingDayContent(){
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        "http://18.185.69.244:8080/admin/addproviderapp",
+        "https://18.185.69.244:8080/admin/addproviderapp",
         {
           method: "POST",
           headers: {
@@ -212,7 +212,7 @@ export default function AdminWorkingDayContent(){
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        "http://18.185.69.244:8080/admin/addappauto",
+        "https://18.185.69.244:8080/admin/addappauto",
         {
           method: "POST",
           headers: {
@@ -261,7 +261,7 @@ export default function AdminWorkingDayContent(){
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://18.185.69.244:8080/admin/deleteapp?id=${id}`,
+        `https://18.185.69.244:8080/admin/deleteapp?id=${id}`,
         {
           method: "DELETE",
           headers: {

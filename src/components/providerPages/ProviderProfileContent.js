@@ -49,7 +49,7 @@ export default function ProviderProfileContent() {
       const token = sessionStorage.getItem("token")
 
       const response = await fetch(
-        `http://18.185.69.244:8080/provider/updateuser?id=${user._id}`,
+        `https://18.185.69.244:8080/provider/updateuser?id=${user._id}`,
         {
           method:"PUT",
           headers: {
