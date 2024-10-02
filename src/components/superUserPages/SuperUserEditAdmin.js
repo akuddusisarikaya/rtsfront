@@ -32,7 +32,7 @@ export default function SuperUserEditAdmin() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://3.71.9.9:8080/superuser/getuserbyemail?email=${searchName}`,
+        `http://3.123.49.33:8080/superuser/getuserbyemail?email=${searchName}`,
         {
           method: "GET",
           headers: {
@@ -68,7 +68,7 @@ export default function SuperUserEditAdmin() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://3.71.9.9:8080/superuser/updateuser?id=${company.id}`,
+        `http://3.123.49.33:8080/superuser/updateuser?id=${company.id}`,
         {
           method: "PUT",
           headers: {

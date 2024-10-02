@@ -43,7 +43,7 @@ export default function AppointmentsList() {
         const company = user.company_id;
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://3.71.9.9:8080/${role}/getproviders?companyId=${company}`,
+          `http://3.123.49.33:8080/${role}/getproviders?companyId=${company}`,
           {
             method: "GET",
             headers: {
@@ -73,7 +73,7 @@ export default function AppointmentsList() {
       for (let email of emails) {
         try {
           const response = await fetch(
-            `http://3.71.9.9:8080/${role}/getallproviderapp?email=${email}`,
+            `http://3.123.49.33:8080/${role}/getallproviderapp?email=${email}`,
             {
               method: "GET",
               headers: {
@@ -108,7 +108,7 @@ export default function AppointmentsList() {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://3.71.9.9:8080/provider/getallproviderapp?email=${user.email}`,
+          `http://3.123.49.33:8080/provider/getallproviderapp?email=${user.email}`,
           {
             method: "GET",
             headers: {

@@ -47,7 +47,7 @@ export default function SmallServices() {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://3.71.9.9:8080/${role}/getproviders?companyId=${user.company_id}`,
+          `http://3.123.49.33:8080/${role}/getproviders?companyId=${user.company_id}`,
           {
             method: "GET",
             headers: {

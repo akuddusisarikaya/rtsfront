@@ -39,7 +39,7 @@ export default function SuperUserAddAdmin() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://3.71.9.9:8080/superuser/getuserbyemail?email=${searchEmail}`,
+        `http://3.123.49.33:8080/superuser/getuserbyemail?email=${searchEmail}`,
         {
           method: "GET",
           headers: {
@@ -73,7 +73,7 @@ export default function SuperUserAddAdmin() {
     setError(null);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await fetch(`http://3.71.9.9:8080/superuser/updateuser?id=${admin.id}`, {
+      const response = await fetch(`http://3.123.49.33:8080/superuser/updateuser?id=${admin.id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

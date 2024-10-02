@@ -121,7 +121,7 @@ export default function ProviderWorkingDatesContent() {
       try {
         const formattedDate = selectedDate.format("YYYY-MM-DD");
         const response = await fetch(
-          `http://3.71.9.9:8080/provider/getappointments?email=${user.email}&date=${formattedDate}`,
+          `http://3.123.49.33:8080/provider/getappointments?email=${user.email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {
@@ -156,7 +156,7 @@ export default function ProviderWorkingDatesContent() {
 
     try {
       const response = await fetch(
-        "http://3.71.9.9:8080/provider/addproviderapp",
+        "http://3.123.49.33:8080/provider/addproviderapp",
         {
           method: "POST",
           headers: {
@@ -213,7 +213,7 @@ export default function ProviderWorkingDatesContent() {
 
     try {
       const response = await fetch(
-        "http://3.71.9.9:8080/provider/addappauto",
+        "http://3.123.49.33:8080/provider/addappauto",
         {
           method: "POST",
           headers: {
@@ -262,7 +262,7 @@ export default function ProviderWorkingDatesContent() {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://3.71.9.9:8080/provider/deleteapp?id=${id}`,
+        `http://3.123.49.33:8080/provider/deleteapp?id=${id}`,
         {
           method: "DELETE",
           headers: {

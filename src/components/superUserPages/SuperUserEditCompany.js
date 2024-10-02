@@ -42,7 +42,7 @@ export default function SuperUserEditCompany() {
     setError(null);
     try {
       const response = await fetch(
-        `http://3.71.9.9:8080/getcompanybyname?name=${searchName}`,
+        `http://3.123.49.33:8080/getcompanybyname?name=${searchName}`,
         {
           method: "GET",
           headers: {
@@ -81,7 +81,7 @@ export default function SuperUserEditCompany() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://3.71.9.9:8080/superuser/updatecompany?id=${company.id}`,
+        `http://3.123.49.33:8080/superuser/updatecompany?id=${company.id}`,
         {
           method: "PUT",
           headers: {
@@ -109,7 +109,7 @@ export default function SuperUserEditCompany() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://3.71.9.9:8080/superuser/deletecompany?id=${company.id}`,
+        `http://3.123.49.33:8080/superuser/deletecompany?id=${company.id}`,
         {
           method: "DELETE",
           headers: {

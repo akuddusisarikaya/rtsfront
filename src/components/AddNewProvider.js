@@ -79,7 +79,7 @@ export default function AddNewProvider() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://3.71.9.9:8080/admin/getuserbyemail?email=${email}`,
+        `http://3.123.49.33:8080/admin/getuserbyemail?email=${email}`,
         {
           method: "GET",
           headers: {
@@ -130,7 +130,7 @@ export default function AddNewProvider() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://3.71.9.9:8080/admin/updateuser?id=${provider.id}`,
+        `http://3.123.49.33:8080/admin/updateuser?id=${provider.id}`,
         {
           method: "PUT",
           headers: {
