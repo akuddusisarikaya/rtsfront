@@ -87,7 +87,7 @@ export default function EditUser() {
       const token = sessionStorage.getItem("token");
       try {
         const response = await fetch(
-          `http://54.93.232.137:8080/${userRole}/getuserbyemail?email=${userEmail}`,
+          `http://3.71.9.9:8080/${userRole}/getuserbyemail?email=${userEmail}`,
           {
             method: "GET",
             headers: {
@@ -110,7 +110,7 @@ export default function EditUser() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://54.93.232.137:8080/${userRole}/updateuser?id=${provider.id}`,
+        `http://3.71.9.9:8080/${userRole}/updateuser?id=${provider.id}`,
         {
           method: "PUT",
           headers: {

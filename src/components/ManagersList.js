@@ -24,7 +24,7 @@ export default function ManagersList() {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://54.93.232.137:8080/${role}/getproviders?companyId=${user.company_id}`,
+          `http://3.71.9.9:8080/${role}/getproviders?companyId=${user.company_id}`,
           {
             method: "GET",
             headers: {

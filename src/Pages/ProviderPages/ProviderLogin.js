@@ -20,7 +20,7 @@ export default function ProviderLogin() {
   // Giriş işlemi fonksiyonu
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://54.93.232.137:8080/provider/login", {
+      const response = await fetch("http://3.71.9.9:8080/provider/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

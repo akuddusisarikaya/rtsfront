@@ -21,7 +21,7 @@ export default function SuperUserLogin() {
   // Giriş işlemi fonksiyonu
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://54.93.232.137:8080/superuserlogin", {
+      const response = await fetch("http://3.71.9.9:8080/superuserlogin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

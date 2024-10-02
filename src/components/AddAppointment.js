@@ -89,7 +89,7 @@ export default function AddAppointment() {
       const token = sessionStorage.getItem("token");
       try {
         const response = await fetch(
-          `http://54.93.232.137:8080/${role}/getproviders?companyId=${user.company_id}`,
+          `http://3.71.9.9:8080/${role}/getproviders?companyId=${user.company_id}`,
           {
             method: "GET",
             headers: {
@@ -123,7 +123,7 @@ export default function AddAppointment() {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://54.93.232.137:8080/provider/createapp`,
+          `http://3.71.9.9:8080/provider/createapp`,
           {
             method: "POST",
             headers: {
@@ -155,7 +155,7 @@ export default function AddAppointment() {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `http://54.93.232.137:8080/${role}/createapp`,
+          `http://3.71.9.9:8080/${role}/createapp`,
           {
             method: "POST",
             headers: {

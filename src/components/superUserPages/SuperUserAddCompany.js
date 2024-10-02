@@ -27,7 +27,7 @@ export default function SuperUserAddCompany() {
   const handleSubmit = async () => {
     const token = sessionStorage.getItem("token");
     try {
-      const response = await fetch('http://54.93.232.137:8080/superuser/createcompany', {
+      const response = await fetch('http://3.71.9.9:8080/superuser/createcompany', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

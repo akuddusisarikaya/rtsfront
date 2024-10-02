@@ -67,7 +67,7 @@ export default function ManagerAppOfDayContent() {
       setError(null);
       try {
         const response = await fetch(
-          `http://54.93.232.137:8080/${role}/getproviders?companyId=${user.company_id}`,
+          `http://3.71.9.9:8080/${role}/getproviders?companyId=${user.company_id}`,
           {
             method: "GET",
             headers: {
@@ -101,7 +101,7 @@ export default function ManagerAppOfDayContent() {
         const email = selectedProvider.email;
 
         const response = await fetch(
-          `http://54.93.232.137:8080/${role}/getappointments?email=${email}&date=${formattedDate}`,
+          `http://3.71.9.9:8080/${role}/getappointments?email=${email}&date=${formattedDate}`,
           {
             method: "GET",
             headers: {

@@ -16,7 +16,7 @@ export default function DownloadICSByCompany() {
 
   const downloadICS = () => {
     if (companyID) {
-      const fileUrl = `http://54.93.232.137:8080/${role}/downlodappbycompany?companyId=${companyID}`;
+      const fileUrl = `http://3.71.9.9:8080/${role}/downlodappbycompany?companyId=${companyID}`;
       const token = sessionStorage.getItem("token");
 
       fetch(fileUrl, {
