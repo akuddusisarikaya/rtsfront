@@ -14,7 +14,7 @@ import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const TIMEZONE = "Europe/Istanbul";
+const TIMEZONE = "America/Sao_Paulo";
 
 export default function SmallAppointments({ size }) {
   const [appointments, setAppointments] = React.useState([]);
@@ -27,7 +27,7 @@ export default function SmallAppointments({ size }) {
   let appointmentList = [];
 
   const formedTime = (time) => {
-    return dayjs(time).format("HH:mm");
+    return dayjs(time).tz(TIMEZONE).format("HH:mm");
   };
   const formedDate = (time) => {
     return dayjs(time).tz(TIMEZONE).format("DD/MM/YYYY");

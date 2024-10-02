@@ -20,7 +20,7 @@ import NewDatePicker from "../components/NewDatePicker";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-const TIMEZONE = "Europe/Istanbul";
+const TIMEZONE = "America/Sao_Paulo";
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default function Appointment() {
@@ -46,13 +46,16 @@ export default function Appointment() {
   const [companies, setCompanies] = React.useState([]);
   const [selectedCompany, setSelectedCompany] = React.useState({});
   const [selectedAppointment, setSelectedAppointment] = React.useState({});
-  const user = React.useMemo(() => JSON.parse(sessionStorage.getItem("user")), []);
+  const user = React.useMemo(
+    () => JSON.parse(sessionStorage.getItem("user")),
+    []
+  );
 
   const formedTime = (time) => dayjs(time).tz(TIMEZONE).format("HH:mm");
 
-  // Fetch companies or providers based on companyID
   React.useEffect(() => {
     const fetchCompanies = async () => {
+      console.log(user);
       setLoading(true);
       setError(null);
       try {
@@ -69,13 +72,15 @@ export default function Appointment() {
         setLoading(false);
       }
     };
-
-    const fetchProviderInfo = async (id) => {
+    fetchCompanies();
+  }, []);
+  React.useEffect(() => {
+    const fetchProviderInfo = async () => {
       setLoading(true);
       setError(null);
       try {
         const response = await fetch(
-          `http://3.123.49.33:8080/getproviders?companyId=${id}`,
+          `http://3.123.49.33:8080/getproviders?companyId=${companyID}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -90,13 +95,8 @@ export default function Appointment() {
         setLoading(false);
       }
     };
-
-    if (!companyID) {
-      fetchCompanies();
-    } else {
-      fetchProviderInfo(companyID);
-    }
-  }, []);
+    fetchProviderInfo();
+  }, [companyID]);
 
   // Fetch provider info when selected company changes
   React.useEffect(() => {
@@ -114,6 +114,7 @@ export default function Appointment() {
           );
           if (!response.ok) throw new Error("Failed to fetch providers");
           const data = await response.json();
+          console.log(data);
           setProviderInfo(data);
         } catch (error) {
           setError(error.message);
@@ -123,7 +124,7 @@ export default function Appointment() {
       };
       fetchProviderInfo();
     }
-  }, []);
+  }, [selectedCompany]);
 
   // Fetch appointments when provider or date changes
   React.useEffect(() => {
@@ -142,6 +143,7 @@ export default function Appointment() {
           );
           if (!response.ok) throw new Error("Failed to fetch appointments");
           const data = await response.json();
+          console.log(data);
           setAppointments(data);
         } catch (error) {
           setError(error.message);
@@ -170,13 +172,14 @@ export default function Appointment() {
   };
 
   // Handle service change
-  const handleServiceChange = (event) => setSelectedServices(event.target.value);
+  const handleServiceChange = (event) =>
+    setSelectedServices(event.target.value);
 
   // Handle appointment selection
   const handleSelectedAppointment = (e) => {
     const selectedAppId = e.target.value;
-    const selectedApp = appointments.find(app => app.id === selectedAppId); 
-    setSelectedAppointment(selectedApp); 
+    const selectedApp = appointments.find((app) => app.id === selectedAppId);
+    setSelectedAppointment(selectedApp);
   };
 
   // Handle date selection
@@ -184,18 +187,29 @@ export default function Appointment() {
 
   // Validate required fields
   const validateFields = () => {
-    const requiredFields = [selectedAppointment, formData.name, formData.email];
+    const requiredFields = [formData.name, formData.email];
     return requiredFields.every((field) => field && field.length > 0);
   };
 
   // Handle form submission
   const handleSubmit = async () => {
-    /*if (!validateFields()) {
+    if (!validateFields()) {
       setSnackbar({
         open: true,
         message: "All fields must be filled correctly.",
         severity: "error",
       });
+      return;
+    }
+   /*var c_name = toString(formData.name);
+   var c_email = toString(formData.email);
+   
+   if (c_name.length < 3) {
+      console.log
+      setError("Please enter your name!");
+      return;
+    } else if (c_email.length < 8) {
+      setError("Please enter your email!");
       return;
     }*/
 
@@ -205,6 +219,8 @@ export default function Appointment() {
       services: selectedServices,
       activate: true,
     };
+    
+
     try {
       const response = await fetch(
         `http://3.123.49.33:8080/activateapp?appointmentID=${selectedAppointment.id}`,
@@ -243,7 +259,11 @@ export default function Appointment() {
   return (
     <div>
       <br />
-      <Button style={{ marginLeft: "5%" }} color="secondary" onClick={() => navigate(-1)}>
+      <Button
+        style={{ marginLeft: "5%" }}
+        color="secondary"
+        onClick={() => navigate(-1)}
+      >
         BACK
       </Button>
       <div className="appointmentBox">
@@ -258,7 +278,7 @@ export default function Appointment() {
               id="name"
               label="Name"
               className="appointmentTextField"
-              value={user ? user.Name : formData.name}
+              value={user ? user.name : formData.name}
               onChange={handleInputChange}
             />
             <br />
@@ -269,7 +289,7 @@ export default function Appointment() {
               type="email"
               label="E-mail"
               className="appointmentTextField"
-              value={user ? user.Email : formData.email}
+              value={user ? user.email : formData.email}
               onChange={handleInputChange}
             />
             <br />
@@ -279,7 +299,7 @@ export default function Appointment() {
               id="phone"
               label="Phone Number"
               className="appointmentTextField"
-              value={user ? user.Phone : formData.phone}
+              value={user ? user.phone : formData.phone}
               onChange={handleInputChange}
             />
             <br />
@@ -294,11 +314,15 @@ export default function Appointment() {
                   value={selectedCompany}
                   onChange={handleCompanyChange}
                 >
-                  {companies.map((company) => (
-                    <MenuItem key={company.id} value={company}>
-                      {company.name}
-                    </MenuItem>
-                  ))}
+                  {companies !== null ? (
+                    companies.map((company) => (
+                      <MenuItem key={company.id} value={company}>
+                        {company.name}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <Box />
+                  )}
                 </TextField>
                 <br />
                 <br />
@@ -312,12 +336,18 @@ export default function Appointment() {
               label="Select Service Provider"
               onChange={handleProviderChange}
             >
-              {providerInfo.map((provider) => (
-                provider.role !== "SuperUser" &&
-                <MenuItem key={provider.id} value={provider}>
-                  {provider.name}
-                </MenuItem>
-              ))}
+              {providerInfo !== null ? (
+                providerInfo.map(
+                  (provider) =>
+                    provider.role !== "SuperUser" && (
+                      <MenuItem key={provider.id} value={provider}>
+                        {provider.name}
+                      </MenuItem>
+                    )
+                )
+              ) : (
+                <Box />
+              )}
             </TextField>
             <br />
             <br />
@@ -348,25 +378,34 @@ export default function Appointment() {
             <br />
             <br />
             <FormControl>
-              <RadioGroup value={selectedAppointment.id} onChange={handleSelectedAppointment}>
+              <RadioGroup
+                value={selectedAppointment.id}
+                onChange={handleSelectedAppointment}
+              >
                 {appointments !== null ? (
                   appointments.map((appointment) => (
                     <FormControlLabel
                       key={appointment.id}
                       value={appointment.id}
                       control={<Radio />}
-                      label={`${formedTime(appointment.start_time)}-${formedTime(appointment.end_time)}`}
+                      label={`${formedTime(
+                        appointment.start_time
+                      )}-${formedTime(appointment.end_time)}`}
                     />
                   ))
-                ):(
-                  <Box/>
-                )
-                }
+                ) : (
+                  <Box />
+                )}
               </RadioGroup>
             </FormControl>
             <br />
             <br />
-            <Button color="secondary" variant="contained" className="appointmentButton" onClick={handleSubmit}>
+            <Button
+              color="secondary"
+              variant="contained"
+              className="appointmentButton"
+              onClick={handleSubmit}
+            >
               Done
             </Button>
           </div>
@@ -378,7 +417,10 @@ export default function Appointment() {
         onClose={() => setSnackbar({ ...snackbar, open: false })}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.severity}>
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>

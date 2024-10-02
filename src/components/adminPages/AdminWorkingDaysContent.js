@@ -27,7 +27,7 @@ import { useNavigate } from "react-router-dom";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-//const TIMEZONE = "Europe/Istanbul";
+const TIMEZONE = "America/Sao_Paulo";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -107,7 +107,7 @@ export default function AdminWorkingDayContent(){
   };
 
   const formedTime = (time) => {
-    return dayjs(time).utc().format("HH:mm");
+    return dayjs(time).tz(TIMEZONE).format("HH:mm");
   };
 
   React.useEffect(() => {

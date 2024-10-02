@@ -19,7 +19,7 @@ import timezone from "dayjs/plugin/timezone";
 import { useNavigate } from "react-router-dom";
 dayjs.extend(utc);
 dayjs.extend(timezone);
-//const TIMEZONE = "Europe/Istanbul";
+const TIMEZONE = "America/Sao_Paulo";
 
 export default function ProviderAppointmentsOfDay() {
   const [selectedDate, setSelectedDate] = React.useState(null);
@@ -41,7 +41,7 @@ export default function ProviderAppointmentsOfDay() {
     setSnackbar({ ...snackbar, open: false });
   };
   const formedTime = (time) => {
-    return dayjs(time).utc().format("HH:mm");
+    return dayjs(time).tz(TIMEZONE).format("HH:mm");
   };
   const goBack = () => {
     nav(-1)

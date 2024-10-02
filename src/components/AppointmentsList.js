@@ -19,7 +19,7 @@ import AdminDrawer from "./adminPages/AdminDrawer";
 import ProviderDrawer from "./providerPages/ProviderDrawer";
 dayjs.extend(utc);
 dayjs.extend(timezone);
-const TIMEZONE = "Europe/Istanbul";
+const TIMEZONE = "America/Sao_Paulo";
 
 export default function AppointmentsList() {
   const [appointments, setAppointments] = React.useState([]);

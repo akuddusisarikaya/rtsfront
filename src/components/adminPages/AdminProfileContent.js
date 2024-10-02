@@ -25,7 +25,7 @@ export default function AdminProfileContent() {
   const [updateUser, setUpdateUser] = React.useState({})
 
   const formedTime = (time) => {
-    return dayjs(time).utc().format("HH:mm");
+    return dayjs(time) .format("HH:mm");
   };
 
   const handleName = (e) => {

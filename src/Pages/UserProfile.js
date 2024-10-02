@@ -31,9 +31,14 @@ export default function UserProfile() {
   const [numberButton, setNumberButton] = React.useState(
     !user?.PhoneVerification
   );
+  const [selectedAppointment, setSelectedAppointment] = React.useState("");
+
+  const handleSelectedAppointment = (e) => {
+    setSelectedAppointment(e.target.value)
+  }
 
   const formedTime = (time) => {
-    return dayjs(time).utc().format("HH:mm");
+    return dayjs(time) .format("HH:mm");
   };
 
   const handleNumberVer = () => {
@@ -50,6 +55,10 @@ export default function UserProfile() {
       ...prev,
       [id]: value,
     }));
+  };
+
+  const formedDate = (time) => {
+    return dayjs(time).format("DD/MM/YYYY");
   };
 
   const logOut = () => {
@@ -80,7 +89,32 @@ export default function UserProfile() {
     fetchAppointments();
   },[])
 
+  const handleDelete = async(e) => {
+    handleSelectedAppointment(e)
+    const appointmentDetails = {
+      customer_name:"",
+      customer_email:"",
+      services:[],
+      activate:false
+    }
+    try {
+      const response = await fetch(
+        `http://3.123.49.33:8080/activateapp?appointmentID=${selectedAppointment}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(appointmentDetails),
+        }
+      );
+
+      if (!response.ok) throw new Error("Appointment did not delete")
+    } catch (error) {
+      setError(error.message)
+    }
+  } 
+
   const handleSave = async () => {
+
     const token = sessionStorage.getItem("token");
 
     try {
@@ -162,9 +196,9 @@ export default function UserProfile() {
             <List>
               {appointments.length > 0 ? (
                 appointments.map((appointment) => (
-                  <ListItem key={appointment.id}>
+                  <ListItem key={appointment.id} >
                     <ListItemText
-                      primary={`Appointment: ${formedTime(
+                      primary={`Appointment: ${formedDate(appointment.date)} | ${formedTime(
                         appointment.start_time
                       )} - ${formedTime(appointment.end_time)}`}
                       secondary={`Status: ${
@@ -173,6 +207,7 @@ export default function UserProfile() {
                           : "Inactive"
                       }`}
                     />
+                    <Button color="error" value={appointment.id} variant="contained" onClick={handleDelete} >Delete</Button>
                   </ListItem>
                 ))
               ) : (

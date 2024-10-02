@@ -46,7 +46,7 @@ export default function ManagerAppOfDayContent() {
     setSnackbar({ ...snackbar, open: false });
   };
   const formedTime = (time) => {
-    return dayjs(time).utc().format("HH:mm");
+    return dayjs(time) .format("HH:mm");
   };
   const goBack = () => {
     nav(-1);
