@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+Randevu Takip Sistemi
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+![Ekran Resmi 2025-01-11 15 37 26](https://github.com/user-attachments/assets/8a1899a3-f822-4eb0-b72a-2eb966694977)
 
-In the project directory, you can run:
 
-### `npm start`
+<img width="1440" alt="Ekran Resmi 2025-01-11 17 15 05" src="https://github.com/user-attachments/assets/9e6dae25-85a9-4e29-8b99-876209902366" />
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<img width="1438" alt="Ekran Resmi 2025-01-11 17 15 24" src="https://github.com/user-attachments/assets/e703424a-36be-4e60-91bb-2de971d83ede" />
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<img width="1436" alt="Ekran Resmi 2025-01-11 17 15 46" src="https://github.com/user-attachments/assets/a181df8f-ef92-401a-bfc0-16d55a7a4cdd" />
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<img width="1434" alt="Ekran Resmi 2025-01-11 17 16 07" src="https://github.com/user-attachments/assets/f19e641a-d243-43c1-9197-2eebf0ffc8b0" />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<img width="1430" alt="Ekran Resmi 2025-01-11 17 16 22" src="https://github.com/user-attachments/assets/f00f339f-de7a-4ed4-b437-fe6db697765c" />
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<img width="1434" alt="Ekran Resmi 2025-01-11 17 16 38" src="https://github.com/user-attachments/assets/f91d0424-d0b7-4eb6-9960-3138ab9730b2" />
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<img width="1440" alt="Ekran Resmi 2025-01-11 17 17 35" src="https://github.com/user-attachments/assets/9d4b1b07-a5cc-4865-a9f3-e4f9dec66b6b" />
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+<img width="1435" alt="Ekran Resmi 2025-01-11 17 17 56" src="https://github.com/user-attachments/assets/ad455fc9-cc7c-472e-9fac-b6c7db12b2b2" />
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<img width="1432" alt="Ekran Resmi 2025-01-11 17 18 07" src="https://github.com/user-attachments/assets/6d92a02a-890c-43d3-ae15-aa18169ef140" />
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+<img width="335" alt="Ekran Resmi 2025-01-11 17 18 25" src="https://github.com/user-attachments/assets/bcab8c77-14be-4bdf-b64c-3c2827d88e1c" />
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<img width="330" alt="Ekran Resmi 2025-01-11 17 18 34" src="https://github.com/user-attachments/assets/972bd690-bf15-4dcc-bb40-a7ddd08052a5" />
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<img width="264" alt="Ekran Resmi 2025-01-11 17 19 27" src="https://github.com/user-attachments/assets/f77eefbc-f878-4296-9ec4-a61d6f15dfa7" />
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
